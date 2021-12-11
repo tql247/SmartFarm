@@ -1,0 +1,38 @@
+<div class="edit-feed-modal centroid" id="edit_feed_modal">
+    <div class="overlay" onclick="closeEditFeedModal()">
+    </div>
+    <div class="content border-tiny bg-white">
+        <form action="" id="edit-feed-form">
+            <input id="edit-feed-id" type="text" name="_id" class="hidden">
+            <div class="d-flex-top">
+                <div class="m-sm d-middle-x toolbar">
+                    <div class="font-strong">
+                        Nội dung
+                    </div>
+                    <div>
+                        <div class="div-controll font-md font-weigh-md color-main mt-10 btn"
+                             onclick="clickElement('edit-feed-image')">Chọn ảnh khác
+                        </div>
+                        <input name="edit_picture" id="edit-feed-image" class="hidden" type="file">
+                    </div>
+                    <div>
+                        <button class="border-tiny radius-sm pd-5-10 w-100 update-sm-btn" type="submit">Cập nhật
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ml-2 w-100">
+                    <div
+                            class="edit-feed-content r-text border-tiny pd-sm"
+                            id="edit-feed-input-text"
+                            contenteditable="True"
+                    >
+                    </div>
+                    <input id="edit_feed_content_hidden" name="edit_content" type="text" class="hidden">
+                </div>
+            </div>
+            <div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div id="<%= feed["_id"] %>" class="feed-item list-group-item flex-column align-items-start w-100">
+    <div class="w-100 mb-3 pd-sm">
+        <div class="float-right btn-float-right">
+            <% if(you.email === feed["uploader_id"].email) { %>
+                <span type="button" data-toggle="modal" data-whatever="" data-target="#editFeed"
+                      class="edit-feed-btn material-icons hv-3d">
+                    edit
+                </span>
+                <span type="button" data-toggle="modal" data-whatever="" data-target="#confirmDeleteFeed"
+                      class="delete-feed-btn material-icons hv-3d c-danger">
+                    delete
+                </span>
+            <% } %>
+        </div>
+        <div class="d-middle-y">
+            <a href="/user/visit/<%= feed["uploader_id"].email %>" class="mr-sm">
+                <% if (feed["uploader_id"].google_avatar) { %>
+                    <img id="user-avatar" class="feed_user_avatar border-tiny"
+                         src="<%= feed["uploader_id"].google_avatar %>">
+                <% } else { %>
+                    <img id="user-avatar" class="feed_user_avatar border-tiny"
+                         src="data:image/<%= feed["uploader_id"].avatar.contentType %>;base64,<%= feed["uploader_id"].avatar.data.toString('base64') %>">
+                <% } %>
+            </a>
+            <div class="feed_title"><strong> <%= feed["uploader_id"].full_name %> </strong></div>
+        </div>
+        <div class="pd-sm feed-content">
+            <%= feed["content"] %>
+        </div>
+        <div class="pd-sm">
+            <% if (feed["image"]) {
+                if (feed["image"].contentType) {
+            %>
+                <div>
+                    <img width="100%" class="feed_cover"
+                         src="data:image/<%= feed["image"].contentType %>;base64,<%= feed["image"].data.toString('base64') %>"
+                         alt="Ảnh đính kèm">
+                </div>
+            <% }} %>
+            <% if (feed["embed_url"]) { %>
+            <div class="video-container">
+                <iframe class="embed_iframe" src="<%= feed["embed_url"] %>"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+            <% } %>
+        </div>
+    </div>
+    <hr>
+    <div class="cmt mt-1 pd-sm">
+        <div class="title mb-3 pd-sm">
+            <h5>Thảo luận</h5>
+        </div>
+        <div class="cmt-section pd-sm">
+            <div class="ls-cmt">
+                <%
+                if (feed["comments"]) {
+                feed["comments"].forEach((comment) => { %>
+                    <%- include('comment.ejs', {comment}) %>
+                <% }) } %>
+            </div>
+            <div class="new-cmt">
+                <form action="" class="add-comment-form">
+                    <div class="input-group mb-1">
+                        <input type="text" name="comment_content"
+                               class="form-control"
+                               placeholder="Nhập thảo luận"
+                               aria-label="Recipient's username"
+                               aria-describedby="basic-addon2">
+                        <input class="hidden" name="comment_feed_id" value="<%= feed['_id'] %>">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary x-center" type="submit">
+                <span class="material-icons mr-ssm">
+                    Gửi
+                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>

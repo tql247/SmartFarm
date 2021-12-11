@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline</title>
+    <link rel="shortcut icon" href="/public/images/UNISOC.png" type="image/png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/stylesheets/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="/public/javascripts/main.js"></script>
+</head>
+<body class="container near-white">
+
+<%- include('../component/hidden_nav.ejs') %>
+
+<div class="row main">
+    <div class="col-xl-3 col-lg-3 col-md-2 p-relative no-margin no-padding md-d-none">
+        <div class="side-float">
+            <%- include('../component/user_sidebar.ejs', {user: user}) %>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12 no-margin p-relative">
+        <div class="mt-10">
+            <div class="notify-nav mb-n2">
+                <div>
+                    Lọc theo
+                    <select class="form-control form-control w-auto d-inline" id="topic-filter">
+                        <option value=""
+                        <% if(!selectedTopic) { %> selected
+                                <% } %>
+                        >Tất cả
+                        </option>
+                        <% list_topic.forEach((topic) => { %>
+                            <option value="<%= topic %>"
+                            <% if(selectedTopic === topic) { %> selected
+                                    <% } %>
+                            ><%= topic %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <nav aria-label="Page navigation example" class="p-0 m-0">
+                    <%
+                    const pageNum = Math.ceil(notification_num / 10);
+                    const pageStart = Math.max(1, page_active - 1);
+                    const prePage = srcLink + Math.max((parseInt(page_active) - 1), 1)
+                    const nextPage = srcLink + Math.min((parseInt(page_active) + 1), pageNum)
+                    %>
+                    <ul class="pagination">
+                        <% if (Math.max((parseInt(page_active) - 1), 1) !== parseInt(page_active)) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= prePage %>" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        <% } %>
+                        <%
+                        for (let i = pageStart; i < pageNum + 1 && i < pageStart + 3; i++) {
+                        %>
+                            <li class="page-item <% if(parseInt(page_active) === (i)) { %> active <% } %>"><a
+                                        class="page-link" href="<%= srcLink + i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (Math.min((parseInt(page_active) + 1), pageNum) !== parseInt(page_active)) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= nextPage %>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+            <div class="ls-notify">
+                <%- include('../component/list_notification.ejs') %>
+            </div>
+        </div>
+        <%- include('../component/add_notification_btn.ejs') %>
+    </div>
+
+
+    <div class="col-xl-3 col-lg-2 col-md-2 p-relative no-margin no-padding">
+        <div class="side-float">
+            <%- include('../component/sight_right.ejs') %>
+        </div>
+    </div>
+</div>
+
+<%- include('../component/loading.ejs') %>
+<%- include('../component/add_notification_modal.ejs') %>
+<%- include('../component/edit_notification_modal.ejs') %>
+<%- include('../component/notification_confirm_delete.ejs') %>
+
+</body>
+</html>
