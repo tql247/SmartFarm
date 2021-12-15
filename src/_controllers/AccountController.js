@@ -11,6 +11,7 @@ class AccountController {
         }
     }
 
+    // Tạo tài khoản mới
     async createAccount(req, res, next) {
         try {
             // Chuẩn bị dữ liệu để thêm vào database
@@ -32,6 +33,7 @@ class AccountController {
         }
     }
 
+    // Lấy dữ liệu của toàn bộ account có trong database
     async getAll(req, res, next) {
         try {
             const accounts = await AccountService.getAll();

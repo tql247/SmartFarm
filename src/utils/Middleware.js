@@ -1,28 +1,24 @@
 const multer = require("multer");
+const { v4: uuid } = require('uuid');
+const path = require("path");
 const { getCookieData } = require("./Extension");
 
 // Hàm xử lý trung gian trước khi gọi Controller
 class Middleware {
-    // Xử lý file tải lên
-    fileUpload(req, res, next) {
-        try {
-            const storage = multer.diskStorage({
-                destination: function (req, file, cb) {
-                    cb(null, 'uploads')
-                },
-                filename: function (req, file, cb) {
-                    cb(null, file.fieldname + '-' + Date.now())
-                }
-            });
-
-            return multer({storage: storage});
-        } catch (err) {
-            next(err);
+    storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'uploads')
+        },
+        filename: function (req, file, cb) {
+            cb(null, uuid() + path.extname(file.originalname))
         }
-    }
+    });
+
+    // Xử lý file tải lên
+    fileUpload = multer({storage: this.storage});
 
     // Xác thực người dùng
-    authorize(req, res, next) {
+    authorize (req, res, next) {
         try {
             const data = getCookieData(req.cookies);
 
