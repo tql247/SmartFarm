@@ -6,9 +6,13 @@ class AccountService {
     }
 
     async createAccount(acc) {
-        const {email, role} = await AccountDAO.createAccount(acc);
+        return await AccountDAO.createAccount(acc);
+    }
+
+    async getAll() {
+        const account = await AccountDAO.getAll();
         
-        return {email, role};
+        return account;
     }
 }
 

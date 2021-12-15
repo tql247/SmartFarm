@@ -17,7 +17,7 @@ class AccountController {
             const acc = {
                 email: req.body.email,
                 password: await hashPassword(req.body.password),
-                avatar: await Extension.makeImageObject(req["file"]),
+                avatar: req["file"].filename,
                 full_name: req.body.full_name,
                 phone: req.body.phone,
                 address: req.body.address,
@@ -29,6 +29,16 @@ class AccountController {
             res.status(200).json(accInserted) 
         } catch (error) {
             next(error);
+        }
+    }
+
+    async getAll(req, res, next) {
+        try {
+            const accounts = await AccountService.getAll();
+
+            res.status(200).json(accounts) 
+        } catch (error) {
+
         }
     }
 

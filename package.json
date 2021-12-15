@@ -21,7 +21,8 @@
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
     "passport-google-oauth2": "^0.2.0",
-    "socket.io": "^4.0.1"
+    "socket.io": "^4.0.1",
+    "uuidv4": "^6.2.12"
   },
   "_moduleAliases": {
     "@root": ".",

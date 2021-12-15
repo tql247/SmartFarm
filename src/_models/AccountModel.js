@@ -12,8 +12,9 @@ const AccountSchema = new Schema({
         required: [true, 'Why no password?']
     },
     avatar: {
-        data: Buffer,
-        contentType: String
+        type: String,
+        // data: Buffer,
+        // contentType: String
     },
     full_name: {
         type: String,

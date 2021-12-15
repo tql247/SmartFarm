@@ -33,6 +33,18 @@ class AccountDao {
             await mongoose.connection.close();
         }
     }
+
+    async getAll() {
+        try {
+            await connect();
+            
+            return await AccountModel.find().exec();
+        } catch (e) {
+            throw e;
+        } finally {
+            await mongoose.connection.close();
+        }
+    }
 }
 
 module.exports = new AccountDao();
