@@ -1,5 +1,5 @@
 // Gọi các hàm
-const app = require("../index");
+const app = require("./src/index");
 const httpServer = require('http').createServer(app);
 const {Server} = require("socket.io");
 const PORT = process.env.PORT || 5000
@@ -15,5 +15,3 @@ global.io = new Server(httpServer, {
 });
 
 httpServer.listen(PORT);
-
-console.log('Server is running...')

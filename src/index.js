@@ -3,11 +3,11 @@ const path = require('path')
 const express = require('express');
 const router_path = require('./routes');
 const mongoose = require("mongoose");
-const {not_found_url, ErrorHandler} = require("./handlers");
 const passport = require("passport");
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
+const Handler = require('./utils/Handler');
 const app = express();
 const router = express.Router();
 
@@ -47,7 +47,8 @@ app.set('trust proxy', 1);
 router.use(router_path)
 app.use(router)
 
+
 // Sử dụng các handler
-app.use([not_found_url, ErrorHandler])
+app.use([Handler.notFoundUrl, Handler.errorHandler])
 
 module.exports = app

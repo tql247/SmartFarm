@@ -1,17 +1,17 @@
 // Định nghĩa các route
 const express = require('express');
 const router = express.Router();
-const {auth} = require("../middlewares/auth");
-const view_feeds = require("../services/view_feeds");
-const role_redirect = require("../middlewares/role_redirect");
+// const {auth} = require("../middlewares/auth");
+// const view_feeds = require("../services/view_feeds");
+// const role_redirect = require("../middlewares/role_redirect");
 
-router.get('/', auth, role_redirect, async (req, res) => {
-    // const user = req["user_profile"]
-    // const feed_list = await view_feeds(1, null)
-    // const notification_list = await view_all_notification(1, null)
-    // return res.render('index', {user, feed_list, notification_list})
-    res.send('hm');
-})
+// router.get('/', auth, role_redirect, async (req, res) => {
+//     // const user = req["user_profile"]
+//     // const feed_list = await view_feeds(1, null)
+//     // const notification_list = await view_all_notification(1, null)
+//     // return res.render('index', {user, feed_list, notification_list})
+//     res.send('hm');
+// })
 
 router.get('/test', (req, res)=>{
     // io.emit('outside');
