@@ -11,24 +11,26 @@ const AccountSchema = new Schema({
         type: String,
         required: [true, 'Why no password?']
     },
-    full_name: {
-        type: String,
-        required: [true, 'Why no name?']
-    },
     avatar: {
         data: Buffer,
         contentType: String
     },
-    google_avatar: {
-        type: String
+    full_name: {
+        type: String,
+        required: [true, 'Why no name?']
+    },
+    phone: {
+        type: String,
+        required: [true, 'Why no phone?']
+    },
+    address: {
+        type: String,
+        required: [true, 'Why no address?']
     },
     role: {
         type: String,
         enum: ['admin', 'user'],
         required: [true, 'Why no role?']
-    },
-    token: {
-        type: String,
     }
 });
 

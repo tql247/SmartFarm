@@ -1,6 +1,7 @@
 // Định nghĩa các route
 const express = require('express');
 const router = express.Router();
+const account = require('./account');
 // const {auth} = require("../middlewares/auth");
 // const view_feeds = require("../services/view_feeds");
 // const role_redirect = require("../middlewares/role_redirect");
@@ -18,8 +19,8 @@ router.get('/test', (req, res)=>{
     res.send('hm')
 })
 
-// const admin = require('./admin');
-// router.use('/admin', admin);
+
+router.use('/account', account);
 
 // const user = require('./user');
 // router.use('/user', user);

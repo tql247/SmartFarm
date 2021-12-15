@@ -1,7 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const uploader = require('../utils/uploader');
+const account = express.Router();
 const AccountController = require('../_controllers/AccountController');
 
-router.get('/test', AccountController.test)
+account.get('/test', AccountController.test);
+account.post('/create', uploader.single('avatar'), AccountController.createAccount);
 
-module.exports = router;
+module.exports = account;

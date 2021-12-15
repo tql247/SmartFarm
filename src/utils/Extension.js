@@ -7,10 +7,14 @@ class Extension {
     // contentType: loại dữ liệu (jpg,png,...)
     // data: hình ảnh lưu dưới dạng binary
     // từ imageFile: một object do thư viện multer trả về
-    makeImageObject(imageFile) {
+    async makeImageObject(imageFile) {
         // kiểm tra đầu vào có hợp lệ hay không
-        if (!imageFile) return null;
-        if (!imageFile.mimetype || !imageFile.path) return null;
+        if (!imageFile) {
+            throw new Error("imageFile is missing or server not handle");
+        };
+        if (!imageFile.mimetype || !imageFile.path) {
+            throw new Error("imageFile mimetype or path is missing or server not handle");
+        };
 
         // Đọc file
         const imageData = fs.readFileSync(imageFile.path);

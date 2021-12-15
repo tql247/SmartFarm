@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 // dùng để ẩn đi mật khẩu của người dùng
 // nhằm tăng cao tính bảo mật và độ tin cậy của trang web
 class Coder {
-    // hash password một chiều, nghĩa là không thể revert lại mật khẩu đã hash
+    // hash password một chiều, nghĩa là không thể decode lại mật khẩu đã hash
     // thành mật khẩu ban đầu, chỉ có thể kiểm tra password có khớp hay không
     async hashPassword(password) {
         return await bcrypt.hash(password, 10);
