@@ -32,6 +32,9 @@ const AccountSchema = new Schema({
         type: String,
         enum: ['admin', 'user'],
         required: [true, 'Why no role?']
+    },
+    deleted_at: {
+        type: Date
     }
 });
 

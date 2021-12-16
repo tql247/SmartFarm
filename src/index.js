@@ -47,7 +47,6 @@ app.set('trust proxy', 1);
 router.use(router_path)
 app.use(router)
 
-
 // Sử dụng các handler
 app.use([Handler.notFoundUrl, Handler.errorHandler])
 

@@ -1,10 +1,14 @@
 const express = require('express');
-const { fileUpload } = require('../utils/Middleware');
+const Middleware = require('../utils/Middleware');
 const account = express.Router();
-const AccountController = require('../_controllers/AccountController');
+const AccountController = require('../controllers/AccountController');
 
 account.get('/test', AccountController.test);
-account.post('/create', fileUpload.single('avatar'), AccountController.createAccount);
 account.get('/all', AccountController.getAll);
+account.get('/detail', AccountController.getAll);
+account.post('/create', Middleware.fileUpload.single('avatar'), AccountController.createAccount);
+account.post('/update', Middleware.fileUpload.single('avatar'), AccountController.updateAccount);
+account.get('/delete', AccountController.delete);
+account.get('/delete/:_id', AccountController.delete);
 
 module.exports = account;
