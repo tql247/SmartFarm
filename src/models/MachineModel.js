@@ -6,6 +6,9 @@ const MachineSchema = new Schema({
         type: String,
         required: [true, 'Why no name?']
     },
+    nameInDB: {
+        type: String,
+    },
     locate: {
         type: Schema.Types.ObjectId,
         ref: 'Farm',

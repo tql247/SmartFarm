@@ -1,12 +1,13 @@
 class Handler {
     // Trả lỗi khi không tìm thấy đường dẫn
     notFoundUrl(req, res, next) {
-        return res.send('Not found url');
+        // TODO: trả về 1 trang web
+        return res.send('Not found url: ' + req.originalUrl);
     }
 
     // Xử lý các loại lỗi
     errorHandler(err, req, res, next) {
-        console.log(Object.entries(err))
+        console.error(Object.entries(err))
 
         // Xử lý lỗi token quá hạn
         if (err.name === "TokenExpiredError") {
