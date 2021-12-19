@@ -1,4 +1,3 @@
-const { hashPassword } = require("../utils/Coder")
 const Extension = require("../utils/Extension")
 const RuleService = require("../services/RuleService")
 

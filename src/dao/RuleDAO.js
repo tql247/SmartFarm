@@ -23,7 +23,8 @@ class RuleDao {
                 sensor: rule.sensor,
                 machine: rule.machine,
                 time: rule.time,
-                threshold: rule.threshold
+                thresholdUp: rule.thresholdUp,
+                thresholdDown: rule.thresholdDown
             })
         } catch (e) {
             throw e

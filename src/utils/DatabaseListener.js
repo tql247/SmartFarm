@@ -1,35 +1,76 @@
-const firebaseAdmin = require('firebase-admin')
+const firebaseAdmin = require("firebase-admin")
 const serviceAccount = require("../../serviceAccountKey.json")
-
+const Extension = require("./Extension")
 
 class DatabaseListener {
+    realtimeDatabase = undefined;
+
     start() {
         // config realtimeDatabase
-        const realtimeDatabase = firebaseAdmin.initializeApp({
+        this.realtimeDatabase = firebaseAdmin.initializeApp({
             credential: firebaseAdmin.credential.cert(serviceAccount),
             databaseURL: "https://smartfarm-7bf74-default-rtdb.asia-southeast1.firebasedatabase.app"
         }).database()
 
-        // TODO: get list sensor base on db name
+        // TODO: get rules by machine by user
         // TODO: 
 
-        const ref = realtimeDatabase.ref("test")
+        // start example
+        const rules = [
+            {
+                name: "test",
+                sensor: "humidity sensor",
+                machine: "water pumps",
+                time: {
+                    "from": "09:00:00",
+                    "to": "10:00:00"
+                },
+                thresholdUp: 8,
+                thresholdDown: 6,
+                targetValue: 1,
+            }
+        ]
 
-        ref.on('value', this.logValue, this.logError)
+        this.addListener(rules)
+        // end example
+
     }
 
-    addListener() {
+    addListener(rules) {
+        rules.forEach(rule => {
+            this.listenRule(rule)
+        })
+    }
+
+    listenRule(rule) {
+        // get senor in database
+        const senor = {
+            nameInDB: "test"
+        }
+
+        const ref = this.realtimeDatabase.ref(senor.nameInDB)
+
+        ref.on("value", (snapshot) => {
+            console.log()
+
+            if (Extension.isTime(rule.time) && Extension.isValidThreshold(rule.thresholdDown, rule.thresholdUp)) {
+                console.log("set " + rule.machine + " to " + rule.targetValue)
+
+                // how to disable with duration
+            }
+
+        }, this.logError)
+
         // get sensor, machine, rule
         // reset event
     }
 
-    logValue (snapshot) {
+    logValue(snapshot) {
         console.info(snapshot.val())
-        //   .then(val => Object.keys(val).map(key => val[key]))
     }
 
-    logError (error) {
-        console.error('The read failed: ' + errorObject.name)
+    logError(error) {
+        console.error("The read failed: " + errorObject.name)
     }
 }
 

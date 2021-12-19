@@ -23,7 +23,7 @@ class Middleware {
             const data = getCookieData(req.cookies)
 
             // gán dữ liệu người dùng vào req
-            // req.user_profile = await get_account_data(data._id)
+            req.user = data
             return next()
         } catch (error) {
             return next(error)

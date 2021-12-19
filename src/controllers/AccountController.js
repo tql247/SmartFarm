@@ -1,4 +1,3 @@
-const { hashPassword } = require("../utils/Coder")
 const Extension = require("../utils/Extension")
 const AccountService = require("../services/AccountService")
 
@@ -17,7 +16,7 @@ class AccountController {
             // Chuẩn bị dữ liệu để thêm vào database
             const acc = {
                 email: req.body.email,
-                password: await hashPassword(req.body.password),
+                password: await Extension.hashPassword(req.body.password),
                 avatar: req["file"].filename,
                 full_name: req.body.full_name,
                 phone: req.body.phone,

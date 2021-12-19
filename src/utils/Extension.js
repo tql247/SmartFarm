@@ -1,4 +1,5 @@
 const fs = require('fs')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 // Các hàm hỗ trợ
@@ -64,6 +65,28 @@ class Extension {
         }
     
         return data
+    }
+
+    // hash password một chiều, nghĩa là không thể decode lại mật khẩu đã hash
+    // thành mật khẩu ban đầu, chỉ có thể kiểm tra password có khớp hay không
+    async hashPassword(password) {
+        return await bcrypt.hash(password, 10)
+    }
+
+    // kiểm tra password nhập vào có khớp với password lưu trong db hay không
+    // password: là mật khẩu người dùng nhập vd: 123456, password, 123
+    // hashString: là mật khẩu đã được hash từ trước 
+    // vd: $2y$10$PN7Vd0XL2WIzt5h2wHUxQ.AuiMLf5StlEELtGHvbcWhH06jJ70M0
+    async checkPassword(password, hashString) {
+        return await bcrypt.compare(password, hashString)
+    }
+
+    isValidThreshold(down, up, currentValue) {
+        return down <= currentValue && up <= currentValue
+    }
+
+    isTime(timeString) {
+        return true
     }
 }
 
