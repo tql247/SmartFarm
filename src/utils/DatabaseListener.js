@@ -1,5 +1,5 @@
-const firebaseAdmin = require('firebase-admin');
-const serviceAccount = require("../../serviceAccountKey.json");
+const firebaseAdmin = require('firebase-admin')
+const serviceAccount = require("../../serviceAccountKey.json")
 
 
 class DatabaseListener {
@@ -8,14 +8,14 @@ class DatabaseListener {
         const realtimeDatabase = firebaseAdmin.initializeApp({
             credential: firebaseAdmin.credential.cert(serviceAccount),
             databaseURL: "https://smartfarm-7bf74-default-rtdb.asia-southeast1.firebasedatabase.app"
-        }).database();
+        }).database()
 
         // TODO: get list sensor base on db name
         // TODO: 
 
-        const ref = realtimeDatabase.ref("test");
+        const ref = realtimeDatabase.ref("test")
 
-        ref.on('value', this.logValue, this.logError);
+        ref.on('value', this.logValue, this.logError)
     }
 
     addListener() {
@@ -24,13 +24,13 @@ class DatabaseListener {
     }
 
     logValue (snapshot) {
-        console.info(snapshot.val());
+        console.info(snapshot.val())
         //   .then(val => Object.keys(val).map(key => val[key]))
     }
 
     logError (error) {
-        console.error('The read failed: ' + errorObject.name);
+        console.error('The read failed: ' + errorObject.name)
     }
 }
 
-module.exports = new DatabaseListener();
+module.exports = new DatabaseListener()

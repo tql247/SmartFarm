@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const AccountSchema = new Schema({
     email: {
@@ -36,8 +36,8 @@ const AccountSchema = new Schema({
     deleted_at: {
         type: Date
     }
-});
+})
 
-const AccountModel = mongoose.model('Account', AccountSchema, 'account');
+const AccountModel = mongoose.model('Account', AccountSchema, 'account')
 
 module.exports = AccountModel

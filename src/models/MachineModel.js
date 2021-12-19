@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const MachineSchema = new Schema({
     name: {
@@ -19,8 +19,8 @@ const MachineSchema = new Schema({
     subcribeMQTT: {
         type: String,
     }
-});
+})
 
-const MachineModel = mongoose.model('Machine', MachineSchema, 'machine');
+const MachineModel = mongoose.model('Machine', MachineSchema, 'machine')
 
 module.exports = MachineModel

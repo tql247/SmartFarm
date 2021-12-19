@@ -6,12 +6,19 @@ const RuleSchema = new Schema({
         type: String,
         required: [true, 'Why no name?']
     },
+    time: {
+        "from": Date,
+        "to": Date,
+    },
     sensor: {
         type: Schema.Types.ObjectId,
         ref: 'Rule',
         localField: 'sensor',
         foreignField: '_id',
         justOne: true
+    },
+    threshold: {
+        type: Number,
     },
     machine: {
         type: Schema.Types.ObjectId,
@@ -20,11 +27,7 @@ const RuleSchema = new Schema({
         foreignField: '_id',
         justOne: true
     },
-    time: {
-        "from": Date,
-        "to": Date,
-    },
-    threshold: {
+    targetValue: {
         type: Number,
     }
 });

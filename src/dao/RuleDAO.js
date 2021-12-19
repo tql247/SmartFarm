@@ -1,40 +1,40 @@
-const mongoose = require('mongoose');
-const RuleModel = require('../models/RuleModel');
-const connect = require("./_connection");
+const mongoose = require('mongoose')
+const RuleModel = require('../models/RuleModel')
+const connect = require("./_connection")
 
 class RuleDao {
     async test() {
         try {
-            await connect();
+            await connect()
 
-            return { ruleount: 'test' };
+            return { ruleount: 'test' }
         } catch (e) {
-            throw e;
+            throw e
         } finally {
-            await mongoose.connection.close();
+            await mongoose.connection.close()
         }
     }
 
     async createRule(rule) {
         try {
-            await connect();
+            await connect()
             return await RuleModel.create({
                 name: rule.name,
                 sensor: rule.sensor,
                 machine: rule.machine,
                 time: rule.time,
                 threshold: rule.threshold
-            });
+            })
         } catch (e) {
-            throw e;
+            throw e
         } finally {
-            await mongoose.connection.close();
+            await mongoose.connection.close()
         }
     }
 
     // async updateRule(rule) {
     //     try {
-    //         await connect();
+    //         await connect()
     //         return await RuleModel.findByIdAndUpdate(
     //             rule._id,
     //             {
@@ -47,29 +47,29 @@ class RuleDao {
     //                 role: rule.role,
     //             },
     //             { new: true }
-    //         );
+    //         )
     //     } catch (e) {
-    //         throw e;
+    //         throw e
     //     } finally {
-    //         await mongoose.connection.close();
+    //         await mongoose.connection.close()
     //     }
     // }
 
     // async getAll() {
     //     try {
-    //         await connect();
+    //         await connect()
 
-    //         return await RuleModel.find().exec();
+    //         return await RuleModel.find().exec()
     //     } catch (e) {
-    //         throw e;
+    //         throw e
     //     } finally {
-    //         await mongoose.connection.close();
+    //         await mongoose.connection.close()
     //     }
     // }
 
     // async delete(_id) {
     //     try {
-    //         await connect();
+    //         await connect()
 
     //         return await RuleModel.findByIdAndUpdate(
     //             _id,
@@ -77,13 +77,13 @@ class RuleDao {
     //                 deleted_at: Date.now()
     //             },
     //             { new: true }
-    //         );
+    //         )
     //     } catch (e) {
-    //         throw e;
+    //         throw e
     //     } finally {
-    //         await mongoose.connection.close();
+    //         await mongoose.connection.close()
     //     }
     // }
 }
 
-module.exports = new RuleDao();
+module.exports = new RuleDao()

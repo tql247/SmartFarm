@@ -1,7 +1,7 @@
-const multer = require("multer");
-const { v4: uuid } = require('uuid');
-const path = require("path");
-const { getCookieData } = require("./Extension");
+const multer = require("multer")
+const { v4: uuid } = require('uuid')
+const path = require("path")
+const { getCookieData } = require("./Extension")
 
 // Hàm xử lý trung gian trước khi gọi Controller
 class Middleware {
@@ -12,23 +12,23 @@ class Middleware {
         filename: function (req, file, cb) {
             cb(null, uuid() + path.extname(file.originalname))
         }
-    });
+    })
 
     // Xử lý file tải lên
-    fileUpload = multer({storage: this.storage});
+    fileUpload = multer({storage: this.storage})
 
     // Xác thực người dùng
     authorize (req, res, next) {
         try {
-            const data = getCookieData(req.cookies);
+            const data = getCookieData(req.cookies)
 
             // gán dữ liệu người dùng vào req
-            // req.user_profile = await get_account_data(data._id);
-            return next();
+            // req.user_profile = await get_account_data(data._id)
+            return next()
         } catch (error) {
-            return next(error);
+            return next(error)
         }
     }
 }
 
-module.exports = new Middleware();
+module.exports = new Middleware()

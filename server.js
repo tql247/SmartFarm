@@ -1,6 +1,6 @@
 require('dotenv').config()
 // require('module-alias/register')
-require('events').defaultMaxListeners = 100;
+require('events').defaultMaxListeners = 100
 require('./socket')
 require('./src/app')
 

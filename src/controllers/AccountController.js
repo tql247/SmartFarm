@@ -1,13 +1,13 @@
-const { hashPassword } = require("../utils/Coder");
-const Extension = require("../utils/Extension");
-const AccountService = require("../services/AccountService");
+const { hashPassword } = require("../utils/Coder")
+const Extension = require("../utils/Extension")
+const AccountService = require("../services/AccountService")
 
 class AccountController {
     async test(req, res, next) {
         try {
-            res.status(201).json(await AccountService.test());
+            res.status(201).json(await AccountService.test())
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -23,13 +23,13 @@ class AccountController {
                 phone: req.body.phone,
                 address: req.body.address,
                 role: req.body.role
-            };
+            }
 
-            const accInserted = await AccountService.createAccount(acc);
+            const accInserted = await AccountService.createAccount(acc)
 
             res.status(200).json(accInserted) 
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
@@ -46,20 +46,20 @@ class AccountController {
                 address: req.body.address,
                 role: req.body.role,
                 _id: req.body._id
-            };
+            }
 
-            const accInserted = await AccountService.updateAccount(acc);
+            const accInserted = await AccountService.updateAccount(acc)
 
             res.status(200).json(accInserted) 
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 
     // Lấy dữ liệu của toàn bộ account có trong database
     async getAll(req, res, next) {
         try {
-            const accounts = await AccountService.getAll();
+            const accounts = await AccountService.getAll()
 
             res.status(200).json(accounts) 
         } catch (error) {
@@ -70,15 +70,15 @@ class AccountController {
     // Xoá dữ liệu
     async delete(req, res, next) {
         try {
-            const _id = req.params._id || req.query._id;
+            const _id = req.params._id || req.query._id
 
             if (!_id) {
-                const err = new Error("'_id' was not provided!");
+                const err = new Error("'_id' was not provided!")
                 err.name = "Bad request"
-                next(err);
+                next(err)
             }
 
-            const accounts = await AccountService.delete(_id);
+            const accounts = await AccountService.delete(_id)
 
             res.status(200).json(accounts) 
         } catch (error) {
@@ -88,11 +88,11 @@ class AccountController {
 
     async Login(req, res, next) {
         try {
-            res.status(201).json(await AccountService.test());
+            res.status(201).json(await AccountService.test())
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
 }
 
-module.exports = new AccountController();
+module.exports = new AccountController()

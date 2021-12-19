@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const SensorSchema = new Schema({
     name: {
@@ -19,8 +19,8 @@ const SensorSchema = new Schema({
     topicMQTT: {
         type: String,
     }
-});
+})
 
-const SensorModel = mongoose.model('Sensor', SensorSchema, 'sensor');
+const SensorModel = mongoose.model('Sensor', SensorSchema, 'sensor')
 
 module.exports = SensorModel

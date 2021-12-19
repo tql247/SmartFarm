@@ -2,7 +2,7 @@ class Handler {
     // Trả lỗi khi không tìm thấy đường dẫn
     notFoundUrl(req, res, next) {
         // TODO: trả về 1 trang web
-        return res.send('Not found url: ' + req.originalUrl);
+        return res.send('Not found url: ' + req.originalUrl)
     }
 
     // Xử lý các loại lỗi
@@ -31,7 +31,7 @@ class Handler {
     
         // Xử lý không tìm thấy trang
         if (err.name === "Page not found") {
-            err.status = 404;
+            err.status = 404
         }
     
         // Xử lý lỗi không xác định
@@ -39,8 +39,8 @@ class Handler {
         return res.status(err.status).json({
             name: err.name,
             message: err.message
-        });
+        })
     }
 }
 
-module.exports = new Handler();
+module.exports = new Handler()

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const FarmSchema = new Schema({
     name: {
@@ -17,8 +17,8 @@ const FarmSchema = new Schema({
         foreignField: '_id',
         justOne: true
     },
-});
+})
 
-const FarmModel = mongoose.model('Farm', FarmSchema, 'farm');
+const FarmModel = mongoose.model('Farm', FarmSchema, 'farm')
 
 module.exports = FarmModel
