@@ -15,13 +15,13 @@ class AccountService {
 
     async getAll() {
         const account = await AccountDAO.getAll();
-        
+
         return account;
     }
 
     async delete(_id) {
         const account = await AccountDAO.delete(_id);
-        
+
         return account;
     }
 }

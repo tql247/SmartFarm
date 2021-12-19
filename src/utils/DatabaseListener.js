@@ -2,7 +2,6 @@ const firebaseAdmin = require('firebase-admin');
 const serviceAccount = require("../../serviceAccountKey.json");
 
 
-
 class DatabaseListener {
     start() {
         // config realtimeDatabase
@@ -19,7 +18,7 @@ class DatabaseListener {
         ref.on('value', this.logValue, this.logError);
     }
 
-    restart() {
+    addListener() {
         // get sensor, machine, rule
         // reset event
     }

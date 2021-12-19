@@ -24,7 +24,9 @@ const RuleSchema = new Schema({
         "from": Date,
         "to": Date,
     },
-    threshold: String
+    threshold: {
+        type: Number,
+    }
 });
 
 const RuleModel = mongoose.model('Rule', RuleSchema, 'rule');

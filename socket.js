@@ -1,7 +1,7 @@
 // Gọi các hàm
-const app = require("./src/index");
+const app = require("./src/app");
 const httpServer = require('http').createServer(app);
-const {Server} = require("socket.io");
+const { Server } = require("socket.io");
 const PORT = process.env.PORT || 5000
 
 // Định nghĩa socket
