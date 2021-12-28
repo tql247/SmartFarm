@@ -13,16 +13,14 @@
     <link rel="stylesheet" href="/public/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="/public/vendors/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="/public/css/app.css">
-    <link rel="shortcut icon" href="/public/images/favicon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="/public/images/favicon.png" type="image/x-icon">
 
     <script src="/public/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/public/js/bootstrap.bundle.min.js"></script>
     <script src="/public/vendors/simple-datatables/simple-datatables.js"></script>
-    <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" 
-        referrerpolicy="no-referrer"></script>
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/public/js/main.js"></script>
 </head>
 
@@ -51,14 +49,14 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-item  ">
-                            <a href="book.html" class='sidebar-link'>
+                        <li class="sidebar-item <%= page==='rule'?'active':'' %>">
+                            <a href="/rule/all" class='sidebar-link'>
                                 <i class="bi bi-book"></i>
-                                <span>Quản lý sách</span>
+                                <span>Quản lý Rule</span>
                             </a>
                         </li>
-                        <li class="sidebar-item active">
-                            <a href="account.html" class='sidebar-link'>
+                        <li class="sidebar-item <%= page==='account'?'active':'' %>">
+                            <a href="/account/all" class='sidebar-link'>
                                 <i class="bi bi-person"></i>
                                 <span>Quản lý tài khoản</span>
                             </a>
@@ -75,7 +73,8 @@
             </div>
         </div>
 
-        <%- include(`pages/${main}.ejs`) %>
+        <%- include(`pages/${page}.ejs`) %>
     </div>
 </body>
+
 </html>

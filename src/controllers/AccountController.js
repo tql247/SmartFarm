@@ -62,7 +62,7 @@ class AccountController {
 
             // res.status(200).json(accounts) 
             
-            return res.render('_layout', {main: 'account'})
+            return res.render('_layout', {page: 'account'})
         } catch (error) {
 
         }

@@ -10,6 +10,15 @@ class RuleController {
         }
     }
 
+    // lấy tẩt cả rule
+    async getAll(req, res, next) {
+        try {
+
+            return res.render('_layout', {page: 'rule'})
+        } catch (error) {
+            next(error)
+        }
+    }
     // Tạo rule mới
     async createRule(req, res, next) {
         try {
