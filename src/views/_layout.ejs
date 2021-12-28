@@ -38,14 +38,14 @@
 </head>
 
 <body>
-    <div id="app" class="min-vh-100 min-vw-100 d-flex align-items-center justify-content-center">
+    <div id="app" class="">
         <% if (page !== 'login') { %> 
             <div id="sidebar" class="active">
                 <div class="sidebar-wrapper active">
                     <div class="sidebar-header">
                         <div class="d-flex justify-content-between">
                             <div class="logo">
-                                <a href="index.html"><img src="/public/images/logo/logo.png" alt="Logo" srcset=""></a>
+                                <a href="index.html"><img src="/public/images/logo/logo.png" class="w-100 h-100" alt="Logo" srcset=""></a>
                             </div>
                             <div class="toggler">
                                 <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -76,7 +76,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-item  ">
-                                <a href="auth-login.html" class='sidebar-link'>
+                                <a href="/account/login" class='sidebar-link'>
                                     <i class="bi bi-arrow-right-square"></i>
                                     <span>Đăng xuất</span>
                                 </a>

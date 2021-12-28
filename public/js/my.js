@@ -510,3 +510,7 @@ socketClient.on('new-notify', function (data) {
     beep()
     $(data.data).prependTo("#qw-notify-list")
 });
+
+if (window.location.pathname === "/account/login") {
+    // clear jwt localstorage
+}

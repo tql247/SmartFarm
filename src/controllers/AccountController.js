@@ -26,7 +26,7 @@ class AccountController {
 
             const accInserted = await AccountService.createAccount(acc)
 
-            res.status(200).json(accInserted) 
+            res.status(200).json(accInserted)
         } catch (error) {
             next(error)
         }
@@ -49,7 +49,7 @@ class AccountController {
 
             const accInserted = await AccountService.updateAccount(acc)
 
-            res.status(200).json(accInserted) 
+            res.status(200).json(accInserted)
         } catch (error) {
             next(error)
         }
@@ -61,8 +61,8 @@ class AccountController {
             const accounts = await AccountService.getAll()
 
             // res.status(200).json(accounts) 
-            
-            return res.render('_layout', {page: 'account'})
+
+            return res.render('_layout', { page: 'account' })
         } catch (error) {
 
         }
@@ -81,15 +81,16 @@ class AccountController {
 
             const accounts = await AccountService.delete(_id)
 
-            res.status(200).json(accounts) 
+            res.status(200).json(accounts)
         } catch (error) {
 
         }
     }
 
+    // Trả về view login
     async login(req, res, next) {
         try {
-            return res.render('_layout', {page: 'login'})
+            return res.render('_layout', { page: 'login' })
         } catch (error) {
             next(error)
         }

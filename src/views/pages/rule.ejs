@@ -1,4 +1,6 @@
 <div id="main">
+
+
     <header class="mb-3">
         <a href="#" class="burger-btn d-block d-xl-none">
             <i class="bi bi-justify fs-3"></i>
@@ -22,15 +24,155 @@
                 </div>
             </div>
         </div>
+
+
+        <section class="section">
+            <div class="card">
+                <div class="col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin rule</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form form-horizontal" id="rendering-form">
+                                    <div class="form-body">
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <label>id</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input readonly="readonly" type="number" class="form-control"
+                                                            id="input-rendering_id" name="rendering_id">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>source_id</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input type="number" min=1 value="1" class="form-control"
+                                                            id="input-source_id" name="source_id">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>start_at</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control" type="time" id="input-start_at"
+                                                            name="start_at">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>end_at</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="time" id="input-end_at"
+                                                        name="end_at">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>start_date</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control" type="date" id="input-start_date"
+                                                            name="start_date">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>end_date</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control" type="date" id="input-end_date"
+                                                            name="end_date">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>export_video</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="input-export_video" name="export_video">
+                                                            <label class="form-check-label"
+                                                                for="input-export_video"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>push_counted_data</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="input-counter" name="counted" checked>
+                                                            <label class="form-check-label" for="input-counter"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>active</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="input-active" name="active">
+                                                            <label class="form-check-label" for="input-active"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <div>
+                                                    <button id="btn-submit" onclick="pustRendering()" type="button"
+                                                        class="btn btn-primary me-1 mb-1">Thêm
+                                                        mới</button>
+                                                    <button type="reset" onclick="resetForm()"
+                                                        class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
         <section class="section">
             <div class="card">
                 <div class="card-header">
-                    Danh sách tài khoản
+                    Danh sách rule
                 </div>
 
-                <div class="card-body">
-                    <a href="/account-create.html" class="btn btn-outline-success">Thêm mới</a>
-                </div>
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
                         <thead>
