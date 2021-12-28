@@ -109,3 +109,4 @@ dist
 /.idea/jsLibraryMappings.xml
 /.idea/inspectionProfiles/Project_Default.xml
 /uploads/
+src/temp/
