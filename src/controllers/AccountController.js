@@ -60,7 +60,9 @@ class AccountController {
         try {
             const accounts = await AccountService.getAll()
 
-            res.status(200).json(accounts) 
+            // res.status(200).json(accounts) 
+            
+            return res.render('_layout', {main: 'account'})
         } catch (error) {
 
         }

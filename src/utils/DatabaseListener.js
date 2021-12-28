@@ -1,4 +1,5 @@
-const firebaseAdmin = require("firebase-admin")
+const firebaseAdmin = require("firebase-admin");
+const firebaseConfig = require("../../firebaseConfig");
 const serviceAccount = require("../../serviceAccountKey.json")
 const Extension = require("./Extension")
 
@@ -9,7 +10,7 @@ class DatabaseListener {
         // config realtimeDatabase
         this.realtimeDatabase = firebaseAdmin.initializeApp({
             credential: firebaseAdmin.credential.cert(serviceAccount),
-            databaseURL: "https://smartfarm-7bf74-default-rtdb.asia-southeast1.firebasedatabase.app"
+            databaseURL: firebaseConfig.databaseURL //"https://smartfarm-7bf74-default-rtdb.asia-southeast1.firebasedatabase.app"
         }).database()
 
         // TODO: get rules by machine by user
