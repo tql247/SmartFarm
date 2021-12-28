@@ -10,5 +10,6 @@ account.post('/create', Middleware.fileUpload.single('avatar'), AccountControlle
 account.post('/update', Middleware.fileUpload.single('avatar'), AccountController.updateAccount)
 account.get('/delete', AccountController.delete)
 account.get('/delete/:_id', AccountController.delete)
+account.get('/login', AccountController.login)
 
 module.exports = account

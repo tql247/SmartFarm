@@ -87,9 +87,9 @@ class AccountController {
         }
     }
 
-    async Login(req, res, next) {
+    async login(req, res, next) {
         try {
-            res.status(201).json(await AccountService.test())
+            return res.render('_layout', {page: 'login'})
         } catch (error) {
             next(error)
         }

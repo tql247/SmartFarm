@@ -4,7 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý tài khỏan</title>
+    <title>
+        <% switch (page) { 
+            case 'account' : 
+                %> Quản lý tài khoản <% 
+                break; 
+
+            case 'rule' : 
+                %> Quản lý Rule <% 
+                break; 
+            
+            default: break; 
+        } %>
+    </title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -13,6 +25,7 @@
     <link rel="stylesheet" href="/public/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="/public/vendors/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="/public/css/app.css">
+    <link rel="stylesheet" href="/public/css/my.css">
     <link rel="shortcut icon" href="/public/images/favicon.png" type="image/x-icon">
 
     <script src="/public/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -25,53 +38,55 @@
 </head>
 
 <body>
-    <div id="app">
-        <div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-                <div class="sidebar-header">
-                    <div class="d-flex justify-content-between">
-                        <div class="logo">
-                            <a href="index.html"><img src="/public/images/logo/logo.png" alt="Logo" srcset=""></a>
-                        </div>
-                        <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+    <div id="app" class="min-vh-100 min-vw-100 d-flex align-items-center justify-content-center">
+        <% if (page !== 'login') { %> 
+            <div id="sidebar" class="active">
+                <div class="sidebar-wrapper active">
+                    <div class="sidebar-header">
+                        <div class="d-flex justify-content-between">
+                            <div class="logo">
+                                <a href="index.html"><img src="/public/images/logo/logo.png" alt="Logo" srcset=""></a>
+                            </div>
+                            <div class="toggler">
+                                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
+                    <div class="sidebar-menu">
+                        <ul class="menu">
+                            <li class="sidebar-title">Menu</li>
 
-                        <li class="sidebar-item  ">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item  ">
+                                <a href="index.html" class='sidebar-link'>
+                                    <i class="bi bi-grid-fill"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-item <%= page==='rule'?'active':'' %>">
-                            <a href="/rule/all" class='sidebar-link'>
-                                <i class="bi bi-book"></i>
-                                <span>Quản lý Rule</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item <%= page==='account'?'active':'' %>">
-                            <a href="/account/all" class='sidebar-link'>
-                                <i class="bi bi-person"></i>
-                                <span>Quản lý tài khoản</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item  ">
-                            <a href="auth-login.html" class='sidebar-link'>
-                                <i class="bi bi-arrow-right-square"></i>
-                                <span>Đăng xuất</span>
-                            </a>
-                        </li>
-                    </ul>
+                            <li class="sidebar-item <%= page==='rule'?'active':'' %>">
+                                <a href="/rule/all" class='sidebar-link'>
+                                    <i class="bi bi-book"></i>
+                                    <span>Quản lý Rule</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item <%= page==='account'?'active':'' %>">
+                                <a href="/account/all" class='sidebar-link'>
+                                    <i class="bi bi-person"></i>
+                                    <span>Quản lý tài khoản</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item  ">
+                                <a href="auth-login.html" class='sidebar-link'>
+                                    <i class="bi bi-arrow-right-square"></i>
+                                    <span>Đăng xuất</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
                 </div>
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
             </div>
-        </div>
+        <% } %>
 
         <%- include(`pages/${page}.ejs`) %>
     </div>
