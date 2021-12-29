@@ -200,7 +200,7 @@ function loadMoreFeed() {
             type: "POST",
             url: "/feed/view",
             dataType: "json",
-            data: {feedIndex: window.feedIndex, my_feed: true},
+            data: { feedIndex: window.feedIndex, my_feed: true },
             async: true,
             success: handleLoadMoreFeed
         });
@@ -213,7 +213,7 @@ function loadMoreFeed() {
             type: "POST",
             url: "/feed/view",
             dataType: "json",
-            data: {feedIndex: window.feedIndex, host_id: $("#hoster-id").val()},
+            data: { feedIndex: window.feedIndex, host_id: $("#hoster-id").val() },
             async: true,
             success: handleLoadMoreFeed
         });
@@ -223,7 +223,7 @@ function loadMoreFeed() {
             type: "POST",
             url: "/feed/view",
             dataType: "json",
-            data: {feedIndex: window.feedIndex},
+            data: { feedIndex: window.feedIndex },
             async: true,
             success: handleLoadMoreFeed
         });
@@ -241,7 +241,7 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             $('#blah').attr('src', e.target.result);
         }
 
@@ -249,11 +249,13 @@ function readURL(input) {
     }
 }
 
-$("#imgInp").change(function() {
-    readURL(this);
-});
-
 function eventStuff() {
+
+    $("#imgInp").change(function () {
+        readURL(this);
+    });
+
+
     $("#add-acc-form").on("submit", function (e) {
         e.preventDefault();
         activeLoading();
@@ -302,6 +304,7 @@ function eventStuff() {
 
         return false;
     });
+
     $(document).on("submit", "#edit-notification-form", function (e) {
         e.preventDefault();
         console.log('edit-notification')
@@ -325,6 +328,8 @@ function eventStuff() {
 
         return false;
     });
+
+
     $(document).on("submit", "#delete-notification-form", function (e) {
         e.preventDefault();
         $('#confirmDeleteNotification').modal('hide');
@@ -346,6 +351,8 @@ function eventStuff() {
 
         return false;
     });
+
+
     $(document).on('click', ".edit-notification-btn", handleEditNotificationBtn)
     $(document).on('click', ".delete-notification-btn", handleDeleteNotificationBtn)
 
@@ -374,6 +381,8 @@ function eventStuff() {
 
         return false;
     });
+
+
     $(document).on("submit", "#edit-feed-form", function (e) {
         activeLoading();
 
@@ -397,6 +406,8 @@ function eventStuff() {
         e.preventDefault();
         return false;
     });
+
+
     $(document).on("submit", "#delete-feed-form", function (e) {
         $('#confirmDeleteFeed').modal('hide');
         activeLoading();
@@ -420,6 +431,8 @@ function eventStuff() {
         e.preventDefault();
         return false;
     });
+
+
     $(document).on('click', ".edit-feed-btn", handleEditFeedBtn)
     $(document).on('click', ".delete-feed-btn", handleDeleteFeedBtn)
 
@@ -447,6 +460,8 @@ function eventStuff() {
 
         return false;
     });
+
+
     $(document).on('click', ".delete-cmt-btn", handleDeleteCmtBtn);
 
     $(document).on("submit", "#update_info_form", function (e) {
@@ -454,7 +469,7 @@ function eventStuff() {
     });
 
     $('#topic-filter').on('change', function (e) {
-        if (this.value === "Tất cả")  window.location.href = '/notification/1'
+        if (this.value === "Tất cả") window.location.href = '/notification/1'
         window.location.href = '/notification/' + this.value + '/1'
     });
 
@@ -494,23 +509,26 @@ $(document).ready(function () {
             if (window.location.href.match('/notification')) {
             } else {
                 // Nếu đang xem bài viết thì tải thêm bài viết
-                loadMoreFeed()
+                // loadMoreFeed()
             }
         }
     });
 })
-let socketClient = io.connect('https://universitysocial.herokuapp.com/');
 
-socketClient.on('outside', function () {
-    beep()
-    console.log('outside');
-});
+// let socketClient = io.connect('https://universitysocial.herokuapp.com/');
 
-socketClient.on('new-notify', function (data) {
-    beep()
-    $(data.data).prependTo("#qw-notify-list")
-});
+// socketClient.on('outside', function () {
+//     beep()
+//     console.log('outside');
+// });
 
+// socketClient.on('new-notify', function (data) {
+//     beep()
+//     $(data.data).prependTo("#qw-notify-list")
+// });
+
+// kiểm tra đường dẫn có phải là trang login, đúng thì xoá
+// jwt được lưu trữ
 if (window.location.pathname === "/account/login") {
     // clear jwt localstorage
 }
