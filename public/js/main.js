@@ -48,6 +48,17 @@ window.addEventListener('resize', (event) => {
     }
 });
 
+
+// element.passedElement.element.addEventListener(
+//     'search',
+//     function(event) {
+//       // do something creative here...
+//       element.clearChoices()
+//       element.setChoices([{'value': 15, 'label': 15}])
+//     },
+//     false,
+//   );
+
 // document.querySelector('.burger-btn').addEventListener('click', () => {
 //     document.getElementById('sidebar').classList.toggle('active');
 // })

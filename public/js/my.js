@@ -532,3 +532,6 @@ $(document).ready(function () {
 if (window.location.pathname === "/account/login") {
     // clear jwt localstorage
 }
+
+
+alert('he')
