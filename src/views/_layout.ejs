@@ -5,17 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <% switch (page) { 
-            case 'account' : 
-                %> Quản lý tài khoản <% 
-                break; 
-
-            case 'rule' : 
-                %> Quản lý Rule <% 
-                break; 
-            
-            default: break; 
-        } %>
+        <% switch (page) {  case 'account' : %> Quản lý tài khoản <% break; 
+                            case 'rule' : %> Quản lý Rule <% break;
+                    default: break; } %>
     </title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -41,13 +33,14 @@
 
 <body>
     <div id="app" class="">
-        <% if (page !== 'login') { %> 
+        <% if (page !=='login' ) { %>
             <div id="sidebar" class="active">
                 <div class="sidebar-wrapper active">
                     <div class="sidebar-header">
                         <div class="d-flex justify-content-between">
                             <div class="logo">
-                                <a href="index.html"><img src="/public/images/logo/logo.png" class="w-100 h-100" alt="Logo" srcset=""></a>
+                                <a href="index.html"><img src="/public/images/logo/logo.png" class="w-100 h-100"
+                                        alt="Logo" srcset=""></a>
                             </div>
                             <div class="toggler">
                                 <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -90,7 +83,7 @@
             </div>
         <% } %>
 
-        <%- include(`pages/${page}.ejs`) %>
+                <%- include(`pages/${page}.ejs`) %>
     </div>
 </body>
 

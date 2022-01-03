@@ -110,3 +110,5 @@ dist
 /.idea/inspectionProfiles/Project_Default.xml
 /uploads/
 src/temp/
+.vscode/extensions.json
+.vscode/settings.json
