@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
+</head>
+<style>
+    .p {
+        background: rgb(174,237,238);
+        background: radial-gradient(circle, rgb(200, 246, 247) 0%, rgba(255, 255, 255, 0) 100%);
+        border-radius: 500px;
+}
+
+</style>
+<body>
+    <div>
+
+        <div class="slider" style="height: 400px; width: 30px; background-color: white; border: 1px solid; position: absolute; top: 0; left: 0;">
+            <div style="height: 400px; width:400px; position: relative;">
+                <div class="p" style="z-index: -1; padding: 300px 300px 300px 300px;  height: 400px; width:400px; position: absolute; left: -500px; top: -300px; ">
+                </div>
+            </div>
+        </div>
+
+        <h1 style="font-size: 300px">
+            Hello <span style="color: white; ">world</span> 
+        </h1>
+    </div>
+
+    <script>
+        $(".slider").draggable()
+    </script>
+</body>
+</html>

@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const rule = require('./rule')
 const account = require('./account')
+const farm = require('./farm')
 
 router.get('/test', (req, res)=>{
     // io.emit('outside')
@@ -11,5 +12,6 @@ router.get('/test', (req, res)=>{
 
 router.use('/account', account)
 router.use('/rule', rule)
+router.use('/farm', farm)
 
 module.exports = router

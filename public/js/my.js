@@ -100,6 +100,9 @@ function eventStuff() {
             deleteAccount(_id)
         }
     })
+
+    // Biến đổi select tag thành choicesjs
+    accountSelector = new Choices('.account-select');
 }
 
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
@@ -107,6 +110,8 @@ $(document).ready(function () {
     eventStuff()
 })
 
+
+let accountSelector = undefined
 // let socketClient = io.connect('https://universitysocial.herokuapp.com/')
 
 // socketClient.on('outside', function () {
