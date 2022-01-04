@@ -18,10 +18,10 @@ class FarmDao {
     async getAll() {
         try {
             await connect()
-            
+
             return await FarmModel.find({
                 deleted_at: null
-            }).exec()
+            }).populate('owner', "full_name email").exec()
         } catch (e) {
             throw e
         } finally {

@@ -15,6 +15,7 @@ class FarmController {
     async getAll(req, res, next) {
         try {
             const farms = await FarmService.getAll()
+            console.log(farms)
             const accounts = await AccountService.getAll()
 
             return res.render('_layout', { page: 'farm', farms: farms, accounts: accounts })

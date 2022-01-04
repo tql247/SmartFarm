@@ -8,6 +8,10 @@ class FarmService {
     async getAll() {
         return await FarmDAO.getAll()
     }
+
+    async createFarm(farm) {
+        return await FarmDAO.createFarm(farm)
+    }
 }
 
 module.exports = new FarmService()

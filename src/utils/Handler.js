@@ -8,6 +8,7 @@ class Handler {
 
     // Xử lý các loại lỗi
     errorHandler(err, req, res, next) {
+        console.error(err)
         console.error(Object.entries(err))
 
         // Xử lý lỗi token quá hạn

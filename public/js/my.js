@@ -6,7 +6,7 @@ function inactiveLoading() {
     document.getElementById("loading").classList.add("d-none")
 }
 
-// gọi api tạo tài khoản
+// gọi api tạo hoặc tài khoản
 function createOrUpdateAccount(e) {
     const urlSearchParams = new URLSearchParams($(e).serialize())
     const data = Object.fromEntries(urlSearchParams.entries())
@@ -14,7 +14,31 @@ function createOrUpdateAccount(e) {
     activeLoading()
 
     var settings = {
-        "url": "/account/" + data._id!==''?"update":"create",
+        "url": "/account/" + (data._id==''?"update":"create"),
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify(data),
+    }
+
+
+    $.ajax(settings).done((msg) => {
+        inactiveLoading()
+        console.log(msg)
+    })
+}
+
+// gọi api tạo hoặc sửa trang trại
+function createOrUpdateFarm(e) {
+    const urlSearchParams = new URLSearchParams($(e).serialize())
+    const data = Object.fromEntries(urlSearchParams.entries())
+
+    activeLoading()
+
+    var settings = {
+        "url": "/farm/" + (data._id!==''?"update":"create"),
         "method": "POST",
         "timeout": 0,
         "headers": {
@@ -54,6 +78,8 @@ function deleteAccount(_id) {
 // Nạp các sự kiện
 function eventStuff() {
     // kiểm tra input
+    // kiểm tra form tạo/sửa tài khoản đã
+    // hợp lệ hay chưa
     $("#account-form").validate({
         rules: {
             email: "required",
@@ -71,7 +97,23 @@ function eventStuff() {
         }
     })
 
+    // kiểm tra form tạo/sửa nông trại đã
+    // hợp lệ hay chưa
+    $("#farm-form").validate({
+        rules: {
+            name: "required",
+            address: "required",
+            owner: "required",
+        },
+        messages: {
+            name: "Vui lòng nhập tên",
+            address: "Vui lòng nhập địa chỉ",
+            owner: "Vui lòng chọn chủ nông trang",
+        }
+    })
+
     // bắt sự kiện submit
+    // sự kiện thêm hoặc sửa tài khoản
     $("#account-form").on("submit", function (e) {
         e.preventDefault()
         if ($(this).valid()) {
@@ -79,17 +121,37 @@ function eventStuff() {
         }
     })
 
+    // sự kiện thêm hoặc sửa trang trại
+    $("#farm-form").on("submit", function (e) {
+        e.preventDefault()
+        if ($(this).valid()) {
+            createOrUpdateFarm(this)
+        }
+    })
+
+
     // bắt sự kiện click nút edit account
     $(".edit-account").on("click", function(e) {
         const dataRowHTML = e.currentTarget.closest(".data-row")
 
-        // set data to form
+        // Đẩy dữ liệu vào form
         document.querySelector("#account-form ._id").value = dataRowHTML.querySelector("._id").innerText.trim()
         document.querySelector("#account-form .email").value = dataRowHTML.querySelector(".email").innerText.trim()
         document.querySelector("#account-form .phone").value = dataRowHTML.querySelector(".phone").innerText.trim()
         document.querySelector("#account-form .full_name").value = dataRowHTML.querySelector(".full_name").innerText.trim()
         document.querySelector("#account-form .address").value = dataRowHTML.querySelector(".address").innerText.trim()
         document.querySelector("#account-form .role").value = dataRowHTML.querySelector(".role").innerText.trim()
+    })
+
+    // bắt sự kiện click nút edit farm
+    $(".edit-farm").on("click", function(e) {
+        const dataRowHTML = e.currentTarget.closest(".data-row")
+
+        // Đẩy dữ liệu vào form
+        document.querySelector("#farm-form ._id").value = dataRowHTML.querySelector("._id").innerText.trim()
+        document.querySelector("#farm-form .name").value = dataRowHTML.querySelector(".name").innerText.trim()
+        document.querySelector("#farm-form .address").value = dataRowHTML.querySelector(".address").innerText.trim()
+        accountSelector.setChoiceByValue(dataRowHTML.querySelector(".owner ._id").innerText.trim())
     })
 
     // bắt sự kiện click nút delete account
@@ -103,6 +165,13 @@ function eventStuff() {
 
     // Biến đổi select tag thành choicesjs
     accountSelector = new Choices('.account-select');
+}
+
+
+// kiểm tra đường dẫn có phải là trang login, đúng thì xoá
+// jwt được lưu trữ
+if (window.location.pathname === "/account/login") {
+    // clear jwt localstorage
 }
 
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
@@ -124,8 +193,3 @@ let accountSelector = undefined
 //     $(data.data).prependTo("#qw-notify-list")
 // })
 
-// kiểm tra đường dẫn có phải là trang login, đúng thì xoá
-// jwt được lưu trữ
-if (window.location.pathname === "/account/login") {
-    // clear jwt localstorage
-}
