@@ -89,6 +89,7 @@ function eventStuff() {
         document.querySelector("#account-form .phone").value = dataRowHTML.querySelector(".phone").innerText.trim()
         document.querySelector("#account-form .full_name").value = dataRowHTML.querySelector(".full_name").innerText.trim()
         document.querySelector("#account-form .address").value = dataRowHTML.querySelector(".address").innerText.trim()
+        document.querySelector("#account-form .role").value = dataRowHTML.querySelector(".role").innerText.trim()
     })
 
     // bắt sự kiện click nút delete account
