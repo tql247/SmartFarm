@@ -1,9 +1,4 @@
 <div id="main">
-    <header class="mb-3">
-        <a href="#" class="burger-btn d-block d-xl-none">
-            <i class="bi bi-justify fs-3"></i>
-        </a>
-    </header>
 
     <div class="page-heading">
         <div class="page-title">
@@ -22,30 +17,171 @@
                 </div>
             </div>
         </div>
+
+
+        <section class="section">
+            <div class="card">
+                <div class="col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin user</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form form-horizontal" id="account-form">
+                                    <div class="form-body">
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <label>id</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input readonly="readonly" type="text" value=""
+                                                            class="form-control _id" name="_id">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Email</label>
+                                            </div>
+
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control email" type="text" name="email"
+                                                            value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Password</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control password" type="password" value=""
+                                                            name="password">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Số điện thoại</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control phone" type="text" name="phone"
+                                                            value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Họ tên</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control full_name" type="text" value=""
+                                                            name="full_name">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Địa chỉ</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control address" type="text" value=""
+                                                            name="address">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <div>
+                                                    <button type="submit"
+                                                        class="btn btn-primary me-1 mb-1 btn-submit">Submit</button>
+                                                    <button type="reset"
+                                                        class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+
         <section class="section">
             <div class="card">
                 <div class="card-header">
                     Danh sách tài khoản
                 </div>
-
-                <div class="card-body">
-                    <a href="/account-create.html" class="btn btn-outline-success">Thêm mới</a>
-                </div>
                 <div class="card-body">
                     <table class="table table-striped" id="table1">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
+                                <th>Email</th>
                                 <th>Họ tên</th>
-                                <th>Username</th>
-                                <th>Password</th>
-                                <th>Tuổi</th>
-                                <th>Giới tính</th>
+                                <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
+                                <th>Role</th>
                                 <th>Control</th>
                             </tr>
                         </thead>
                         <tbody id="account-list">
+                            <% accounts.forEach((account, idx)=> { %>
+                                <tr class="data-row">
+                                    <td>
+                                        <%= idx %>
+                                            <span class="_id d-none">
+                                                <%= account._id %>
+                                            </span>
+                                            <span class="password d-none">
+                                                <%= account.password %>
+                                            </span>
+                                    </td>
+                                    <td class="email">
+                                        <%= account.email %>
+                                    </td>
+                                    <td class="full_name">
+                                        <%= account.full_name %>
+                                    </td>
+                                    <td class="phone">
+                                        <%= account.phone %>
+                                    </td>
+                                    <td class="address">
+                                        <%= account.address %>
+                                    </td>
+                                    <td class="role">
+                                        <%= account.role %>
+                                    </td>
+                                    <td>
+                                        <span class="sf-control-btn edit-account">
+                                            <i class="bi-pencil-square"></i>
+                                        </span>
+                                        <span class="sf-control-btn delete-account">
+                                            <i class="bi bi-trash"></i>
+                                        </span>
+
+                                    </td>
+                                </tr>
+                                <% })%>
                         </tbody>
                     </table>
                 </div>

@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <% switch (page) {  case 'account' : %> Quản lý tài khoản <% break; 
-                            case 'rule' : %> Quản lý Rule <% break;
+        <% switch (page) { case 'account' : %> Quản lý tài khoản <% break; case 'rule' : %> Quản lý Rule <% break;
                     default: break; } %>
     </title>
 
@@ -28,63 +27,32 @@
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/public/vendors/choices.js/choices.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    
+    <script src="/public/js/main.js"></script>
+    <script src="/public/js/my.js"></script>
 </head>
 
 <body>
+
+    <!-- loading layer -->
+    <div id="loading" class="d-none">
+        <div class="d-flex justify-content-center align-items-center min-vh-100 min-vw-100 position-absolute bg-white"
+            style="z-index: 10;">
+            <div class="spinner-grow" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+
     <div id="app" class="">
         <% if (page !=='login' ) { %>
-            <div id="sidebar" class="active">
-                <div class="sidebar-wrapper active">
-                    <div class="sidebar-header">
-                        <div class="d-flex justify-content-between">
-                            <div class="logo">
-                                <a href="index.html"><img src="/public/images/logo/logo.png" class="w-100 h-100"
-                                        alt="Logo" srcset=""></a>
-                            </div>
-                            <div class="toggler">
-                                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sidebar-menu">
-                        <ul class="menu">
-                            <li class="sidebar-title">Menu</li>
-
-                            <li class="sidebar-item  ">
-                                <a href="index.html" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Dashboard</span>
-                                </a>
-                            </li>
-
-                            <li class="sidebar-item <%= page==='rule'?'active':'' %>">
-                                <a href="/rule/all" class='sidebar-link'>
-                                    <i class="bi bi-book"></i>
-                                    <span>Quản lý Rule</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item <%= page==='account'?'active':'' %>">
-                                <a href="/account/all" class='sidebar-link'>
-                                    <i class="bi bi-person"></i>
-                                    <span>Quản lý tài khoản</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item  ">
-                                <a href="/account/login" class='sidebar-link'>
-                                    <i class="bi bi-arrow-right-square"></i>
-                                    <span>Đăng xuất</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-                </div>
-            </div>
+            <%- include(`components/sidebar.ejs`) %>
         <% } %>
 
-                <%- include(`pages/${page}.ejs`) %>
+        <%- include(`pages/${page}.ejs`) %>
     </div>
-    <script src="/public/js/main.js"></script>
 </body>
 
 </html>

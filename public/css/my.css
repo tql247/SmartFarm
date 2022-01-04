@@ -1,5 +1,18 @@
 .d-centroid {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sf-password {
+  -webkit-text-security: disc;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: auto;
+}
+
+.sf-control-btn {
+  width: 30px;
+  cursor: pointer;
 }

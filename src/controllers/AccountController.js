@@ -17,11 +17,11 @@ class AccountController {
             const acc = {
                 email: req.body.email,
                 password: await Extension.hashPassword(req.body.password),
-                avatar: req["file"].filename,
+                // avatar: req["file"].filename,
                 full_name: req.body.full_name,
                 phone: req.body.phone,
-                address: req.body.address,
-                role: req.body.role
+                address: req.body.address || "Not set yet",
+                role: req.body.role || "user"
             }
 
             const accInserted = await AccountService.createAccount(acc)
@@ -38,13 +38,15 @@ class AccountController {
             // Chuẩn bị dữ liệu để thêm vào database
             const acc = {
                 email: req.body.email,
-                password: await hashPassword(req.body.password),
-                avatar: req["file"].filename,
                 full_name: req.body.full_name,
                 phone: req.body.phone,
                 address: req.body.address,
-                role: req.body.role,
+                role: req.body.role || "user",
                 _id: req.body._id
+            }
+
+            if (req.body.password) {
+                acc.password = await Extension.hashPassword(req.body.password)
             }
 
             const accInserted = await AccountService.updateAccount(acc)
@@ -62,14 +64,14 @@ class AccountController {
 
             // res.status(200).json(accounts) 
 
-            return res.render('_layout', { page: 'account' })
+            return res.render('_layout', { page: 'account', accounts: accounts })
         } catch (error) {
 
         }
     }
 
     // Xoá dữ liệu
-    async delete(req, res, next) {
+    async deleteAccount(req, res, next) {
         try {
             const _id = req.params._id || req.query._id
 

@@ -40,13 +40,7 @@ class AccountDao {
             return await AccountModel.findByIdAndUpdate(
                 acc._id,
                 {
-                    email: acc.email,
-                    password: acc.password,
-                    avatar: acc.avatar,
-                    full_name: acc.full_name,
-                    phone: acc.phone,
-                    address: acc.address,
-                    role: acc.role,
+                    $set: acc
                 },
                 { new: true }
             )
@@ -61,7 +55,9 @@ class AccountDao {
         try {
             await connect()
 
-            return await AccountModel.find().exec()
+            return await AccountModel.find({
+                deleted_at: null
+            }).exec()
         } catch (e) {
             throw e
         } finally {
