@@ -1,12 +1,20 @@
+// project: SmartFarm
+// author: tql247
+// publish: 2022
+// Copyright
+// ----------------------------------------------------------------
+
+// Bật màn hình/layer loading
 function activeLoading() {
     document.getElementById("loading").classList.remove("d-none")
 }
 
+// Tắt màn hình/layer loading
 function inactiveLoading() {
     document.getElementById("loading").classList.add("d-none")
 }
 
-// gọi api tạo hoặc tài khoản
+// gọi api tạo hoặc sửa tài khoản
 function createOrUpdateAccount(e) {
     const urlSearchParams = new URLSearchParams($(e).serialize())
     const data = Object.fromEntries(urlSearchParams.entries())
@@ -14,7 +22,7 @@ function createOrUpdateAccount(e) {
     activeLoading()
 
     var settings = {
-        "url": "/account/" + (data._id==''?"update":"create"),
+        "url": "/account/" + (data._id!==''?"update":"create"),
         "method": "POST",
         "timeout": 0,
         "headers": {
@@ -22,6 +30,8 @@ function createOrUpdateAccount(e) {
         },
         "data": JSON.stringify(data),
     }
+
+    console.log(settings)
 
 
     $.ajax(settings).done((msg) => {
@@ -164,7 +174,8 @@ function eventStuff() {
     })
 
     // Biến đổi select tag thành choicesjs
-    accountSelector = new Choices('.account-select');
+    var accountSelectorElement = document.querySelector(".account-select")
+    if (accountSelectorElement) accountSelector = new Choices('.account-select')
 }
 
 
@@ -174,13 +185,14 @@ if (window.location.pathname === "/account/login") {
     // clear jwt localstorage
 }
 
+// Tạo các biến để sử dụng
+let accountSelector = undefined
+
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
 $(document).ready(function () {
     eventStuff()
 })
 
-
-let accountSelector = undefined
 // let socketClient = io.connect('https://universitysocial.herokuapp.com/')
 
 // socketClient.on('outside', function () {
