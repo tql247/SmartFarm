@@ -24,7 +24,7 @@ function createOrUpdateAccount(e) {
     activeLoading()
 
     var settings = {
-        "url": "/account/" + (data._id!==''?"update":"create"),
+        "url": "/account/" + (data._id !== '' ? "update" : "create"),
         "method": "POST",
         "timeout": 0,
         "headers": {
@@ -50,7 +50,7 @@ function createOrUpdateFarm(e) {
     activeLoading()
 
     var settings = {
-        "url": "/farm/" + (data._id!==''?"update":"create"),
+        "url": "/farm/" + (data._id !== '' ? "update" : "create"),
         "method": "POST",
         "timeout": 0,
         "headers": {
@@ -73,7 +73,28 @@ function deleteAccount(_id) {
     activeLoading()
 
     var settings = {
-        "url": "/account/delete/" +_id,
+        "url": "/account/delete/" + _id,
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    }
+
+
+    $.ajax(settings).done((msg) => {
+        inactiveLoading()
+        console.log(msg)
+    })
+}
+
+// gọi api delete farm
+function deleteFarm(_id) {
+
+    activeLoading()
+
+    var settings = {
+        "url": "/farm/delete/" + _id,
         "method": "GET",
         "timeout": 0,
         "headers": {
@@ -97,8 +118,8 @@ function eventStuff() {
         rules: {
             email: "required",
             password: {
-                required: function(element){
-                    return document.querySelector("#account-form ._id").value==="";
+                required: function (element) {
+                    return document.querySelector("#account-form ._id").value === "";
                 }
             },
             full_name: "required",
@@ -142,9 +163,8 @@ function eventStuff() {
         }
     })
 
-
     // bắt sự kiện click nút edit account
-    $(".edit-account").on("click", function(e) {
+    $(".edit-account").on("click", function (e) {
         const dataRowHTML = e.currentTarget.closest(".data-row")
 
         // Đẩy dữ liệu vào form
@@ -157,22 +177,31 @@ function eventStuff() {
     })
 
     // bắt sự kiện click nút edit farm
-    $(".edit-farm").on("click", function(e) {
+    $(".edit-farm").on("click", function (e) {
         const dataRowHTML = e.currentTarget.closest(".data-row")
 
         // Đẩy dữ liệu vào form
         document.querySelector("#farm-form ._id").value = dataRowHTML.querySelector("._id").innerText.trim()
         document.querySelector("#farm-form .name").value = dataRowHTML.querySelector(".name").innerText.trim()
         document.querySelector("#farm-form .address").value = dataRowHTML.querySelector(".address").innerText.trim()
-        accountSelector.setChoiceByValue(dataRowHTML.querySelector(".owner ._id").innerText.trim())
+        accountSelector.setChoiceByValue(dataRowHTML.querySelector(".owner_id").innerText.trim())
     })
 
     // bắt sự kiện click nút delete account
-    $(".delete-account").on("click", function(e) {
+    $(".delete-account").on("click", function (e) {
         if (confirm("Are you sure you want to delete?")) {
             const dataRowHTML = e.currentTarget.closest(".data-row")
             const _id = dataRowHTML.querySelector("._id").innerText.trim()
             deleteAccount(_id)
+        }
+    })
+
+    // bắt sự kiện click nút delete farm
+    $(".delete-farm").on("click", function (e) {
+        if (confirm("Are you sure you want to delete?")) {
+            const dataRowHTML = e.currentTarget.closest(".data-row")
+            const _id = dataRowHTML.querySelector("._id").innerText.trim()
+            deleteFarm(_id)
         }
     })
 

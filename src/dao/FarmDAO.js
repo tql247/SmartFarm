@@ -63,23 +63,23 @@ class FarmDao {
         }
     }
 
-    // async delete(_id) {
-    //     try {
-    //         await connect()
+    async deleteFarm(_id) {
+        try {
+            await connect()
 
-    //         return await FarmModel.findByIdAndUpdate(
-    //             _id,
-    //             {
-    //                 deleted_at: Date.now()
-    //             },
-    //             { new: true }
-    //         )
-    //     } catch (e) {
-    //         throw e
-    //     } finally {
-    //         await mongoose.connection.close()
-    //     }
-    // }
+            return await FarmModel.findByIdAndUpdate(
+                _id,
+                {
+                    deleted_at: Date.now()
+                },
+                { new: true }
+            )
+        } catch (e) {
+            throw e
+        } finally {
+            await mongoose.connection.close()
+        }
+    }
 }
 
 module.exports = new FarmDao()

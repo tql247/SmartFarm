@@ -16,6 +16,10 @@ class FarmService {
     async updateFarm(farm) {
         return await FarmDAO.updateFarm(farm)
     }
+
+    async deleteFarm(_id) {
+        return await FarmDAO.deleteFarm(_id)
+    }
 }
 
 module.exports = new FarmService()

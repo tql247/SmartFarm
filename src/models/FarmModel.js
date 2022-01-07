@@ -17,6 +17,9 @@ const FarmSchema = new Schema({
         foreignField: '_id',
         justOne: true
     },
+    deleted_at: {
+        type: Date
+    }
 })
 
 const FarmModel = mongoose.model('Farm', FarmSchema, 'farm')

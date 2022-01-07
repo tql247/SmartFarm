@@ -15,7 +15,6 @@ class FarmController {
     async getAll(req, res, next) {
         try {
             const farms = await FarmService.getAll()
-            console.log(farms)
             const accounts = await AccountService.getAll()
 
             return res.render('_layout', { page: 'farm', farms: farms, accounts: accounts })
@@ -74,24 +73,29 @@ class FarmController {
     //     }
     // }
 
-    // // Xoá dữ liệu
-    // async delete(req, res, next) {
-    //     try {
-    //         const _id = req.params._id || req.query._id
+    // Xoá dữ liệu
+    async deleteFarm(req, res, next) {
+        try {
+            const _id = req.params._id || req.query._id
 
-    //         if (!_id) {
-    //             const err = new Error("'_id' was not provided!")
-    //             err.name = "Bad request"
-    //             next(err)
-    //         }
+            if (!_id) {
+                const err = new Error("'_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
 
-    //         const farms = await FarmService.delete(_id)
+            console.log("deleteFarm")
+            console.log(_id)
 
-    //         res.status(200).json(farms) 
-    //     } catch (error) {
+            const farmDeleted = await FarmService.deleteFarm(_id)
+            console.log("farmDeleted")
+            console.log(farmDeleted)
 
-    //     }
-    // }
+            res.status(200).json(farmDeleted) 
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = new FarmController()
