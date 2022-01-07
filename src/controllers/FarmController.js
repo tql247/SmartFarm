@@ -44,27 +44,24 @@ class FarmController {
     }
 
     // // Cập nhật tài khoản khoản
-    // async updateFarm(req, res, next) {
-    //     try {
-    //         // Chuẩn bị dữ liệu để thêm vào database
-    //         const farm = {
-    //             email: req.body.email,
-    //             password: await hashPassword(req.body.password),
-    //             avatar: req["file"].filename,
-    //             full_name: req.body.full_name,
-    //             phone: req.body.phone,
-    //             address: req.body.address,
-    //             role: req.body.role,
-    //             _id: req.body._id
-    //         }
+    async updateFarm(req, res, next) {
+        try {
+            // Chuẩn bị dữ liệu để thêm vào database
+            const farm = {
+                name: req.body.name,
+                address: req.body.address,
+                owner: req.body.owner,
+                _id: req.body._id
+            }
 
-    //         const farmInserted = await FarmService.updateFarm(farm)
+            // giá trị mới sau khi update
+            const farmUpdated = await FarmService.updateFarm(farm)
 
-    //         res.status(200).json(farmInserted) 
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
+            res.status(200).json(farmUpdated) 
+        } catch (error) {
+            next(error)
+        }
+    }
 
     // // Lấy dữ liệu của toàn bộ farm có trong database
     // async getAll(req, res, next) {

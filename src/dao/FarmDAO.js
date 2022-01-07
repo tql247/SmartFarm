@@ -44,28 +44,24 @@ class FarmDao {
         }
     }
 
-    // async updateFarm(rule) {
-    //     try {
-    //         await connect()
-    //         return await FarmModel.findByIdAndUpdate(
-    //             rule._id,
-    //             {
-    //                 email: rule.email,
-    //                 password: rule.password,
-    //                 avatar: rule.avatar,
-    //                 full_name: rule.full_name,
-    //                 phone: rule.phone,
-    //                 address: rule.address,
-    //                 role: rule.role,
-    //             },
-    //             { new: true }
-    //         )
-    //     } catch (e) {
-    //         throw e
-    //     } finally {
-    //         await mongoose.connection.close()
-    //     }
-    // }
+    async updateFarm(farm) {
+        try {
+            await connect()
+            return await FarmModel.findByIdAndUpdate(
+                farm._id,
+                {
+                    name: farm.name,
+                    address: farm.address,
+                    owner: farm.owner,
+                },
+                { new: true }
+            )
+        } catch (e) {
+            throw e
+        } finally {
+            await mongoose.connection.close()
+        }
+    }
 
     // async delete(_id) {
     //     try {

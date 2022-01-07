@@ -7,11 +7,13 @@
 // Bật màn hình/layer loading
 function activeLoading() {
     document.getElementById("loading").classList.remove("d-none")
+    document.getElementById("app").classList.add("d-none")
 }
 
 // Tắt màn hình/layer loading
 function inactiveLoading() {
     document.getElementById("loading").classList.add("d-none")
+    document.getElementById("app").classList.remove("d-none")
 }
 
 // gọi api tạo hoặc sửa tài khoản
@@ -57,6 +59,7 @@ function createOrUpdateFarm(e) {
         "data": JSON.stringify(data),
     }
 
+    console.log(settings)
 
     $.ajax(settings).done((msg) => {
         inactiveLoading()
