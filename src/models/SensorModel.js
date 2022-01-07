@@ -6,18 +6,22 @@ const SensorSchema = new Schema({
         type: String,
         required: [true, 'Why no name?']
     },
-    nameInDB: {
-        type: String,
-    },
-    locate: {
+    owner: {
         type: Schema.Types.ObjectId,
-        ref: 'Farm',
-        localField: 'locate',
+        ref: 'Account',
+        localField: 'owner',
         foreignField: '_id',
         justOne: true
     },
-    topicMQTT: {
-        type: String,
+    located: {
+        type: Schema.Types.ObjectId,
+        ref: 'Farm',
+        localField: 'located',
+        foreignField: '_id',
+        justOne: true
+    },
+    deleted_at: {
+        type: Date
     }
 })
 

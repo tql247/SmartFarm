@@ -4,6 +4,7 @@
 // Copyright
 // ----------------------------------------------------------------
 
+// Các hàm tương tác với giao diện
 // Bật màn hình/layer loading
 function activeLoading() {
     document.getElementById("loading").classList.remove("d-none")
@@ -16,6 +17,20 @@ function inactiveLoading() {
     document.getElementById("app").classList.remove("d-none")
 }
 
+// Cập nhật lại giá trị mới
+function updateFarmDataRow(farm) {
+    const dataRowHTML = document.querySelector(`tr.data-row[data-farm-id='${farm._id}']`)
+    if (dataRowHTML) {
+        dataRowHTML.querySelector("._id").innerText = farm._id
+        dataRowHTML.querySelector(".name").innerText = farm.name
+        dataRowHTML.querySelector(".address").innerText = farm.address
+        dataRowHTML.querySelector(".owner.full_name").innerText = farm.owner.full_name
+        dataRowHTML.querySelector(".owner.email").innerText = farm.owner.email
+    }
+}
+
+
+// Các hàm tương tác với controller
 // gọi api tạo hoặc sửa tài khoản
 function createOrUpdateAccount(e) {
     const urlSearchParams = new URLSearchParams($(e).serialize())
@@ -33,12 +48,8 @@ function createOrUpdateAccount(e) {
         "data": JSON.stringify(data),
     }
 
-    console.log(settings)
-
-
     $.ajax(settings).done((msg) => {
         inactiveLoading()
-        console.log(msg)
     })
 }
 
@@ -59,11 +70,45 @@ function createOrUpdateFarm(e) {
         "data": JSON.stringify(data),
     }
 
-    console.log(settings)
+    $.ajax(settings).done((result, success) => {
+        if (success) {
+            updateFarmDataRow(result)
+        }
+        else {
+            alert('Fail to update')
+        }
 
-    $.ajax(settings).done((msg) => {
         inactiveLoading()
-        console.log(msg)
+    })
+}
+
+
+// gọi api tạo hoặc sửa cảm biến
+function createOrUpdateSensor(e) {
+    const urlSearchParams = new URLSearchParams($(e).serialize())
+    const data = Object.fromEntries(urlSearchParams.entries())
+
+    activeLoading()
+
+    var settings = {
+        "url": "/sensor/" + (data._id !== '' ? "update" : "create"),
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify(data),
+    }
+
+    $.ajax(settings).done((result, success) => {
+        if (success) {
+            // updateFarmDataRow(result)
+        }
+        else {
+            alert('Fail to update')
+        }
+
+        inactiveLoading()
     })
 }
 
@@ -84,7 +129,6 @@ function deleteAccount(_id) {
 
     $.ajax(settings).done((msg) => {
         inactiveLoading()
-        console.log(msg)
     })
 }
 
@@ -105,7 +149,6 @@ function deleteFarm(_id) {
 
     $.ajax(settings).done((msg) => {
         inactiveLoading()
-        console.log(msg)
     })
 }
 
@@ -146,6 +189,17 @@ function eventStuff() {
         }
     })
 
+    // kiểm tra form tạo/sửa cảm biến đã
+    // hợp lệ hay chưa
+    $("#sensor-form").validate({
+        rules: {
+            name: "required",
+        },
+        messages: {
+            name: "Vui lòng nhập tên cảm biến",
+        }
+    })
+
     // bắt sự kiện submit
     // sự kiện thêm hoặc sửa tài khoản
     $("#account-form").on("submit", function (e) {
@@ -160,6 +214,14 @@ function eventStuff() {
         e.preventDefault()
         if ($(this).valid()) {
             createOrUpdateFarm(this)
+        }
+    })
+
+    // sự kiện thêm hoặc sửa cảm biến
+    $("#sensor-form").on("submit", function (e) {
+        e.preventDefault()
+        if ($(this).valid()) {
+            createOrUpdateSensor(this)
         }
     })
 
@@ -207,7 +269,10 @@ function eventStuff() {
 
     // Biến đổi select tag thành choicesjs
     var accountSelectorElement = document.querySelector(".account-select")
-    if (accountSelectorElement) accountSelector = new Choices('.account-select')
+    if (accountSelectorElement) accountSelector = new Choices(accountSelectorElement)
+
+    var farmSelectorElement = document.querySelector(".farm-select")
+    if (farmSelectorElement) farmSelector = new Choices(farmSelectorElement)
 }
 
 

@@ -29,6 +29,21 @@ class FarmDao {
         }
     }
 
+    async getByOwner(owner_id) {
+        try {
+            await connect()
+
+            return await FarmModel.find({
+                deleted_at: null,
+                owner: owner_id
+            }).populate('owner', "full_name email").exec()
+        } catch (e) {
+            throw e
+        } finally {
+            await mongoose.connection.close()
+        }
+    }
+
     async createFarm(farm) {
         try {
             await connect()
@@ -55,7 +70,7 @@ class FarmDao {
                     owner: farm.owner,
                 },
                 { new: true }
-            )
+            ).populate('owner', "full_name email").exec()
         } catch (e) {
             throw e
         } finally {

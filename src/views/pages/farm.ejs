@@ -133,7 +133,7 @@
                         </thead>
                         <tbody id="farms-list">
                             <% farms.forEach((farm, idx)=> { %>
-                                <tr class="data-row">
+                                <tr class="data-row" data-farm-id="<%= farm._id %>">
                                     <td>
                                         <%= idx %>
                                         <span class="_id d-none">
@@ -146,10 +146,10 @@
                                     <td class="address">
                                         <%= farm.address %>
                                     </td>
-                                    <td class="owner">
+                                    <td class="owner full_name">
                                         <%= farm.owner.full_name %>
                                     </td>
-                                    <td class="owner">
+                                    <td class="owner email">
                                         <%= farm.owner.email %>
                                         <span class="owner_id d-none">
                                             <%= farm.owner._id %>

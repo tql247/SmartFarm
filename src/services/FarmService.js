@@ -9,6 +9,10 @@ class FarmService {
         return await FarmDAO.getAll()
     }
 
+    async getByOwner(owner_id) {
+        return await FarmDAO.getByOwner(owner_id)
+    }
+
     async createFarm(farm) {
         return await FarmDAO.createFarm(farm)
     }
