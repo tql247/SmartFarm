@@ -131,6 +131,25 @@ function deleteFarm(_id) {
     })
 }
 
+// gọi api delete sensor
+function deleteSensor(_id) {
+    activeLoading()
+
+    var settings = {
+        "url": "/sensor/delete/" + _id,
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    }
+
+
+    $.ajax(settings).done((msg) => {
+        inactiveLoading()
+    })
+}
+
 // gọi api lấy ra danh sách trang trại thuộc sở hữu của account
 async function getFarmsByOwner(ownerID, locationID) {
     var settings = {
@@ -357,6 +376,15 @@ function eventStuff() {
             const dataRowHTML = e.currentTarget.closest(".data-row")
             const _id = dataRowHTML.querySelector("._id").innerText.trim()
             deleteFarm(_id)
+        }
+    })
+
+    // bắt sự kiện click nút delete sensor
+    $(".delete-sensor").on("click", function (e) {
+        if (confirm("Are you sure you want to delete?")) {
+            const dataRowHTML = e.currentTarget.closest(".data-row")
+            const _id = dataRowHTML.querySelector("._id").innerText.trim()
+            deleteSensor(_id)
         }
     })
 
