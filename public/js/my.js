@@ -1,36 +1,16 @@
+// ================================================================
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// ----------------------------------------------------------------
 // project: SmartFarm
 // author: tql247
 // publish: 2022
-// Copyright
 // ----------------------------------------------------------------
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// ================================================================
 
-// Các hàm tương tác với giao diện
-// Bật màn hình/layer loading
-function activeLoading() {
-    document.getElementById("loading").classList.remove("d-none")
-    document.getElementById("app").classList.add("d-none")
-}
-
-// Tắt màn hình/layer loading
-function inactiveLoading() {
-    document.getElementById("loading").classList.add("d-none")
-    document.getElementById("app").classList.remove("d-none")
-}
-
-// Cập nhật lại giá trị mới
-function updateFarmDataRow(farm) {
-    const dataRowHTML = document.querySelector(`tr.data-row[data-farm-id='${farm._id}']`)
-    if (dataRowHTML) {
-        dataRowHTML.querySelector("._id").innerText = farm._id
-        dataRowHTML.querySelector(".name").innerText = farm.name
-        dataRowHTML.querySelector(".address").innerText = farm.address
-        dataRowHTML.querySelector(".owner.full_name").innerText = farm.owner.full_name
-        dataRowHTML.querySelector(".owner.email").innerText = farm.owner.email
-    }
-}
-
-
-// Các hàm tương tác với controller
+// ****************************************************************
+//* Các hàm tương tác với controller */ 
+// ****************************************************************
 // gọi api tạo hoặc sửa tài khoản
 function createOrUpdateAccount(e) {
     const urlSearchParams = new URLSearchParams($(e).serialize())
@@ -81,7 +61,6 @@ function createOrUpdateFarm(e) {
         inactiveLoading()
     })
 }
-
 
 // gọi api tạo hoặc sửa cảm biến
 function createOrUpdateSensor(e) {
@@ -134,7 +113,6 @@ function deleteAccount(_id) {
 
 // gọi api delete farm
 function deleteFarm(_id) {
-
     activeLoading()
 
     var settings = {
@@ -150,6 +128,83 @@ function deleteFarm(_id) {
     $.ajax(settings).done((msg) => {
         inactiveLoading()
     })
+}
+
+// gọi api lấy ra danh sách trang trại thuộc sở hữu của account
+async function getFarmsByOwner(ownerID) {
+    activeLoading()
+
+    var settings = {
+        "url": "/farm/get_by_owner/" + ownerID,
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    }
+
+    $.ajax(settings).done((result, success) => {
+        if (success) {
+            console.log(success)
+            updateFarmSelectorHTML(result)
+        }
+        else {
+            alert('Fail to update')
+        }
+
+        inactiveLoading()
+    })
+}
+
+// ****************************************************************
+//* Các hàm tương tác với giao diện */
+// ****************************************************************
+// Bật màn hình/layer loading
+function activeLoading() {
+    document.getElementById("loading").classList.remove("d-none")
+    document.getElementById("app").classList.add("d-none")
+}
+
+// Tắt màn hình/layer loading
+function inactiveLoading() {
+    document.getElementById("loading").classList.add("d-none")
+    document.getElementById("app").classList.remove("d-none")
+}
+
+// Cập nhật lại giá trị mới
+function updateFarmDataRow(farm) {
+    const dataRowHTML = document.querySelector(`tr.data-row[data-farm-id='${farm._id}']`)
+    if (dataRowHTML) {
+        dataRowHTML.querySelector("._id").innerText = farm._id
+        dataRowHTML.querySelector(".name").innerText = farm.name
+        dataRowHTML.querySelector(".address").innerText = farm.address
+        dataRowHTML.querySelector(".owner.full_name").innerText = farm.owner.full_name
+        dataRowHTML.querySelector(".owner.email").innerText = farm.owner.email
+    }
+}
+
+// Tạo lại selection
+function updateFarmSelectorHTML(farms) {
+    if (farms.length > 0) {
+        farmSelector.setChoices(
+            farms.map(farm => {
+                return {
+                    'value': farm._id,
+                    'label': farm.name
+                }
+            })
+        )
+        
+        // tự động chọn giá trị đầu tiên
+        farmSelector.setChoiceByValue(farms[0]._id)
+    }
+}
+
+// Lấy dữ liệu và Tạo lại selection với giá trị mới
+function updateFarmSelectorByOwner(ownerID) {
+    farmSelector.clearStore()
+
+    getFarmsByOwner(ownerID)
 }
 
 // Nạp các sự kiện
@@ -268,11 +323,45 @@ function eventStuff() {
     })
 
     // Biến đổi select tag thành choicesjs
-    var accountSelectorElement = document.querySelector(".account-select")
+    accountSelectorElement = document.querySelector(".account-select")
     if (accountSelectorElement) accountSelector = new Choices(accountSelectorElement)
 
-    var farmSelectorElement = document.querySelector(".farm-select")
+    farmSelectorElement = document.querySelector(".farm-select")
     if (farmSelectorElement) farmSelector = new Choices(farmSelectorElement)
+
+    // Áp dụng các sự kiện nếu accountSelector tồn tại
+    if (accountSelector) {
+        // Bắt sự kiện thay đổi giá trị được chọn
+        accountSelectorElement.addEventListener('change', function (e) {
+            const accountSelected = accountSelector.getValue()
+            console.log(accountSelected)
+
+            // handle select farm if exist
+            if (farmSelector) {
+                updateFarmSelectorByOwner(accountSelected.value)
+            }
+        })
+
+
+        // accountSelector.passedElement.element.addEventListener(
+        //     'choice',
+        //     function(event) {
+        //         // do something creative here...
+        //         // accountSelector.clearChoices()
+        //         // accountSelector.setChoices([{'value': 15, 'label': 15}])
+        //         console.log('ssss')
+        //         console.log(event)
+
+        //     },
+        //     false,
+        // );
+    }
+
+
+
+    // Biến đổi html table thành datatable
+    var sensorTable = document.querySelector(".sensor-table")
+    if (sensorTable) sensorDataTable = new simpleDatatables.DataTable(sensorTable)
 }
 
 
@@ -283,7 +372,10 @@ if (window.location.pathname === "/account/login") {
 }
 
 // Tạo các biến để sử dụng
+let accountSelectorElement = undefined
 let accountSelector = undefined
+let farmSelector = undefined
+let farmSelectorElement = undefined
 
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
 $(document).ready(function () {

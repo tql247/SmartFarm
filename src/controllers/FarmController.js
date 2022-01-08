@@ -3,14 +3,6 @@ const FarmService = require("../services/FarmService")
 const AccountService = require("../services/AccountService")
 
 class FarmController {
-    async test(req, res, next) {
-        try {
-            res.status(201).json(await FarmService.test())
-        } catch (error) {
-            next(error)
-        }
-    }
-
     // lấy tẩt cả farm
     async getAll(req, res, next) {
         try {
@@ -18,6 +10,25 @@ class FarmController {
             const accounts = await AccountService.getAll()
 
             return res.render('_layout', { page: 'farm', farms: farms, accounts: accounts })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    // lấy farm dự vào id của owner
+    async getByOwner(req, res, next) {
+        try {
+            const ownerID = req.params.owner_id || req.query.owner_id
+
+            if (!ownerID) {
+                const err = new Error("'owner_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const farms = await FarmService.getByOwner(ownerID)
+
+            res.status(200).json(farms)
         } catch (error) {
             next(error)
         }
@@ -56,7 +67,7 @@ class FarmController {
             // giá trị mới sau khi update
             const farmUpdated = await FarmService.updateFarm(farm)
 
-            res.status(200).json(farmUpdated) 
+            res.status(200).json(farmUpdated)
         } catch (error) {
             next(error)
         }
@@ -91,7 +102,7 @@ class FarmController {
             console.log("farmDeleted")
             console.log(farmDeleted)
 
-            res.status(200).json(farmDeleted) 
+            res.status(200).json(farmDeleted)
         } catch (error) {
 
         }
