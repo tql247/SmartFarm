@@ -95,12 +95,7 @@ class FarmController {
                 next(err)
             }
 
-            console.log("deleteFarm")
-            console.log(_id)
-
             const farmDeleted = await FarmService.deleteFarm(_id)
-            console.log("farmDeleted")
-            console.log(farmDeleted)
 
             res.status(200).json(farmDeleted)
         } catch (error) {

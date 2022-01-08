@@ -5,15 +5,14 @@ const rule = require('./rule')
 const account = require('./account')
 const farm = require('./farm')
 const sensor = require('./sensor')
+const machine = require('./machine')
 
-router.get('/test', (req, res)=>{
-    // io.emit('outside')
-    res.send('hm')
-})
+router.get('/test', (req, res)=>{ res.send('test') })
 
 router.use('/account', account)
 router.use('/rule', rule)
 router.use('/farm', farm)
 router.use('/sensor', sensor)
+router.use('/machine', machine)
 
 module.exports = router

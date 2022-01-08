@@ -92,6 +92,36 @@ function createOrUpdateSensor(e) {
     })
 }
 
+// gọi api tạo hoặc sửa cảm biến
+function createOrUpdateMachine(e) {
+    const urlSearchParams = new URLSearchParams($(e).serialize())
+    const data = Object.fromEntries(urlSearchParams.entries())
+
+    activeLoading()
+
+    var settings = {
+        "url": "/machine/" + (data._id !== '' ? "update" : "create"),
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify(data),
+    }
+
+    $.ajax(settings).done((result, success) => {
+        if (success) {
+            // updateFarmDataRow(result)
+            console.log(result)
+        }
+        else {
+            alert('Fail to update')
+        }
+
+        inactiveLoading()
+    })
+}
+
 // gọi api delete account
 function deleteAccount(_id) {
 
@@ -137,6 +167,25 @@ function deleteSensor(_id) {
 
     var settings = {
         "url": "/sensor/delete/" + _id,
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    }
+
+
+    $.ajax(settings).done((msg) => {
+        inactiveLoading()
+    })
+}
+
+// gọi api delete sensor
+function deleteMachine(_id) {
+    activeLoading()
+
+    var settings = {
+        "url": "/machine/delete/" + _id,
         "method": "GET",
         "timeout": 0,
         "headers": {
@@ -225,10 +274,12 @@ function updateFarmSelectorByOwner(ownerID, locationID = undefined) {
     getFarmsByOwner(ownerID, locationID)
 }
 
+// Dựng các đối tượng, gán giá trị
 function buildDisplay() {
     // Gán các kiểu dữ liệu
     // Gán form html
     sensorForm = document.querySelector("#sensor-form")
+    machineForm = document.querySelector("#machine-form")
     // gán selector
     accountSelectorElement = document.querySelector(".account-select")
     farmSelectorElement = document.querySelector(".farm-select")
@@ -299,6 +350,25 @@ function eventStuff() {
         }
     })
 
+    // kiểm tra form tạo/sửa thiết bị đã
+    // hợp lệ hay chưa
+    $("#machine-form").validate({
+        rules: {
+            name: "required",
+            located: {
+                required: true,
+                minLength: 1
+            },
+            owner: "required",
+        },
+        messages: {
+            name: "Vui lòng nhập tên cảm biến",
+            located: "Vui lòng nhập chọn trang trại",
+            owner: "Vui lòng nhập chọn chủ trang trại",
+        }
+    })
+    // ===> Kết thúc kiểm tra input
+
     // bắt sự kiện submit
     // sự kiện thêm hoặc sửa tài khoản
     $("#account-form").on("submit", function (e) {
@@ -324,6 +394,16 @@ function eventStuff() {
         }
     })
 
+    // sự kiện thêm hoặc sửa cảm biến
+    $("#machine-form").on("submit", function (e) {
+        e.preventDefault()
+        if ($(this).valid()) {
+            createOrUpdateMachine(this)
+        }
+    })
+    // ===> Kết thúc các sự kiện submit
+
+    // Bắt các sự kiện edit
     // bắt sự kiện click nút edit account
     $(".edit-account").on("click", function (e) {
         const dataRowHTML = e.currentTarget.closest(".data-row")
@@ -361,6 +441,21 @@ function eventStuff() {
         updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.locatedId)
     })
 
+    // bắt sự kiện click nút edit thiết bị
+    $(".edit-machine").on("click", function (e) {
+        const dataRowHTML = e.currentTarget.closest(".data-row")
+
+        // Đẩy dữ liệu vào form
+        machineForm.elements["_id"].value = dataRowHTML.querySelector("._id").innerText.trim()
+        machineForm.elements["name"].value = dataRowHTML.querySelector(".name").innerText.trim()
+        
+        // Gán giá trị selector
+        accountSelector.setChoiceByValue(dataRowHTML.dataset.ownerId)
+        updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.locatedId)
+    })
+    // ===> Kết thúc các sự kiện edit
+
+    // Bắt các sự kiện delete
     // bắt sự kiện click nút delete account
     $(".delete-account").on("click", function (e) {
         if (confirm("Are you sure you want to delete?")) {
@@ -388,13 +483,23 @@ function eventStuff() {
         }
     })
 
+    // bắt sự kiện click nút delete machine
+    $(".delete-machine").on("click", function (e) {
+        if (confirm("Are you sure you want to delete?")) {
+            const dataRowHTML = e.currentTarget.closest(".data-row")
+            const _id = dataRowHTML.querySelector("._id").innerText.trim()
+            deleteMachine(_id)
+        }
+    })
+    // ===> Kết thúc các sự kiện delete
+
     // Áp dụng các sự kiện nếu accountSelector tồn tại
     if (accountSelector) {
         // Bắt sự kiện thay đổi giá trị được chọn
         accountSelectorElement.addEventListener('change', function (e) {
             const accountSelected = accountSelector.getValue()
-            console.log('accountSelected')
-            console.log(accountSelected)
+            // console.log('accountSelected')
+            // console.log(accountSelected)
 
             // handle select farm if exist
             if (farmSelector) {
@@ -417,6 +522,7 @@ let accountSelector = undefined
 let farmSelector = undefined
 let farmSelectorElement = undefined
 let sensorForm = undefined
+let machineForm = undefined
 
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
 $(document).ready(function () {

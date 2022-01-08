@@ -1,49 +1,49 @@
 const Extension = require("../utils/Extension")
-const SensorService = require("../services/SensorService")
+const MachineService = require("../services/MachineService")
 const FarmService = require("../services/FarmService")
 const AccountService = require("../services/AccountService")
 
-class SensorController {
-    // lấy tẩt cả sensor
+class MachineController {
+    // lấy tẩt cả machine
     async getAll(req, res, next) {
         try {
-            const sensors = await SensorService.getAll()
+            const machines = await MachineService.getAll()
             const accounts = await AccountService.getAll()
             let farms = []
 
             const [sampleSelect] = accounts
             if (sampleSelect) farms = await FarmService.getByOwner(sampleSelect._id)
 
-            return res.render('_layout', { page: 'sensor', sensors: sensors, accounts: accounts, farms: farms })
+            return res.render('_layout', { page: 'machine', machines: machines, accounts: accounts, farms: farms })
         } catch (error) {
             next(error)
         }
     }
 
-    // Tạo sensor mới
-    async createSensor(req, res, next) {
+    // Tạo machine mới
+    async createMachine(req, res, next) {
         try {
-            // Chuẩn bị dữ liệu để thêm vào sensor
-            const sensor = {
+            // Chuẩn bị dữ liệu để thêm vào machine
+            const machine = {
                 name: req.body.name,
                 located: req.body.farm,
                 owner: req.body.owner,
             }
 
             // Nhận giá trị trả về từ hàm khởi tạo
-            const sensorInserted = await SensorService.createSensor(sensor)
+            const machineInserted = await MachineService.createMachine(machine)
 
-            res.status(200).json(sensorInserted)
+            res.status(200).json(machineInserted)
         } catch (error) {
             next(error)
         }
     }
 
     // // Cập nhật tài khoản khoản
-    async updateSensor(req, res, next) {
+    async updateMachine(req, res, next) {
         try {
             // Chuẩn bị dữ liệu để thêm vào database
-            const sensor = {
+            const machine = {
                 name: req.body.name,
                 located: req.body.farm,
                 owner: req.body.owner,
@@ -51,27 +51,27 @@ class SensorController {
             }
 
             // giá trị mới sau khi update
-            const sensorUpdated = await SensorService.updateSensor(sensor)
+            const machineUpdated = await MachineService.updateMachine(machine)
 
-            res.status(200).json(sensorUpdated) 
+            res.status(200).json(machineUpdated) 
         } catch (error) {
             next(error)
         }
     }
 
-    // // Lấy dữ liệu của toàn bộ sensor có trong database
+    // // Lấy dữ liệu của toàn bộ machine có trong database
     // async getAll(req, res, next) {
     //     try {
-    //         const sensors = await SensorService.getAll()
+    //         const machines = await MachineService.getAll()
 
-    //         res.status(200).json(sensors) 
+    //         res.status(200).json(machines) 
     //     } catch (error) {
 
     //     }
     // }
 
     // Xoá dữ liệu
-    async deleteSensor(req, res, next) {
+    async deleteMachine(req, res, next) {
         try {
             const _id = req.params._id || req.query._id
 
@@ -81,13 +81,13 @@ class SensorController {
                 next(err)
             }
 
-            const sensorDeleted = await SensorService.deleteSensor(_id)
+            const machineDeleted = await MachineService.deleteMachine(_id)
 
-            res.status(200).json(sensorDeleted) 
+            res.status(200).json(machineDeleted) 
         } catch (error) {
 
         }
     }
 }
 
-module.exports = new SensorController()
+module.exports = new MachineController()

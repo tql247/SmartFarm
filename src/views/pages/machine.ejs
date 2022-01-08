@@ -1,0 +1,175 @@
+<div id="main">
+
+
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>Quản lý Cảm biến</h3>
+                    <p class="text-subtitle text-muted">Machine Manager</p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Quản lý cảm biến</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="section">
+            <div class="card">
+                <div class="col-lg-6 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin Cảm biến</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form form-horizontal" id="machine-form">
+                                    <div class="form-body">
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <label>id</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input readonly="readonly" type="string" class="form-control _id"
+                                                             name="_id">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            
+                                            <div class="col-md-4">
+                                                <label>Tên thiết bị</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control name" type="text" value=""
+                                                            name="name">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Chủ sở hữu</label>
+                                            </div>
+
+                                            <div class="form-group col-md-8">
+                                                <select class="account-select owner form-select" name="owner">
+                                                    <% accounts.forEach((account)=> {  %> 
+                                                        <option value="<%= account._id %>"><%= account.full_name %></option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Trang trại</label>
+                                            </div>
+
+                                            <div class="form-group col-md-8">
+                                                <select class="farm-select farm form-select" name="farm">
+                                                    <% farms.forEach((farm)=> {  %> 
+                                                        <option value="<%= farm._id %>"><%= farm.name %></option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <div>
+                                                    <button type="submit"
+                                                        class="btn btn-primary me-1 mb-1 btn-submit">Submit</button>
+                                                    <button type="reset"
+                                                        class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    Danh sách cảm biến
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-striped machine-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên thiết bị</th>
+                                <th>Định danh</th>
+                                <th>Địa chỉ</th>
+                                <th>Trang trại</th>
+                                <th>Chủ trang trại</th>
+                                <th>Email</th>
+                                <th>Control</th>
+                            </tr>
+                        </thead>
+                        <tbody id="machines-list">
+                            <% machines.forEach((machine, idx)=> { %>
+                                <tr class="data-row" data-located-id="<%= machine.located ? machine.located._id:'' %>" data-owner-id="<%= machine.owner._id %>">
+                                    <td>
+                                        <%= idx %>
+                                    </td>
+                                    
+                                    <td class="name">
+                                        <%= machine.name %>
+                                    </td>
+                                    <td class="_id">
+                                        <%= machine._id %>
+                                    </td>
+                                    <td class="located address">
+                                        <%= machine.located ? machine.located.address : "Not exist" %>
+                                    </td>
+                                    <td class="name">
+                                        <%= machine.located ? machine.located.name : "Not exist" %>
+                                    </td>
+                                    <td class="owner full_name" >
+                                        <%= machine.owner.full_name %>
+                                    </td>
+                                    <td class="owner email">
+                                        <%= machine.owner.email %>
+                                    </td>
+
+                                    <td>
+                                        <span class="sf-control-btn edit-machine">
+                                            <i class="bi-pencil-square"></i>
+                                        </span>
+                                        <span class="sf-control-btn delete-machine">
+                                            <i class="bi bi-trash"></i>
+                                        </span>
+
+                                    </td>
+                                </tr>
+                            <% })%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
