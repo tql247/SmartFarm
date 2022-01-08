@@ -7,11 +7,10 @@ class SensorDao {
         try {
             await connect()
 
-            return await SensorModel.find({
-                deleted_at: null
-            })
-            .populate('located', "name address owner")
-            .populate('owner', "full_name email").exec()
+            return await SensorModel
+                .find({ deleted_at: null })
+                .populate('located', "name address owner", { deleted_at: null })
+                .populate('owner', "full_name email").exec()
         } catch (e) {
             throw e
         } finally {
@@ -42,7 +41,7 @@ class SensorDao {
                 sensor._id,
                 {
                     name: sensor.name,
-                    address: sensor.address,
+                    located: sensor.located,
                     owner: sensor.owner,
                 },
                 { new: true }

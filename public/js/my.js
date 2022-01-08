@@ -82,6 +82,7 @@ function createOrUpdateSensor(e) {
     $.ajax(settings).done((result, success) => {
         if (success) {
             // updateFarmDataRow(result)
+            console.log(result)
         }
         else {
             alert('Fail to update')
@@ -131,9 +132,7 @@ function deleteFarm(_id) {
 }
 
 // gọi api lấy ra danh sách trang trại thuộc sở hữu của account
-async function getFarmsByOwner(ownerID) {
-    activeLoading()
-
+async function getFarmsByOwner(ownerID, locationID) {
     var settings = {
         "url": "/farm/get_by_owner/" + ownerID,
         "method": "GET",
@@ -145,14 +144,12 @@ async function getFarmsByOwner(ownerID) {
 
     $.ajax(settings).done((result, success) => {
         if (success) {
-            console.log(success)
-            updateFarmSelectorHTML(result)
+            // console.log(success)
+            updateFarmSelectorHTML(result, locationID)
         }
         else {
             alert('Fail to update')
         }
-
-        inactiveLoading()
     })
 }
 
@@ -184,7 +181,7 @@ function updateFarmDataRow(farm) {
 }
 
 // Tạo lại selection
-function updateFarmSelectorHTML(farms) {
+function updateFarmSelectorHTML(farms, locationID) {
     if (farms.length > 0) {
         farmSelector.setChoices(
             farms.map(farm => {
@@ -195,16 +192,37 @@ function updateFarmSelectorHTML(farms) {
             })
         )
         
+        // Kiểm tra form có phải đang trong chế dộ
+        // chỉnh sửa hay không, nếu có
         // tự động chọn giá trị đầu tiên
-        farmSelector.setChoiceByValue(farms[0]._id)
+        // Nếu không cập nhật theo giá trị cài đặt
+        farmSelector.setChoiceByValue(locationID || farms[0]._id)
     }
 }
 
 // Lấy dữ liệu và Tạo lại selection với giá trị mới
-function updateFarmSelectorByOwner(ownerID) {
+function updateFarmSelectorByOwner(ownerID, locationID = undefined) {
     farmSelector.clearStore()
+    getFarmsByOwner(ownerID, locationID)
+}
 
-    getFarmsByOwner(ownerID)
+function buildDisplay() {
+    // Gán các kiểu dữ liệu
+    // Gán form html
+    sensorForm = document.querySelector("#sensor-form")
+    // gán selector
+    accountSelectorElement = document.querySelector(".account-select")
+    farmSelectorElement = document.querySelector(".farm-select")
+
+
+    // Biến đổi select tag thành choicesjs
+    if (accountSelectorElement) accountSelector = new Choices(accountSelectorElement)
+
+    if (farmSelectorElement) farmSelector = new Choices(farmSelectorElement)
+
+    // Biến đổi html table thành datatable
+    var sensorTable = document.querySelector(".sensor-table")
+    if (sensorTable) sensorDataTable = new simpleDatatables.DataTable(sensorTable)
 }
 
 // Nạp các sự kiện
@@ -249,9 +267,16 @@ function eventStuff() {
     $("#sensor-form").validate({
         rules: {
             name: "required",
+            located: {
+                required: true,
+                minLength: 1
+            },
+            owner: "required",
         },
         messages: {
             name: "Vui lòng nhập tên cảm biến",
+            located: "Vui lòng nhập chọn trang trại",
+            owner: "Vui lòng nhập chọn chủ trang trại",
         }
     })
 
@@ -304,6 +329,19 @@ function eventStuff() {
         accountSelector.setChoiceByValue(dataRowHTML.querySelector(".owner_id").innerText.trim())
     })
 
+    // bắt sự kiện click nút edit cảm biến
+    $(".edit-sensor").on("click", function (e) {
+        const dataRowHTML = e.currentTarget.closest(".data-row")
+
+        // Đẩy dữ liệu vào form
+        sensorForm.elements["_id"].value = dataRowHTML.querySelector("._id").innerText.trim()
+        sensorForm.elements["name"].value = dataRowHTML.querySelector(".name").innerText.trim()
+        
+        // Gán giá trị selector
+        accountSelector.setChoiceByValue(dataRowHTML.dataset.ownerId)
+        updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.locatedId)
+    })
+
     // bắt sự kiện click nút delete account
     $(".delete-account").on("click", function (e) {
         if (confirm("Are you sure you want to delete?")) {
@@ -322,18 +360,12 @@ function eventStuff() {
         }
     })
 
-    // Biến đổi select tag thành choicesjs
-    accountSelectorElement = document.querySelector(".account-select")
-    if (accountSelectorElement) accountSelector = new Choices(accountSelectorElement)
-
-    farmSelectorElement = document.querySelector(".farm-select")
-    if (farmSelectorElement) farmSelector = new Choices(farmSelectorElement)
-
     // Áp dụng các sự kiện nếu accountSelector tồn tại
     if (accountSelector) {
         // Bắt sự kiện thay đổi giá trị được chọn
         accountSelectorElement.addEventListener('change', function (e) {
             const accountSelected = accountSelector.getValue()
+            console.log('accountSelected')
             console.log(accountSelected)
 
             // handle select farm if exist
@@ -341,27 +373,7 @@ function eventStuff() {
                 updateFarmSelectorByOwner(accountSelected.value)
             }
         })
-
-
-        // accountSelector.passedElement.element.addEventListener(
-        //     'choice',
-        //     function(event) {
-        //         // do something creative here...
-        //         // accountSelector.clearChoices()
-        //         // accountSelector.setChoices([{'value': 15, 'label': 15}])
-        //         console.log('ssss')
-        //         console.log(event)
-
-        //     },
-        //     false,
-        // );
     }
-
-
-
-    // Biến đổi html table thành datatable
-    var sensorTable = document.querySelector(".sensor-table")
-    if (sensorTable) sensorDataTable = new simpleDatatables.DataTable(sensorTable)
 }
 
 
@@ -376,9 +388,11 @@ let accountSelectorElement = undefined
 let accountSelector = undefined
 let farmSelector = undefined
 let farmSelectorElement = undefined
+let sensorForm = undefined
 
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
 $(document).ready(function () {
+    buildDisplay()
     eventStuff()
 })
 
@@ -394,3 +408,12 @@ $(document).ready(function () {
 //     $(data.data).prependTo("#qw-notify-list")
 // })
 
+// accountSelector.passedElement.element.addEventListener(
+//     'choice',
+//     function(event) {
+//         console.log('ssss')
+//         console.log(event)
+
+//     },
+//     false,
+// );

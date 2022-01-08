@@ -47,7 +47,7 @@ class SensorController {
             // Chuẩn bị dữ liệu để thêm vào database
             const sensor = {
                 name: req.body.name,
-                address: req.body.address,
+                located: req.body.farm,
                 owner: req.body.owner,
                 _id: req.body._id
             }

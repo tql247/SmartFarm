@@ -130,7 +130,7 @@
                         </thead>
                         <tbody id="sensors-list">
                             <% sensors.forEach((sensor, idx)=> { %>
-                                <tr class="data-row">
+                                <tr class="data-row" data-located-id="<%= sensor.located ? sensor.located._id:'' %>" data-owner-id="<%= sensor.owner._id %>">
                                     <td>
                                         <%= idx %>
                                     </td>
@@ -141,13 +141,13 @@
                                     <td class="_id">
                                         <%= sensor._id %>
                                     </td>
-                                    <td class="address">
-                                        <%= sensor.located.address %>
+                                    <td class="located address">
+                                        <%= sensor.located ? sensor.located.address : "Not exist" %>
                                     </td>
                                     <td class="name">
-                                        <%= sensor.located.name %>
+                                        <%= sensor.located ? sensor.located.name : "Not exist" %>
                                     </td>
-                                    <td class="owner full_name">
+                                    <td class="owner full_name" >
                                         <%= sensor.owner.full_name %>
                                     </td>
                                     <td class="owner email">
