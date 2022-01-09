@@ -1,5 +1,9 @@
 const Extension = require("../utils/Extension")
 const RuleService = require("../services/RuleService")
+const MachineService = require("../services/MachineService")
+const SensorService = require("../services/SensorService")
+const FarmService = require("../services/FarmService")
+const AccountService = require("../services/AccountService")
 
 class RuleController {
     async test(req, res, next) {
@@ -14,7 +18,19 @@ class RuleController {
     async getAll(req, res, next) {
         try {
 
-            return res.render('_layout', {page: 'rule'})
+            const accounts = await AccountService.getAll()
+            let farms = []
+            let sensors = []
+            let machines = []
+
+            const [sampleSelect] = accounts
+            if (sampleSelect) {
+                farms = await FarmService.getByOwner(sampleSelect._id)
+                sensors = await SensorService.getByOwner(sampleSelect._id)
+                machines = await MachineService.getByOwner(sampleSelect._id)
+            }
+
+            return res.render('_layout', { page: 'rule', accounts: accounts, farms: farms, sensors: sensors, machines: machines })
         } catch (error) {
             next(error)
         }

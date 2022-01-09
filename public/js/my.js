@@ -283,12 +283,15 @@ function buildDisplay() {
     // gán selector
     accountSelectorElement = document.querySelector(".account-select")
     farmSelectorElement = document.querySelector(".farm-select")
+    sensorSelectorElement = document.querySelector(".sensor-select")
+    machineSelectorElement = document.querySelector(".machine-select")
 
 
     // Biến đổi select tag thành choicesjs
     if (accountSelectorElement) accountSelector = new Choices(accountSelectorElement)
-
     if (farmSelectorElement) farmSelector = new Choices(farmSelectorElement)
+    if (sensorSelectorElement) sensorSelector = new Choices(sensorSelectorElement)
+    if (machineSelectorElement) machineSelector = new Choices(machineSelectorElement)
 
     // Biến đổi html table thành datatable
     var sensorTable = document.querySelector(".sensor-table")
@@ -517,10 +520,16 @@ if (window.location.pathname === "/account/login") {
 }
 
 // Tạo các biến để sử dụng
+// Biến lưu selector choicejs
 let accountSelectorElement = undefined
 let accountSelector = undefined
 let farmSelector = undefined
 let farmSelectorElement = undefined
+let sensorSelector = undefined
+let sensorSelectorElement = undefined
+let machineSelector = undefined
+let machineSelectorElement = undefined
+// Biến lưu form
 let sensorForm = undefined
 let machineForm = undefined
 

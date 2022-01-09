@@ -12,13 +12,13 @@
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>Quản lý Rule</h3>
-                    <p class="text-subtitle text-muted">Rule Manager</p>
+                    <p class="text-subtitle text-muted">Machine Manager</p>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Quản lý Rule</li>
+                            <li class="breadcrumb-item active" aria-current="page">Quản lý rule</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,11 +31,11 @@
                 <div class="col-lg-6 col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Thông tin rule</h3>
+                            <h3 class="card-title">Thông tin Rule</h3>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <form class="form form-horizontal" id="rendering-form">
+                                <form class="form form-horizontal" id="rule-form">
                                     <div class="form-body">
                                         <div class="row">
 
@@ -45,119 +45,109 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <div class="position-relative">
-                                                        <input readonly="readonly" type="number" class="form-control"
-                                                            id="input-rendering_id" name="rendering_id">
+                                                        <input readonly="readonly" type="string" class="form-control _id"
+                                                             name="_id">
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-4">
-                                                <label>user</label>
+                                                <label>Chủ sở hữu</label>
                                             </div>
-                                            
 
                                             <div class="form-group col-md-8">
-                                                <select class="choices form-select">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                <select class="account-select owner form-select" name="owner">
+                                                    <% accounts.forEach((account)=> {  %> 
+                                                        <option value="<%= account._id %>"><%= account.full_name %></option>
+                                                    <% }) %>
                                                 </select>
                                             </div>
 
+                                            <div class="col-md-4">
+                                                <label>Trang trại</label>
+                                            </div>
+
+                                            <div class="form-group col-md-8">
+                                                <select class="farm-select farm form-select" name="farm">
+                                                    <% farms.forEach((farm)=> {  %> 
+                                                        <option value="<%= farm._id %>"><%= farm.name %></option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
 
                                             <div class="col-md-4">
-                                                <label>start_at</label>
+                                                <label>Cảm biến</label>
+                                            </div>
+
+                                            <div class="form-group col-md-8">
+                                                <select class="sensor-select sensor form-select" name="sensor">
+                                                    <% sensors.forEach((sensor)=> {  %> 
+                                                        <option value="<%= sensor._id %>"><%= sensor.name %></option>
+                                                    <% }) %>
+                                                </select>
+                                                <div class="position-relative d-flex">
+                                                    <input type="button" class="form-control" value=">=" onClick="this.value=(this.value==='<=')?'>=':'<='">
+                                                    <input type="number" class="form-control" name="sensorValue">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Thiết bị</label>
+                                            </div>
+
+                                            <div class="form-group col-md-8">
+                                                <select class="machine-select machine form-select" name="sensor">
+                                                    <% machines.forEach((machine)=> {  %> 
+                                                        <option value="<%= machine._id %>"><%= machine.name %></option>
+                                                    <% }) %>
+                                                </select>
+                                                <div class="position-relative d-flex">
+                                                    <input type="button" class="form-control" value="ON" onClick="this.value=(this.value==='ON')?'OFF':'ON'">
+                                                </div>
+                                            </div>
+
+                                            
+
+                                            <div class="col-md-4">
+                                                <label>Thời gian bắt đầu</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <div class="position-relative">
-                                                        <input class="form-control" type="time" id="input-start_at"
+                                                        <input class="form-control" type="time"
                                                             name="start_at">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <label>end_at</label>
+                                                <label>Thời gian kết thúc</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input class="form-control" type="time" id="input-end_at"
+                                                    <input class="form-control" type="time"
                                                         name="end_at">
                                                 </div>
                                             </div>
+
                                             <div class="col-md-4">
-                                                <label>start_date</label>
+                                                <label>Tự động tắt (phút)</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <div class="position-relative">
-                                                        <input class="form-control" type="date" id="input-start_date"
-                                                            name="start_date">
-                                                    </div>
+                                                    <input class="form-control" type="number" value="10"
+                                                        name="duration">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <label>end_date</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group">
-                                                    <div class="position-relative">
-                                                        <input class="form-control" type="date" id="input-end_date"
-                                                            name="end_date">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>export_video</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group">
-                                                    <div class="position-relative">
-                                                        <div class="form-check form-switch">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="input-export_video" name="export_video">
-                                                            <label class="form-check-label"
-                                                                for="input-export_video"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>push_counted_data</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group">
-                                                    <div class="position-relative">
-                                                        <div class="form-check form-switch">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="input-counter" name="counted" checked>
-                                                            <label class="form-check-label" for="input-counter"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>active</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group">
-                                                    <div class="position-relative">
-                                                        <div class="form-check form-switch">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="input-active" name="active">
-                                                            <label class="form-check-label" for="input-active"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="col-12 d-flex justify-content-between">
                                                 <div>
-                                                    <button id="btn-submit" onclick="pustRendering()" type="button"
-                                                        class="btn btn-primary me-1 mb-1">Thêm
-                                                        mới</button>
-                                                    <button type="reset" onclick="resetForm()"
+                                                    <button type="submit"
+                                                        class="btn btn-primary me-1 mb-1 btn-submit">Submit</button>
+                                                    <button type="reset"
                                                         class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </form>
@@ -166,9 +156,8 @@
                     </div>
                 </div>
             </div>
-
         </section>
-        
+
 
         <section class="section">
             <div class="card">
@@ -177,20 +166,20 @@
                 </div>
 
                 <div class="card-body">
-                    <table class="table table-striped" id="table1">
+                    <table class="table table-striped rule-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Họ tên</th>
-                                <th>Username</th>
-                                <th>Password</th>
-                                <th>Tuổi</th>
-                                <th>Giới tính</th>
+                                <th>Tên thiết bị</th>
+                                <th>Định danh</th>
                                 <th>Địa chỉ</th>
+                                <th>Trang trại</th>
+                                <th>Chủ trang trại</th>
+                                <th>Email</th>
                                 <th>Control</th>
                             </tr>
                         </thead>
-                        <tbody id="account-list">
+                        <tbody id="rules-list">
                         </tbody>
                     </table>
                 </div>

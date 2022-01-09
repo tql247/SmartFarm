@@ -18,6 +18,21 @@ class MachineDao {
         }
     }
 
+    async getByOwner(owner_id) {
+        try {
+            await connect()
+
+            return await MachineModel.find({
+                deleted_at: null,
+                owner: owner_id
+            }).populate('owner', "full_name email").exec()
+        } catch (e) {
+            throw e
+        } finally {
+            await mongoose.connection.close()
+        }
+    }
+
     async createMachine(machine) {
         try {
             await connect()

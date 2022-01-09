@@ -5,6 +5,10 @@ class MachineService {
         return await MachineDAO.getAll()
     }
 
+    async getByOwner(owner_id) {
+        return await MachineDAO.getByOwner(owner_id)
+    }
+
     async createMachine(machine) {
         return await MachineDAO.createMachine(machine)
     }

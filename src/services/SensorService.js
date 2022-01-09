@@ -9,6 +9,10 @@ class SensorService {
         return await SensorDAO.getAll()
     }
 
+    async getByOwner(owner_id) {
+        return await SensorDAO.getByOwner(owner_id)
+    }
+
     async createSensor(sensor) {
         return await SensorDAO.createSensor(sensor)
     }
