@@ -1,23 +1,23 @@
 const mongoose = require('mongoose')
 const FarmModel = require('../models/FarmModel')
-const connect = require("./_connection")
+const Connection = require("./_Connection")
 
 class FarmDao {
     async test() {
         try {
-            await connect()
+            await Connection.connect()
 
             return { ruleount: 'test' }
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async getAll() {
         try {
-            await connect()
+            await Connection.connect()
 
             return await FarmModel.find({
                 deleted_at: null
@@ -25,13 +25,13 @@ class FarmDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async getByOwner(owner_id) {
         try {
-            await connect()
+            await Connection.connect()
 
             return await FarmModel.find({
                 deleted_at: null,
@@ -40,13 +40,13 @@ class FarmDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async createFarm(farm) {
         try {
-            await connect()
+            await Connection.connect()
             return await FarmModel.create({
                 name: farm.name,
                 address: farm.address,
@@ -55,13 +55,13 @@ class FarmDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async updateFarm(farm) {
         try {
-            await connect()
+            await Connection.connect()
             return await FarmModel.findByIdAndUpdate(
                 farm._id,
                 {
@@ -74,13 +74,13 @@ class FarmDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async deleteFarm(_id) {
         try {
-            await connect()
+            await Connection.connect()
 
             return await FarmModel.findByIdAndUpdate(
                 _id,
@@ -92,7 +92,7 @@ class FarmDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 }

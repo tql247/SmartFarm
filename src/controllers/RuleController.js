@@ -6,14 +6,6 @@ const FarmService = require("../services/FarmService")
 const AccountService = require("../services/AccountService")
 
 class RuleController {
-    async test(req, res, next) {
-        try {
-            res.status(201).json(await RuleService.test())
-        } catch (error) {
-            next(error)
-        }
-    }
-
     // lấy tẩt cả rule
     async getAll(req, res, next) {
         try {
@@ -39,18 +31,20 @@ class RuleController {
     async createRule(req, res, next) {
         try {
             // Chuẩn bị dữ liệu để thêm vào rule
-            const rule = {
-                name: req.body.name,
-                sensor: req.body.sensor,
-                machine: req.body.machine,
-                time: req.body.time,
-                threshold: req.body.threshold
-            }
+            // const rule = {
+            //     name: req.body.name,
+            //     sensor: req.body.sensor,
+            //     machine: req.body.machine,
+            //     threshold: req.body.threshold
+            // }
+            console.log(req.body)
+            // console.log(req.body.state)
+            // console.log(typeof req.body.state)
 
             // Nhận giá trị trả về từ hàm khởi tạo
-            const ruleInserted = await RuleService.createRule(rule)
+            // const ruleInserted = await RuleService.createRule(rule)
 
-            res.status(200).json(ruleInserted) 
+            res.status(200).json({}) 
         } catch (error) {
             next(error)
         }

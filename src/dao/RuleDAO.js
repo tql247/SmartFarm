@@ -1,23 +1,23 @@
 const mongoose = require('mongoose')
 const RuleModel = require('../models/RuleModel')
-const connect = require("./_connection")
+const Connection = require("./_Connection")
 
 class RuleDao {
     async test() {
         try {
-            await connect()
+            await Connection.connect()
 
             return { ruleount: 'test' }
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async createRule(rule) {
         try {
-            await connect()
+            await Connection.connect()
             return await RuleModel.create({
                 name: rule.name,
                 sensor: rule.sensor,
@@ -29,13 +29,13 @@ class RuleDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     // async updateRule(rule) {
     //     try {
-    //         await connect()
+    //         await Connection.connect()
     //         return await RuleModel.findByIdAndUpdate(
     //             rule._id,
     //             {
@@ -52,25 +52,25 @@ class RuleDao {
     //     } catch (e) {
     //         throw e
     //     } finally {
-    //         await mongoose.connection.close()
+    //         await Connection.close()
     //     }
     // }
 
     // async getAll() {
     //     try {
-    //         await connect()
+    //         await Connection.connect()
 
     //         return await RuleModel.find().exec()
     //     } catch (e) {
     //         throw e
     //     } finally {
-    //         await mongoose.connection.close()
+    //         await Connection.close()
     //     }
     // }
 
     // async delete(_id) {
     //     try {
-    //         await connect()
+    //         await Connection.connect()
 
     //         return await RuleModel.findByIdAndUpdate(
     //             _id,
@@ -82,7 +82,7 @@ class RuleDao {
     //     } catch (e) {
     //         throw e
     //     } finally {
-    //         await mongoose.connection.close()
+    //         await Connection.close()
     //     }
     // }
 }

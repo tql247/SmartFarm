@@ -6,10 +6,6 @@ const RuleSchema = new Schema({
         type: String,
         required: [true, 'Why no name?']
     },
-    time: {
-        "from": String,
-        "to": String,
-    },
     sensor: {
         type: Schema.Types.ObjectId,
         ref: 'Rule',
@@ -17,12 +13,13 @@ const RuleSchema = new Schema({
         foreignField: '_id',
         justOne: true
     },
-    thresholdUp: {
+    threshold: {
         type: Number,
     },
-    thresholdDown: {
-        type: Number,
-    },
+    expr: {
+        type: Boolean,
+        description: 'True is >=, <= is false',
+    }, 
     machine: {
         type: Schema.Types.ObjectId,
         ref: 'Machine',
@@ -30,8 +27,14 @@ const RuleSchema = new Schema({
         foreignField: '_id',
         justOne: true
     },
-    targetValue: {
+    target_value: {
         type: Number,
+    },
+    start_at: {
+        type: String,
+    },
+    end_at: {
+        type: String,
     },
     // reset targetValue after
     duration: {
@@ -39,6 +42,10 @@ const RuleSchema = new Schema({
         default: 60*1
     },
     // state of rule, set to False after run
+    state: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const RuleModel = mongoose.model('Rule', RuleSchema, 'rule');

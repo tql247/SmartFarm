@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const MachineModel = require('../models/MachineModel')
-const connect = require("./_connection")
+const Connection = require("./_Connection")
 
 class MachineDao {
     async getAll() {
         try {
-            await connect()
+            await Connection.connect()
 
             return await MachineModel
                 .find({ deleted_at: null })
@@ -14,13 +14,13 @@ class MachineDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async getByOwner(owner_id) {
         try {
-            await connect()
+            await Connection.connect()
 
             return await MachineModel.find({
                 deleted_at: null,
@@ -29,13 +29,13 @@ class MachineDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async createMachine(machine) {
         try {
-            await connect()
+            await Connection.connect()
             return await MachineModel.create({
                 name: machine.name,
                 located: machine.located,
@@ -44,13 +44,13 @@ class MachineDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async updateMachine(machine) {
         try {
-            await connect()
+            await Connection.connect()
             return await MachineModel.findByIdAndUpdate(
                 machine._id,
                 {
@@ -63,13 +63,13 @@ class MachineDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 
     async deleteMachine(_id) {
         try {
-            await connect()
+            await Connection.connect()
 
             return await MachineModel.findByIdAndUpdate(
                 _id,
@@ -81,7 +81,7 @@ class MachineDao {
         } catch (e) {
             throw e
         } finally {
-            await mongoose.connection.close()
+            await Connection.close()
         }
     }
 }

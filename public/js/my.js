@@ -122,6 +122,42 @@ function createOrUpdateMachine(e) {
     })
 }
 
+// gọi api tạo hoặc sửa rule
+function createOrUpdateRule(e) {
+    const urlSearchParams = new URLSearchParams($(e).serialize())
+    const data = Object.fromEntries(urlSearchParams.entries())
+
+    data['state'] = e.elements.state.checked 
+    data['expr'] = e.elements.expr.value 
+    data['target'] = e.elements.target.value 
+
+    activeLoading()
+
+    var settings = {
+        "url": "/rule/" + (data._id !== '' ? "update" : "create"),
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify(data),
+    }
+
+    $.ajax(settings).done((result, success) => {
+        console.log('success')
+        console.log(success)
+        if (success) {
+            // updateFarmDataRow(result)
+            console.log(result)
+        }
+        else {
+            alert('Fail to update')
+        }
+
+        inactiveLoading()
+    })
+}
+
 // gọi api delete account
 function deleteAccount(_id) {
 
@@ -278,8 +314,11 @@ function updateFarmSelectorByOwner(ownerID, locationID = undefined) {
 function buildDisplay() {
     // Gán các kiểu dữ liệu
     // Gán form html
+    accountForm = document.querySelector("#account-form")
+    farmForm = document.querySelector("#farm-form")
     sensorForm = document.querySelector("#sensor-form")
     machineForm = document.querySelector("#machine-form")
+    ruleForm = document.querySelector("#rule-form")
     // gán selector
     accountSelectorElement = document.querySelector(".account-select")
     farmSelectorElement = document.querySelector(".farm-select")
@@ -303,7 +342,7 @@ function eventStuff() {
     // kiểm tra input
     // kiểm tra form tạo/sửa tài khoản đã
     // hợp lệ hay chưa
-    $("#account-form").validate({
+    $(accountForm).validate({
         rules: {
             email: "required",
             password: {
@@ -322,7 +361,7 @@ function eventStuff() {
 
     // kiểm tra form tạo/sửa nông trại đã
     // hợp lệ hay chưa
-    $("#farm-form").validate({
+    $(farmForm).validate({
         rules: {
             name: "required",
             address: "required",
@@ -337,7 +376,7 @@ function eventStuff() {
 
     // kiểm tra form tạo/sửa cảm biến đã
     // hợp lệ hay chưa
-    $("#sensor-form").validate({
+    $(sensorForm).validate({
         rules: {
             name: "required",
             located: {
@@ -355,7 +394,7 @@ function eventStuff() {
 
     // kiểm tra form tạo/sửa thiết bị đã
     // hợp lệ hay chưa
-    $("#machine-form").validate({
+    $(machineForm).validate({
         rules: {
             name: "required",
             located: {
@@ -370,11 +409,20 @@ function eventStuff() {
             owner: "Vui lòng nhập chọn chủ trang trại",
         }
     })
+
+    // kiểm tra form tạo/sửa thiết bị đã
+    // hợp lệ hay chưa
+    $(ruleForm).validate({
+        rules: {
+        },
+        messages: {
+        }
+    })
     // ===> Kết thúc kiểm tra input
 
     // bắt sự kiện submit
     // sự kiện thêm hoặc sửa tài khoản
-    $("#account-form").on("submit", function (e) {
+    $(accountForm).on("submit", function (e) {
         e.preventDefault()
         if ($(this).valid()) {
             createOrUpdateAccount(this)
@@ -382,7 +430,7 @@ function eventStuff() {
     })
 
     // sự kiện thêm hoặc sửa trang trại
-    $("#farm-form").on("submit", function (e) {
+    $(farmForm).on("submit", function (e) {
         e.preventDefault()
         if ($(this).valid()) {
             createOrUpdateFarm(this)
@@ -390,7 +438,7 @@ function eventStuff() {
     })
 
     // sự kiện thêm hoặc sửa cảm biến
-    $("#sensor-form").on("submit", function (e) {
+    $(sensorForm).on("submit", function (e) {
         e.preventDefault()
         if ($(this).valid()) {
             createOrUpdateSensor(this)
@@ -398,10 +446,17 @@ function eventStuff() {
     })
 
     // sự kiện thêm hoặc sửa cảm biến
-    $("#machine-form").on("submit", function (e) {
+    $(machineForm).on("submit", function (e) {
         e.preventDefault()
         if ($(this).valid()) {
             createOrUpdateMachine(this)
+        }
+    })
+
+    $(ruleForm).on('submit', function (e) {
+        e.preventDefault()
+        if ($(this).valid()) {
+            createOrUpdateRule(this)
         }
     })
     // ===> Kết thúc các sự kiện submit
@@ -530,8 +585,11 @@ let sensorSelectorElement = undefined
 let machineSelector = undefined
 let machineSelectorElement = undefined
 // Biến lưu form
+let accountForm = undefined
+let farmForm = undefined
 let sensorForm = undefined
 let machineForm = undefined
+let ruleForm = undefined
 
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
 $(document).ready(function () {

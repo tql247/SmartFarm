@@ -86,7 +86,7 @@
                                                     <% }) %>
                                                 </select>
                                                 <div class="position-relative d-flex">
-                                                    <input type="button" class="form-control" value=">=" onClick="this.value=(this.value==='<=')?'>=':'<='">
+                                                    <input name="expr" type="button" class="form-control" value=">=" onClick="this.value=(this.value==='<=')?'>=':'<='">
                                                     <input type="number" class="form-control" name="sensorValue">
                                                 </div>
                                             </div>
@@ -102,7 +102,7 @@
                                                     <% }) %>
                                                 </select>
                                                 <div class="position-relative d-flex">
-                                                    <input type="button" class="form-control" value="ON" onClick="this.value=(this.value==='ON')?'OFF':'ON'">
+                                                    <input name="target" type="button" class="form-control" value="ON" onClick="this.value=(this.value==='ON')?'OFF':'ON'">
                                                 </div>
                                             </div>
 
@@ -136,6 +136,20 @@
                                                 <div class="form-group">
                                                     <input class="form-control" type="number" value="10"
                                                         name="duration">
+                                                </div>
+                                            </div>
+
+                                            
+                                            <div class="col-md-4">
+                                                <label>Trạng thái</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" value="false" name="state" onClick="this.value=this.checked">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
