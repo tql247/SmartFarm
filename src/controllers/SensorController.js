@@ -19,6 +19,26 @@ class SensorController {
             next(error)
         }
     }
+    
+
+    // lấy sensor dựa vào id của owner
+    async getByOwner(req, res, next) {
+        try {
+            const ownerID = req.params.owner_id || req.query.owner_id
+
+            if (!ownerID) {
+                const err = new Error("'owner_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const sensors = await SensorService.getByOwner(ownerID)
+
+            res.status(200).json(sensors)
+        } catch (error) {
+            next(error)
+        }
+    }
 
     // Tạo sensor mới
     async createSensor(req, res, next) {

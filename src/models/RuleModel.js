@@ -6,9 +6,16 @@ const RuleSchema = new Schema({
         type: String,
         required: [true, 'Why no name?']
     },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'Account',
+        localField: 'owner',
+        foreignField: '_id',
+        justOne: true
+    },
     sensor: {
         type: Schema.Types.ObjectId,
-        ref: 'Rule',
+        ref: 'Sensor',
         localField: 'sensor',
         foreignField: '_id',
         justOne: true
@@ -17,7 +24,7 @@ const RuleSchema = new Schema({
         type: Number,
     },
     expr: {
-        type: Boolean,
+        type: String,
         description: 'True is >=, <= is false',
     }, 
     machine: {
@@ -28,7 +35,7 @@ const RuleSchema = new Schema({
         justOne: true
     },
     target_value: {
-        type: Number,
+        type: String,
     },
     start_at: {
         type: String,
@@ -46,6 +53,9 @@ const RuleSchema = new Schema({
         type: Boolean,
         default: false
     },
+    deleted_at: {
+        type: Date
+    }
 });
 
 const RuleModel = mongoose.model('Rule', RuleSchema, 'rule');

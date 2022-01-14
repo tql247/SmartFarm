@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const SensorModel = require('../models/SensorModel')
-const Connection = require("./_Connection")
+// const Connection = require("../utils/_Connection")
 
 class SensorDao {
     async getAll() {
         try {
-            await Connection.connect()
+            // await Connection.connect()
 
             return await SensorModel
                 .find({ deleted_at: null })
@@ -14,13 +14,13 @@ class SensorDao {
         } catch (e) {
             throw e
         } finally {
-            await Connection.close()
+            // await Connection.close()
         }
     }
 
     async getByOwner(owner_id) {
         try {
-            await Connection.connect()
+            // await Connection.connect()
 
             return await SensorModel.find({
                 deleted_at: null,
@@ -29,13 +29,13 @@ class SensorDao {
         } catch (e) {
             throw e
         } finally {
-            await Connection.close()
+            // await Connection.close()
         }
     }
 
     async createSensor(sensor) {
         try {
-            await Connection.connect()
+            // await Connection.connect()
             return await SensorModel.create({
                 name: sensor.name,
                 digitalName: sensor.digitalName,
@@ -45,13 +45,13 @@ class SensorDao {
         } catch (e) {
             throw e
         } finally {
-            await Connection.close()
+            // await Connection.close()
         }
     }
 
     async updateSensor(sensor) {
         try {
-            await Connection.connect()
+            // await Connection.connect()
             return await SensorModel.findByIdAndUpdate(
                 sensor._id,
                 {
@@ -64,13 +64,13 @@ class SensorDao {
         } catch (e) {
             throw e
         } finally {
-            await Connection.close()
+            // await Connection.close()
         }
     }
 
     async deleteSensor(_id) {
         try {
-            await Connection.connect()
+            // await Connection.connect()
 
             return await SensorModel.findByIdAndUpdate(
                 _id,
@@ -82,7 +82,7 @@ class SensorDao {
         } catch (e) {
             throw e
         } finally {
-            await Connection.close()
+            // await Connection.close()
         }
     }
 }

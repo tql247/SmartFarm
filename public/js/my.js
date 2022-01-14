@@ -216,7 +216,7 @@ function deleteSensor(_id) {
     })
 }
 
-// gọi api delete sensor
+// gọi api delete machine
 function deleteMachine(_id) {
     activeLoading()
 
@@ -231,6 +231,26 @@ function deleteMachine(_id) {
 
 
     $.ajax(settings).done((msg) => {
+        inactiveLoading()
+    })
+}
+
+// gọi api delete rule
+function deleteRule(_id) {
+    activeLoading()
+
+    var settings = {
+        "url": "/rule/delete/" + _id,
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    }
+
+
+    $.ajax(settings).done((msg) => {
+        console.log(msg)
         inactiveLoading()
     })
 }
@@ -250,6 +270,52 @@ async function getFarmsByOwner(ownerID, locationID) {
         if (success) {
             // console.log(success)
             updateFarmSelectorHTML(result, locationID)
+        }
+        else {
+            alert('Fail to update')
+        }
+    })
+}
+
+// gọi api lấy ra danh sách cảm biến thuộc sở hữu của account
+async function getSensorsByOwner(ownerID, locationID) {
+    var settings = {
+        "url": "/sensor/get_by_owner/" + ownerID,
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    }
+
+    $.ajax(settings).done((result, success) => {
+        if (success) {
+            // console.log(success)
+            console.log(result)
+            updateSensorSelectorHTML(result, locationID)
+        }
+        else {
+            alert('Fail to update')
+        }
+    })
+}
+
+// gọi api lấy ra danh sách thiết bị thuộc sở hữu của account
+async function getMachinesByOwner(ownerID, locationID) {
+    var settings = {
+        "url": "/machine/get_by_owner/" + ownerID,
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+    }
+
+    $.ajax(settings).done((result, success) => {
+        if (success) {
+            // console.log(success)
+            console.log(result)
+            updateMachineSelectorHTML(result, locationID)
         }
         else {
             alert('Fail to update')
@@ -304,10 +370,62 @@ function updateFarmSelectorHTML(farms, locationID) {
     }
 }
 
+// Tạo lại selection
+function updateSensorSelectorHTML(sensors, locationID) {
+    if (sensors.length > 0) {
+        sensorSelector.setChoices(
+            sensors.map(sensor => {
+                return {
+                    'value': sensor._id,
+                    'label': sensor.name
+                }
+            })
+        )
+        
+        // Kiểm tra form có phải đang trong chế dộ
+        // chỉnh sửa hay không, nếu có
+        // tự động chọn giá trị đầu tiên
+        // Nếu không cập nhật theo giá trị cài đặt
+        sensorSelector.setChoiceByValue(locationID || sensors[0]._id)
+    }
+}
+
+// Tạo lại selection
+function updateMachineSelectorHTML(machines, locationID) {
+    if (machines.length > 0) {
+        machineSelector.setChoices(
+            machines.map(machine => {
+                return {
+                    'value': machine._id,
+                    'label': machine.name
+                }
+            })
+        )
+        
+        // Kiểm tra form có phải đang trong chế dộ
+        // chỉnh sửa hay không, nếu có
+        // tự động chọn giá trị đầu tiên
+        // Nếu không cập nhật theo giá trị cài đặt
+        machineSelector.setChoiceByValue(locationID || machines[0]._id)
+    }
+}
+
 // Lấy dữ liệu và Tạo lại selection với giá trị mới
 function updateFarmSelectorByOwner(ownerID, locationID = undefined) {
     farmSelector.clearStore()
     getFarmsByOwner(ownerID, locationID)
+}
+
+// Lấy dữ liệu và Tạo lại selection với giá trị mới
+function updateSensorSelectorByOwner(ownerID, locationID = undefined) {
+    sensorSelector.clearStore()
+    getSensorsByOwner(ownerID, locationID)
+}
+
+// Lấy dữ liệu và Tạo lại selection với giá trị mới
+function updateMachineSelectorByOwner(ownerID, locationID = undefined) {
+    machineSelector.clearStore()
+    getMachinesByOwner(ownerID, locationID)
 }
 
 // Dựng các đối tượng, gán giá trị
@@ -414,8 +532,14 @@ function eventStuff() {
     // hợp lệ hay chưa
     $(ruleForm).validate({
         rules: {
+            name: "required",
+            start_at: "required",
+            end_at: "required"
         },
         messages: {
+            name: "Vui lòng nhập tên điều kiện",
+            start_at: "Vui lòng nhập thời gian bắt đầu",
+            end_at: "Vui lòng nhập thời gian kết thúc"
         }
     })
     // ===> Kết thúc kiểm tra input
@@ -511,6 +635,38 @@ function eventStuff() {
         accountSelector.setChoiceByValue(dataRowHTML.dataset.ownerId)
         updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.locatedId)
     })
+
+    // bắt sự kiện click nút edit rule
+    $(".edit-rule").on("click", function (e) {
+        const dataRowHTML = e.currentTarget.closest(".data-row")
+
+        console.log(dataRowHTML)
+
+        // Đẩy dữ liệu vào form
+        ruleForm.elements["name"].value = dataRowHTML.querySelector(".name").innerText.trim()
+
+        ruleForm.elements["expr"].value = dataRowHTML.querySelector(".expr").innerText.trim()
+        ruleForm.elements["sensorValue"].value = dataRowHTML.querySelector(".threshold").innerText.trim()
+        ruleForm.elements["target"].value = dataRowHTML.querySelector(".target_value").innerText.trim()
+        ruleForm.elements["start_at"].value = dataRowHTML.querySelector(".start_at").innerText.trim()
+        ruleForm.elements["end_at"].value = dataRowHTML.querySelector(".end_at").innerText.trim()
+        ruleForm.elements["duration"].value = dataRowHTML.querySelector(".duration").innerText.trim()
+
+        console.log(dataRowHTML.querySelector(".target_value").innerText.trim())
+        console.log(dataRowHTML.querySelector(".target_value").innerText.trim())
+        console.log(dataRowHTML.querySelector(".state").dataset["state"])
+        console.log(JSON.parse(dataRowHTML.querySelector(".state").dataset["state"].toLowerCase()))
+
+        ruleForm.elements["state"].checked = JSON.parse(dataRowHTML.querySelector(".state").dataset["state"].toLowerCase())
+        ruleForm.elements["_id"].value = dataRowHTML.dataset.id
+        // machineForm.elements["name"].value = dataRowHTML.querySelector(".name").innerText.trim()
+        
+        // Gán giá trị selector
+        accountSelector.setChoiceByValue(dataRowHTML.dataset.ownerId)
+        updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId)
+        updateSensorSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.sensorId)
+        updateMachineSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.machineId)
+    })
     // ===> Kết thúc các sự kiện edit
 
     // Bắt các sự kiện delete
@@ -549,6 +705,16 @@ function eventStuff() {
             deleteMachine(_id)
         }
     })
+
+    // bắt sự kiện click nút delete rule
+    $(".delete-rule").on("click", function (e) {
+        if (confirm("Are you sure you want to delete?")) {
+            const currentTarget = e.currentTarget.closest(".data-row")
+            console.log(currentTarget)
+            console.log(currentTarget.dataset)
+            deleteRule(currentTarget.dataset.id)
+        }
+    })
     // ===> Kết thúc các sự kiện delete
 
     // Áp dụng các sự kiện nếu accountSelector tồn tại
@@ -558,10 +724,19 @@ function eventStuff() {
             const accountSelected = accountSelector.getValue()
             // console.log('accountSelected')
             // console.log(accountSelected)
+            const ownerID = accountSelected.value
 
             // handle select farm if exist
             if (farmSelector) {
-                updateFarmSelectorByOwner(accountSelected.value)
+                updateFarmSelectorByOwner(ownerID)
+            }
+
+            if (sensorSelector) {
+                updateSensorSelectorByOwner(ownerID)
+            }
+
+            if (machineSelector) {
+                updateMachineSelectorByOwner(ownerID)
             }
         })
     }

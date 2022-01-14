@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser")
 const routes = require("./routes")
 const Handler = require("./utils/Handler")
 const DatabaseListener = require("./utils/DatabaseListener")
+const Connection = require("./utils/Connection")
 
 // Khởi tạo đối tượng chính
 const app = express()
@@ -18,8 +19,8 @@ const router = express.Router()
 // start database listener
 // DatabaseListener.start()
 
-// Set đặt tính async await cho mongoose
-mongoose.Promise = global.Promise
+// Kết nối đến mongodb
+Connection.connect()
 
 // Sử dụng để chấp nhận proxy ip https://expressjs.com/en/guide/behind-proxies.html
 app.set("trust proxy", 1)

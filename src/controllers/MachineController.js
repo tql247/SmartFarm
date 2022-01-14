@@ -19,6 +19,25 @@ class MachineController {
             next(error)
         }
     }
+    
+    // lấy thiết bị dựa vào id của owner
+    async getByOwner(req, res, next) {
+        try {
+            const ownerID = req.params.owner_id || req.query.owner_id
+
+            if (!ownerID) {
+                const err = new Error("'owner_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const machines = await MachineService.getByOwner(ownerID)
+
+            res.status(200).json(machines)
+        } catch (error) {
+            next(error)
+        }
+    }
 
     // Tạo machine mới
     async createMachine(req, res, next) {

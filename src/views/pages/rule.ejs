@@ -52,6 +52,19 @@
                                             </div>
 
                                             <div class="col-md-4">
+                                                <label>Tên điều kiện</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control name" type="text" value=""
+                                                            name="name">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4">
                                                 <label>Chủ sở hữu</label>
                                             </div>
 
@@ -87,7 +100,7 @@
                                                 </select>
                                                 <div class="position-relative d-flex">
                                                     <input name="expr" type="button" class="form-control" value=">=" onClick="this.value=(this.value==='<=')?'>=':'<='">
-                                                    <input type="number" class="form-control" name="sensorValue">
+                                                    <input type="number" class="form-control" name="sensorValue" value="50">
                                                 </div>
                                             </div>
 
@@ -96,7 +109,7 @@
                                             </div>
 
                                             <div class="form-group col-md-8">
-                                                <select class="machine-select machine form-select" name="sensor">
+                                                <select class="machine-select machine form-select" name="machine">
                                                     <% machines.forEach((machine)=> {  %> 
                                                         <option value="<%= machine._id %>"><%= machine.name %></option>
                                                     <% }) %>
@@ -114,7 +127,7 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <div class="position-relative">
-                                                        <input class="form-control" type="time"
+                                                        <input class="form-control" type="time" value="10:00"
                                                             name="start_at">
                                                     </div>
                                                 </div>
@@ -124,7 +137,7 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <input class="form-control" type="time"
+                                                    <input class="form-control" type="time" value="11:00"
                                                         name="end_at">
                                                 </div>
                                             </div>
@@ -184,16 +197,64 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Tên thiết bị</th>
-                                <th>Định danh</th>
-                                <th>Địa chỉ</th>
-                                <th>Trang trại</th>
-                                <th>Chủ trang trại</th>
-                                <th>Email</th>
+                                <th>Tên điều kiện</th>
+                                <th>Cảm biến</th>
+                                <th>Ngưỡng</th>
+                                <th>Thiết bị</th>
+                                <th>Giá trị thiết bị</th>
+                                <th>Tự động tắt (phút)</th>
+                                <th>Thời gian bắt đầu</th>
+                                <th>Thời gian kết thúc</th>
+                                <th>Trạng thái</th>
                                 <th>Control</th>
                             </tr>
                         </thead>
                         <tbody id="rules-list">
+                            <% rules.forEach((rule, idx) => { %>
+                                <tr class="data-row" data-id="<%= rule._id %>" data-owner-id="<%= rule.owner._id %>" data-sensor-id="<%= rule.sensor._id %>" data-machine-id="<%= rule.machine._id %>">
+                                    <td>
+                                        <%= idx %>
+                                    </td>
+                                    <td class="name">
+                                        <%= rule.name %>
+                                    </td>
+                                    <td class="sensor">
+                                        <%= rule.sensor.name %>
+                                    </td>
+                                    <td>
+                                        <span class="expr"><%= rule.expr %></span>
+                                        <span class="threshold"><%= rule.threshold %></span>
+                                    </td>
+                                    <td class="machine">
+                                        <%= rule.machine.name %>
+                                    </td>
+                                    <td class="target_value">
+                                        <%= rule.target_value %>
+                                    </td>
+                                    <td class="duration">
+                                        <%= rule.duration %>
+                                    </td>
+                                    <td class="start_at">
+                                        <%= rule.start_at %>
+                                    </td>
+                                    <td class="end_at">
+                                        <%= rule.end_at %>
+                                    </td>
+                                    <td class="state" data-state="<%= rule.state%>">
+                                        <%= rule.state?"Bật":"Tắt" %>
+                                    </td>
+
+                                    <td>
+                                        <span class="sf-control-btn edit-rule">
+                                            <i class="bi-pencil-square"></i>
+                                        </span>
+                                        <span class="sf-control-btn delete-rule">
+                                            <i class="bi bi-trash"></i>
+                                        </span>
+
+                                    </td>
+                                </tr>
+                            <% }) %> 
                         </tbody>
                     </table>
                 </div>
