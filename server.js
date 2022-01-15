@@ -1,6 +1,7 @@
 require('dotenv').config()
 // require('module-alias/register')
 require('events').defaultMaxListeners = 100
+require('./mqttClient')
 require('./socket')
 require('./src/app')
 

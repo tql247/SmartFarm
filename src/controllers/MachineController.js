@@ -107,6 +107,18 @@ class MachineController {
 
         }
     }
+
+    // Xoá dữ liệu
+    async setState(req, res, next) {
+        try {
+            const { _id, state } = req.body
+            MachineService.setState(_id, state)
+
+            res.status(200).json() 
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = new MachineController()

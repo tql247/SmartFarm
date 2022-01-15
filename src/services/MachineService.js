@@ -1,4 +1,6 @@
 const MachineDAO = require("../dao/MachineDAO")
+var mqtt = require('mqtt')
+
 
 class MachineService {
     async getAll() {
@@ -19,6 +21,11 @@ class MachineService {
 
     async deleteMachine(_id) {
         return await MachineDAO.deleteMachine(_id)
+    }
+
+    async setState(_id, state) {
+        mqttClient.publish(_id, state);
+        return {_id, state}
     }
 }
 
