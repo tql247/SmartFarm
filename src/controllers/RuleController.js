@@ -40,6 +40,7 @@ class RuleController {
         try {
             // Chuẩn bị dữ liệu để thêm vào rule
             const {
+                farm,
                 name,
                 owner,
                 sensor,
@@ -58,6 +59,7 @@ class RuleController {
             // Nhận giá trị trả về từ hàm khởi tạo
             const ruleInserted = await RuleService.createRule({
                 name,
+                located: farm,
                 owner,
                 sensor,
                 threshold: sensorValue,
@@ -84,6 +86,7 @@ class RuleController {
             const {
                 _id,
                 owner,
+                located: farm,
                 name,
                 sensor,
                 sensorValue,
@@ -102,6 +105,7 @@ class RuleController {
                 _id,
                 name,
                 owner,
+                farm,
                 sensor,
                 threshold: sensorValue,
                 start_at,

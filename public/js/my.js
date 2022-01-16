@@ -659,11 +659,11 @@ function eventStuff() {
 
         ruleForm.elements["state"].checked = JSON.parse(dataRowHTML.querySelector(".state").dataset["state"].toLowerCase())
         ruleForm.elements["_id"].value = dataRowHTML.dataset.id
-        // machineForm.elements["name"].value = dataRowHTML.querySelector(".name").innerText.trim()
         
         // Gán giá trị selector
         accountSelector.setChoiceByValue(dataRowHTML.dataset.ownerId)
         updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId)
+        updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.locatedId)
         updateSensorSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.sensorId)
         updateMachineSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.machineId)
     })

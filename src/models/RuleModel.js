@@ -13,6 +13,13 @@ const RuleSchema = new Schema({
         foreignField: '_id',
         justOne: true
     },
+    located: {
+        type: Schema.Types.ObjectId,
+        ref: 'Farm',
+        localField: 'located',
+        foreignField: '_id',
+        justOne: true
+    },
     sensor: {
         type: Schema.Types.ObjectId,
         ref: 'Sensor',
