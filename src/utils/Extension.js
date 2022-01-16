@@ -56,14 +56,14 @@ class Extension {
         // Xác thực token có phải của server tạo ra hay không
         // và lấy dữ liệu được ẩn trong đó
         const data = jwt.verify(token, process.env.JWT_KEY)
-    
+
         // Kiểm tra data
         if (!data) {
             const err = new Error('Unauthorized')
             err.status = 401
             return next(err)
         }
-    
+
         return data
     }
 
@@ -87,6 +87,10 @@ class Extension {
 
     isTime(timeString) {
         return true
+    }
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 

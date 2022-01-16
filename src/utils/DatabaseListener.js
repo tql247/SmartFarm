@@ -5,6 +5,7 @@ const Extension = require("./Extension")
 
 class DatabaseListener {
     realtimeDatabase = undefined;
+    fbData = {};
 
     start() {
         // config realtimeDatabase
@@ -37,6 +38,17 @@ class DatabaseListener {
 
     }
 
+    loadData() {
+
+    }
+
+    async getDataByKey(key) {
+        const ref = this.realtimeDatabase.ref(key)
+        const data = await ref.once("value")
+
+        return data._delegate._node.value_
+    }
+
     addListener(rules) {
         rules.forEach(rule => {
             this.listenRule(rule)
@@ -52,7 +64,7 @@ class DatabaseListener {
         const ref = this.realtimeDatabase.ref(senor.nameInDB)
 
         ref.on("value", (snapshot) => {
-            console.log()
+            console.log(snapshot.val())
 
             if (Extension.isTime(rule.time) && Extension.isValidThreshold(rule.thresholdDown, rule.thresholdUp)) {
                 console.log("set " + rule.machine + " to " + rule.targetValue)
@@ -75,4 +87,4 @@ class DatabaseListener {
     }
 }
 
-module.exports = new DatabaseListener()
+module.exports = DatabaseListener

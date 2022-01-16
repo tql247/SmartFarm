@@ -1,5 +1,6 @@
 const MachineDAO = require("../dao/MachineDAO")
 var mqtt = require('mqtt')
+const Extension = require("../utils/Extension")
 
 
 class MachineService {
@@ -25,7 +26,10 @@ class MachineService {
 
     async setState(_id, state) {
         mqttClient.publish(_id, state);
-        return {_id, state}
+        Extension.sleep(1000)
+
+        const value = await realtimeDatabase.getDataByKey(_id)
+        return value
     }
 }
 

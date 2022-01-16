@@ -39,6 +39,26 @@ class SensorController {
             next(error)
         }
     }
+    
+
+    // lấy giá trị của sensor dựa vào id
+    async getValue(req, res, next) {
+        try {
+            const sensorID = req.params.sensor_id || req.query.sensor_id
+
+            if (!sensorID) {
+                const err = new Error("'sensor_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const sensors = await SensorService.getValue(sensorID)
+
+            res.status(200).json(sensors)
+        } catch (error) {
+            next(error)
+        }
+    }
 
     // Tạo sensor mới
     async createSensor(req, res, next) {

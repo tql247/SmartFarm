@@ -17,7 +17,8 @@ const app = express()
 const router = express.Router()
 
 // start database listener
-// DatabaseListener.start()
+global.realtimeDatabase = new DatabaseListener()
+realtimeDatabase.start()
 
 // Kết nối đến mongodb
 Connection.connect()

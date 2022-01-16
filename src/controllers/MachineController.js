@@ -78,17 +78,6 @@ class MachineController {
         }
     }
 
-    // // Lấy dữ liệu của toàn bộ machine có trong database
-    // async getAll(req, res, next) {
-    //     try {
-    //         const machines = await MachineService.getAll()
-
-    //         res.status(200).json(machines) 
-    //     } catch (error) {
-
-    //     }
-    // }
-
     // Xoá dữ liệu
     async deleteMachine(req, res, next) {
         try {
@@ -112,9 +101,7 @@ class MachineController {
     async setState(req, res, next) {
         try {
             const { _id, state } = req.body
-            MachineService.setState(_id, state)
-
-            res.status(200).json() 
+            res.status(200).json(await MachineService.setState(_id, state)) 
         } catch (error) {
 
         }

@@ -13,6 +13,10 @@ class SensorService {
         return await SensorDAO.getByOwner(owner_id)
     }
 
+    async getValue(sensorID) {
+        return await realtimeDatabase.getDataByKey(sensorID)
+    }
+
     async createSensor(sensor) {
         return await SensorDAO.createSensor(sensor)
     }
