@@ -12,6 +12,10 @@ class MachineService {
         return await MachineDAO.getByOwner(owner_id)
     }
 
+    async getValue(machineID) {
+        return await realtimeDatabase.getDataByKey(machineID)
+    }
+
     async createMachine(machine) {
         return await MachineDAO.createMachine(machine)
     }

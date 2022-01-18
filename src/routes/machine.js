@@ -6,6 +6,9 @@ machine.get('/all', MachineController.getAll)
 machine.get('/get_by_owner', MachineController.getByOwner)
 machine.get('/get_by_owner/:owner_id', MachineController.getByOwner)
 
+machine.get('/get_value', MachineController.getValue)
+machine.get('/get_value/:machine_id', MachineController.getValue)
+
 machine.post('/create', MachineController.createMachine)
 machine.post('/update', MachineController.updateMachine)
 

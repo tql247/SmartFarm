@@ -14,27 +14,27 @@ class DatabaseListener {
             databaseURL: firebaseConfig.databaseURL //"https://smartfarm-7bf74-default-rtdb.asia-southeast1.firebasedatabase.app"
         }).database()
 
-        // TODO: get rules by machine by user
-        // TODO: 
+        // // TODO: get rules by machine by user
+        // // TODO: 
 
-        // start example
-        const rules = [
-            {
-                name: "test",
-                sensor: "humidity sensor",
-                machine: "water pumps",
-                time: {
-                    "from": "09:00:00",
-                    "to": "10:00:00"
-                },
-                thresholdUp: 8,
-                thresholdDown: 6,
-                targetValue: 1,
-            }
-        ]
+        // // start example
+        // const rules = [
+        //     {
+        //         name: "test",
+        //         sensor: "humidity sensor",
+        //         machine: "water pumps",
+        //         time: {
+        //             "from": "09:00:00",
+        //             "to": "10:00:00"
+        //         },
+        //         thresholdUp: 8,
+        //         thresholdDown: 6,
+        //         targetValue: 1,
+        //     }
+        // ]
 
-        this.addListener(rules)
-        // end example
+        // this.addListener(rules)
+        // // end example
 
     }
 

@@ -644,19 +644,12 @@ function eventStuff() {
 
         // Đẩy dữ liệu vào form
         ruleForm.elements["name"].value = dataRowHTML.querySelector(".name").innerText.trim()
-
         ruleForm.elements["expr"].value = dataRowHTML.querySelector(".expr").innerText.trim()
         ruleForm.elements["sensorValue"].value = dataRowHTML.querySelector(".threshold").innerText.trim()
         ruleForm.elements["target"].value = dataRowHTML.querySelector(".target_value").innerText.trim()
         ruleForm.elements["start_at"].value = dataRowHTML.querySelector(".start_at").innerText.trim()
         ruleForm.elements["end_at"].value = dataRowHTML.querySelector(".end_at").innerText.trim()
         ruleForm.elements["duration"].value = dataRowHTML.querySelector(".duration").innerText.trim()
-
-        console.log(dataRowHTML.querySelector(".target_value").innerText.trim())
-        console.log(dataRowHTML.querySelector(".target_value").innerText.trim())
-        console.log(dataRowHTML.querySelector(".state").dataset["state"])
-        console.log(JSON.parse(dataRowHTML.querySelector(".state").dataset["state"].toLowerCase()))
-
         ruleForm.elements["state"].checked = JSON.parse(dataRowHTML.querySelector(".state").dataset["state"].toLowerCase())
         ruleForm.elements["_id"].value = dataRowHTML.dataset.id
         

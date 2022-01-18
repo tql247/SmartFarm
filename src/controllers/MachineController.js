@@ -39,6 +39,25 @@ class MachineController {
         }
     }
 
+    // lấy giá trị của machine dựa vào id
+    async getValue(req, res, next) {
+        try {
+            const machineID = req.params.machine_id || req.query.machine_id
+
+            if (!machineID) {
+                const err = new Error("'machine_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const machines = await MachineService.getValue(machineID)
+
+            res.status(200).json(machines)
+        } catch (error) {
+            next(error)
+        }
+    }
+
     // Tạo machine mới
     async createMachine(req, res, next) {
         try {

@@ -16,6 +16,7 @@ class MachineDao {
                 deleted_at: null,
                 owner: owner_id
             })
+            .populate('located', "name address owner", { deleted_at: null })
             .populate('owner', "full_name email")
             .exec()
     }
