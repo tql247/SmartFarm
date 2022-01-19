@@ -9,16 +9,21 @@ const cookieParser = require("cookie-parser")
 // Gọi các đối tượng đã định nghĩa
 const routes = require("./routes")
 const Handler = require("./utils/Handler")
-const DatabaseListener = require("./utils/DatabaseListener")
+const MQTTClient = require("./utils/MQTTClient")
+const FireBaseDatabase = require("./utils/FireBaseDatabase")
 const Connection = require("./utils/Connection")
 
 // Khởi tạo đối tượng chính
 const app = express()
 const router = express.Router()
 
-// start database listener
-global.realtimeDatabase = new DatabaseListener()
+// start connect firebase database
+global.realtimeDatabase = new FireBaseDatabase()
 realtimeDatabase.start()
+
+// start connect hiveMQ mqtt server
+global.mqttClient = new MQTTClient()
+mqttClient.start()
 
 // Kết nối đến mongodb
 Connection.connect()
