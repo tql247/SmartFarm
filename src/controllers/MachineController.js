@@ -116,7 +116,7 @@ class MachineController {
         }
     }
 
-    // Xoá dữ liệu
+    // Cập nhật trạng thái thiết bị
     async setState(req, res, next) {
         try {
             const { _id, state } = req.body

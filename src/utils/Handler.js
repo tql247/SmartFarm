@@ -3,7 +3,7 @@ class Handler {
     notFoundUrl(req, res, next) {
         // TODO: trả về 1 trang web
         // return res.send('Not found url: ' + req.originalUrl)
-        return res.render('_endpoint', {title: '404', content: 'Not found url: ' + req.originalUrl})
+        return res.status(404).json({title: '404', content: 'Not found url: ' + req.originalUrl})
     }
 
     // Xử lý các loại lỗi

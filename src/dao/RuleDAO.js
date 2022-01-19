@@ -49,6 +49,17 @@ class RuleDao {
                 { new: true }
             )
     }
+
+    async setState(_id, state) {
+        return await RuleModel
+            .findByIdAndUpdate(
+                _id,
+                {
+                    state: state
+                },
+                { new: true }
+            )
+    }
 }
 
 module.exports = new RuleDao()

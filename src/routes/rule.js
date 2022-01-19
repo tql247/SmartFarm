@@ -12,4 +12,6 @@ rule.post('/update', RuleController.updateRule)
 rule.get('/delete', RuleController.deleteRule)
 rule.get('/delete/:_id', RuleController.deleteRule)
 
+rule.post('/set_state', RuleController.setState)
+
 module.exports = rule

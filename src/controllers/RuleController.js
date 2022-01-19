@@ -161,6 +161,16 @@ class RuleController {
 
         }
     }
+
+    // Cập nhật trạng thái điều kiện
+    async setState(req, res, next) {
+        try {
+            const { _id, state } = req.body
+            res.status(200).json(await RuleService.setState(_id, state)) 
+        } catch (error) {
+
+        }
+    }
 }
 
 module.exports = new RuleController();

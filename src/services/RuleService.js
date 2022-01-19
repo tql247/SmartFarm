@@ -20,6 +20,10 @@ class RuleService {
     async deleteRule(_id) {
         return await RuleDAO.deleteRule(_id)
     }
+
+    async setState(_id, state) {
+        return await RuleDAO.setState(_id, state)
+    }
 }
 
 module.exports = new RuleService()
