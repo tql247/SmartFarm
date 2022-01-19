@@ -63,6 +63,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
+                                            <div class="col-md-4">
+                                                <label>Đơn vị đo</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <div class="position-relative">
+                                                        <input class="form-control unit" type="text" value="" name="unit">
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <div class="col-md-4">
                                                 <label>Chủ sở hữu</label>
@@ -120,11 +131,11 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tên cảm biến</th>
+                                <th>Đơn vị đo</th>
                                 <th>Định danh</th>
                                 <th>Địa chỉ</th>
                                 <th>Trang trại</th>
                                 <th>Chủ trang trại</th>
-                                <th>Email</th>
                                 <th>Control</th>
                             </tr>
                         </thead>
@@ -134,9 +145,11 @@
                                     <td>
                                         <%= idx %>
                                     </td>
-                                    
                                     <td class="name">
                                         <%= sensor.name %>
+                                    </td>
+                                    <td class="unit">
+                                        <%= sensor.unit %>
                                     </td>
                                     <td class="_id">
                                         <%= sensor._id %>
@@ -150,10 +163,6 @@
                                     <td class="owner full_name" >
                                         <%= sensor.owner.full_name %>
                                     </td>
-                                    <td class="owner email">
-                                        <%= sensor.owner.email %>
-                                    </td>
-
                                     <td>
                                         <span class="sf-control-btn edit-sensor">
                                             <i class="bi-pencil-square"></i>

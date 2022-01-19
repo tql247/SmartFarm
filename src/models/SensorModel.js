@@ -6,6 +6,10 @@ const SensorSchema = new Schema({
         type: String,
         required: [true, 'Why no name?']
     },
+    unit: {
+        type: String,
+        required: [true, 'Why no unit?']
+    },
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'Account',

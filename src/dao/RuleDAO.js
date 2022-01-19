@@ -15,6 +15,8 @@ class RuleDao {
             })
             .populate('located', "name address owner", { deleted_at: null })
             .populate('owner', "full_name email")
+            .populate('sensor', "_id name owner")
+            .populate('machine', "_id name owner")
             .exec()
     }
 

@@ -25,7 +25,7 @@ class SensorDao {
         return await SensorModel
             .create({
                 name: sensor.name,
-                digitalName: sensor.digitalName,
+                unit: sensor.unit,
                 located: sensor.located,
                 owner: sensor.owner,
             })

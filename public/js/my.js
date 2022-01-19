@@ -617,6 +617,7 @@ function eventStuff() {
         // Đẩy dữ liệu vào form
         sensorForm.elements["_id"].value = dataRowHTML.querySelector("._id").innerText.trim()
         sensorForm.elements["name"].value = dataRowHTML.querySelector(".name").innerText.trim()
+        sensorForm.elements["unit"].value = dataRowHTML.querySelector(".unit").innerText.trim()
         
         // Gán giá trị selector
         accountSelector.setChoiceByValue(dataRowHTML.dataset.ownerId)
