@@ -38,6 +38,8 @@ class DatabaseListener {
 
     }
 
+    getDatabase() { return this.realtimeDatabase }
+
     loadData() {
 
     }

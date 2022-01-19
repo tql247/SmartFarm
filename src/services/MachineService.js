@@ -29,8 +29,8 @@ class MachineService {
     }
 
     async setState(_id, state) {
-        mqttClient.publish(_id, state);
-        Extension.sleep(1000)
+        console.log(_id, state)
+        mqttClient.publish(_id, JSON.stringify(state));
 
         const value = await realtimeDatabase.getDataByKey(_id)
         return value

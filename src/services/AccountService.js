@@ -2,7 +2,10 @@ const AccountDAO = require("../dao/AccountDAO")
 
 class AccountService {
     async test() {
-        return await AccountDAO.test()
+        const d = realtimeDatabase.getDatabase();
+
+        console.log(d.app.auth())
+        return 1
     }
 
     async createAccount(acc) {

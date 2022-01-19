@@ -7,6 +7,17 @@ class RuleDao {
         return await RuleModel.create(rule)
     }
 
+    async getByOwner(owner_id) {
+        return await RuleModel
+            .find({
+                deleted_at: null,
+                owner: owner_id
+            })
+            .populate('located', "name address owner", { deleted_at: null })
+            .populate('owner', "full_name email")
+            .exec()
+    }
+
     async updateRule(rule) {
         return await RuleModel
             .findByIdAndUpdate(

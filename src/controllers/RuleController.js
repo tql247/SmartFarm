@@ -35,6 +35,26 @@ class RuleController {
             next(error);
         }
     }
+    
+    // lấy rule dựa vào id của owner
+    async getByOwner(req, res, next) {
+        try {
+            const ownerID = req.params.owner_id || req.query.owner_id
+
+            if (!ownerID) {
+                const err = new Error("'owner_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const machines = await RuleService.getByOwner(ownerID)
+
+            res.status(200).json(machines)
+        } catch (error) {
+            next(error)
+        }
+    }
+
     // Tạo rule mới
     async createRule(req, res, next) {
         try {
@@ -122,17 +142,6 @@ class RuleController {
             next(error)
         }
     }
-
-    // // Lấy dữ liệu của toàn bộ rule có trong database
-    // async getAll(req, res, next) {
-    //     try {
-    //         const rules = await RuleService.getAll()
-
-    //         res.status(200).json(rules)
-    //     } catch (error) {
-
-    //     }
-    // }
 
     // Xoá dữ liệu
     async deleteRule(req, res, next) {

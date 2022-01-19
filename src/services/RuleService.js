@@ -1,8 +1,8 @@
 const RuleDAO = require("../dao/RuleDAO")
 
 class RuleService {
-    async test() {
-        return await RuleDAO.test()
+    async getByOwner(owner_id) {
+        return await RuleDAO.getByOwner(owner_id)
     }
 
     async createRule(rule) {
