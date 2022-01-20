@@ -5,6 +5,10 @@ class RuleService {
         return await RuleDAO.getByOwner(owner_id)
     }
 
+    async getNyMachine(machineID) {
+        return await RuleDAO.getNyMachine(machineID)
+    }
+
     async createRule(rule) {
         return await RuleDAO.createRule(rule)
     }

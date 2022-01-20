@@ -54,6 +54,25 @@ class RuleController {
             next(error)
         }
     }
+    
+    // lấy rule dựa vào id của machine
+    async getNyMachine(req, res, next) {
+        try {
+            const machineID = req.params.machine_id || req.query.machine_id
+
+            if (!machineID) {
+                const err = new Error("'machine_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const machines = await RuleService.getByOwner(machineID)
+
+            res.status(200).json(machines)
+        } catch (error) {
+            next(error)
+        }
+    }
 
     // Tạo rule mới
     async createRule(req, res, next) {

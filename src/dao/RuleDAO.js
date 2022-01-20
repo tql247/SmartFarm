@@ -20,6 +20,19 @@ class RuleDao {
             .exec()
     }
 
+    async getNyMachine(machineID) {
+        return await RuleModel
+            .find({
+                deleted_at: null,
+                machine: machineID
+            })
+            .populate('located', "name address owner", { deleted_at: null })
+            .populate('owner', "full_name email")
+            .populate('sensor', "_id name owner")
+            .populate('machine', "_id name owner")
+            .exec()
+    }
+
     async updateRule(rule) {
         return await RuleModel
             .findByIdAndUpdate(
