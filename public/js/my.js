@@ -656,7 +656,6 @@ function eventStuff() {
         
         // Gán giá trị selector
         accountSelector.setChoiceByValue(dataRowHTML.dataset.ownerId)
-        updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId)
         updateFarmSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.locatedId)
         updateSensorSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.sensorId)
         updateMachineSelectorByOwner(dataRowHTML.dataset.ownerId, dataRowHTML.dataset.machineId)

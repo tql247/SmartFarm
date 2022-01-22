@@ -56,7 +56,7 @@ class RuleController {
     }
     
     // lấy rule dựa vào id của machine
-    async getNyMachine(req, res, next) {
+    async getByMachine(req, res, next) {
         try {
             const machineID = req.params.machine_id || req.query.machine_id
 
@@ -125,7 +125,7 @@ class RuleController {
             const {
                 _id,
                 owner,
-                located: farm,
+                farm,
                 name,
                 sensor,
                 sensorValue,
@@ -144,7 +144,7 @@ class RuleController {
                 _id,
                 name,
                 owner,
-                farm,
+                located: farm,
                 sensor,
                 threshold: sensorValue,
                 start_at,
