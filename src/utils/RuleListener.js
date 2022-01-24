@@ -70,6 +70,11 @@ class RuleListener {
             await sleep(5*1000)
             currentMachineState = await getValue(`${machine._id}`)
         }
+
+        await sleep(rule.duration*1000)
+        console.log('turn off')
+        // reset previous state
+        setMachineState(`${machine._id}`, currentMachineState)
     }
 
 }
