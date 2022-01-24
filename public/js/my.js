@@ -323,6 +323,37 @@ async function getMachinesByOwner(ownerID, locationID) {
     })
 }
 
+function login() {
+    const urlSearchParams = new URLSearchParams($(e).serialize())
+    const data = Object.fromEntries(urlSearchParams.entries())
+
+    activeLoading()
+
+    var settings = {
+        "url": "/account/login",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify(data),
+    }
+
+    $.ajax(settings).done((result, success) => {
+        console.log('success')
+        console.log(success)
+        if (success) {
+            // updateFarmDataRow(result)
+            console.log(result)
+        }
+        else {
+            alert('Fail to login')
+        }
+
+        inactiveLoading()
+    })
+}
+
 // ****************************************************************
 //* Các hàm tương tác với giao diện */
 // ****************************************************************
@@ -437,6 +468,7 @@ function buildDisplay() {
     sensorForm = document.querySelector("#sensor-form")
     machineForm = document.querySelector("#machine-form")
     ruleForm = document.querySelector("#rule-form")
+    loginForm = document.querySelector("#loginForm")
     // gán selector
     accountSelectorElement = document.querySelector(".account-select")
     farmSelectorElement = document.querySelector(".farm-select")
@@ -542,6 +574,19 @@ function eventStuff() {
             end_at: "Vui lòng nhập thời gian kết thúc"
         }
     })
+
+    // kiểm tra form tạo/sửa thiết bị đã
+    // hợp lệ hay chưa
+    $(loginForm).validate({
+        rules: {
+            email: "required",
+            password: "required",
+        },
+        messages: {
+            email: "Vui lòng nhập email",
+            password: "Vui lòng nhập password",
+        }
+    })
     // ===> Kết thúc kiểm tra input
 
     // bắt sự kiện submit
@@ -578,6 +623,13 @@ function eventStuff() {
     })
 
     $(ruleForm).on('submit', function (e) {
+        e.preventDefault()
+        if ($(this).valid()) {
+            createOrUpdateRule(this)
+        }
+    })
+
+    $(loginForm).on('submit', function (e) {
         e.preventDefault()
         if ($(this).valid()) {
             createOrUpdateRule(this)
@@ -758,6 +810,7 @@ let farmForm = undefined
 let sensorForm = undefined
 let machineForm = undefined
 let ruleForm = undefined
+let loginForm = undefined
 
 // Hàm bên dưới sẽ chạy khi trang đã tải xong nội dung
 $(document).ready(function () {

@@ -11,5 +11,6 @@ account.post('/update', AccountController.updateAccount)
 account.get('/delete', AccountController.deleteAccount)
 account.get('/delete/:_id', AccountController.deleteAccount)
 account.get('/login', AccountController.login)
+account.post('/login', AccountController.postLogin)
 
 module.exports = account
