@@ -45,6 +45,15 @@ class AccountDao {
                 { new: true }
             )
     }
+
+    async getAccountByEmail(email) {
+        return await AccountModel
+            .find({ 
+                deleted_at: null,
+                email: email
+            })
+            .exec()
+    }
 }
 
 module.exports = new AccountDao()

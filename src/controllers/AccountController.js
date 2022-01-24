@@ -66,7 +66,7 @@ class AccountController {
 
             return res.render('_layout', { page: 'account', accounts: accounts })
         } catch (error) {
-
+            next(error)
         }
     }
 
@@ -85,7 +85,7 @@ class AccountController {
 
             res.status(200).json(accounts)
         } catch (error) {
-
+            next(error)
         }
     }
 
@@ -93,6 +93,16 @@ class AccountController {
     async login(req, res, next) {
         try {
             return res.render('_layout', { page: 'login' })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async postLogin(req, res, next) {
+        try {
+            const { email, password } = req.body
+
+            return res.status(200).json(AccountService.login(email, password))
         } catch (error) {
             next(error)
         }

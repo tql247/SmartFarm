@@ -61,8 +61,6 @@ class RuleListener {
 
         // listen if sensor is specified
         if (rule.threshold) {
-            console.log(sensor._id)
-
             const ref = await realtimeDatabase.ref(`${sensor._id}`)
             this.keysRef[key] = ref
 

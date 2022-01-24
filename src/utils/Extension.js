@@ -85,14 +85,17 @@ class Extension {
         return await bcrypt.compare(password, hashString)
     }
 
-    isValidThreshold(down, up, currentValue) {
-        return down <= currentValue && up <= currentValue
+    async signToken(_id) {
+        return jwt.sign(
+            {
+                _id: _id
+            },
+            process.env.JWT_KEY,
+            {
+                expiresIn: '365h',
+            }
+        );
     }
-
-    isTime(timeString) {
-        return true
-    }
-
     // Vì bản thân javascript và nodejs không hỗ trợ hàm sleep
     // nên tự định nghĩa phục vụ cho một số trường hợp đặc biệt
     sleep(ms) {
