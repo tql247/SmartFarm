@@ -25,8 +25,9 @@ class AccountService {
     }
 
     async login(email, password) {
-        const account = await AccountDAO.getAccountByEmail(email)
-        if (!account) {
+        const [account] = await AccountDAO.getAccountByEmail(email)
+        console.log(account)
+        if (account) {
             if (checkPassword(password, account.password)) {
                 console.log("Login success")
                 return {
@@ -36,11 +37,10 @@ class AccountService {
             }
         }
 
-        const e = new Error();
-        e.status = 401
-        e.name = "Unauthorized"
-        e.message = "Incorrect email or password"
-        throw e
+        const err = new Error( "Incorrect email or password");
+        err.status = 401
+        err.name = "Unauthorized"
+        throw err
     }
 }
 

@@ -323,7 +323,7 @@ async function getMachinesByOwner(ownerID, locationID) {
     })
 }
 
-function login() {
+function login(e) {
     const urlSearchParams = new URLSearchParams($(e).serialize())
     const data = Object.fromEntries(urlSearchParams.entries())
 
@@ -345,6 +345,14 @@ function login() {
         if (success) {
             // updateFarmDataRow(result)
             console.log(result)
+            if (rule) {
+                if (result.role !== 'admin') {
+                    alert('Tài khoản của bạn không có quyền truy cập trang web này')
+                } else {
+                    localStorage.setItem('jwt', result.token)
+                    window.location.href = '/account/all'
+                }
+            }
         }
         else {
             alert('Fail to login')
@@ -632,7 +640,7 @@ function eventStuff() {
     $(loginForm).on('submit', function (e) {
         e.preventDefault()
         if ($(this).valid()) {
-            createOrUpdateRule(this)
+            login(this)
         }
     })
     // ===> Kết thúc các sự kiện submit
@@ -792,6 +800,7 @@ function eventStuff() {
 // jwt được lưu trữ
 if (window.location.pathname === "/account/login") {
     // clear jwt localstorage
+    localStorage.removeItem('jwt')
 }
 
 // Tạo các biến để sử dụng

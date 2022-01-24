@@ -101,8 +101,9 @@ class AccountController {
     async postLogin(req, res, next) {
         try {
             const { email, password } = req.body
+            const token = await AccountService.login(email, password)
 
-            return res.status(200).json(AccountService.login(email, password))
+            return res.status(200).json(token)
         } catch (error) {
             next(error)
         }
