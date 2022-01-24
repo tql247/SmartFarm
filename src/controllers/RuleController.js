@@ -10,7 +10,6 @@ class RuleController {
     async getAll(req, res, next) {
         try {
             const rules = await RuleService.getAll();
-            console.log(rules);
             const accounts = await AccountService.getAll();
             let farms = [];
             let sensors = [];
@@ -92,8 +91,6 @@ class RuleController {
                 target,
                 machine
             } = req.body;
-            console.log(req.body)
-            // console.log(typeof req.body.state)
 
             // Nhận giá trị trả về từ hàm khởi tạo
             const ruleInserted = await RuleService.createRule({
@@ -137,8 +134,6 @@ class RuleController {
                 target,
                 machine
             } = req.body;
-
-            console.log(req.body)
 
             const ruleUpdated = await RuleService.updateRule({
                 _id,

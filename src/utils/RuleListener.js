@@ -1,21 +1,45 @@
+const RuleModel = require("../models/RuleModel")
 const { setMachineState, getValue } = require("../services/MachineService")
 const RuleService = require("../services/RuleService")
 const { sleep, getTimeOut, getWorkTime, formatState, matchCondition } = require("./Extension")
 
 class RuleListener {
     keysRef = {}
+    ruleVersion = {}
 
     async start() {
         const rules = await RuleService.getAll()
         const self = this
-        rules.slice(0,1).forEach(function(rule) {
-            self.listen(rule)
-        })
+        // rules.slice(0,1).forEach(function(rule) {
+        //     self.listen(rule)
+        // })
 
         // auto update listen rule when collection changes
+        const watchRule = RuleModel.watch()
+        watchRule.on("change", (change) => {
+            console.log('rule just changes')
+            console.log(change)
+            console.log('=============')
+            const _id = change.documentKey._id
+            const newRule = RuleService.getRuleByID(_id)
+            
+            if (_id in self.ruleVersion) {
+                console.log('xxxx')
+                self.ruleVersion[_id] += 1
+                rule._version += 1
+            } else {
+                console.log('new')
+                self.ruleVersion[_id] = 1
+                rule._version = 1
+            }
+
+            this.listen(newRule)
+            
+        })
     }
     
     async listen(rule) {
+        if (!rule.state) return
         console.log('----------')
         console.log(rule)
         // listen time
@@ -25,6 +49,13 @@ class RuleListener {
         await sleep(timeOut)
 
         const key = rule._id
+
+        // check for update, if yes, exist
+        if (rule.__version < this.ruleVersion[key]) {
+            console.log('this rule has been changed, existing...')
+            return
+        }
+
         const sensor = rule.sensor
         const machine = rule.machine
 
@@ -45,12 +76,13 @@ class RuleListener {
                     if (matchCondition(currentSensorValue, rule.expr, rule.threshold)) {
                         console.log('do it')
                         ref.off("value")
+                        this._setMachineState(rule, machine)
                     }
                 }, console.error)
             }
         } else { // start
             // set machine state immediately
-            await this._setMachineState(rule, machine)
+            this._setMachineState(rule, machine)
         }
     }
 
@@ -58,6 +90,8 @@ class RuleListener {
         let currentMachineState = await getValue(`${machine._id}`)
 
         while (getWorkTime(rule.end_at)) {
+            // check for update, if yes, exist return
+
             if (formatState(currentMachineState) === formatState(rule.target_value)) {
                 break
             }
@@ -71,6 +105,8 @@ class RuleListener {
         console.log('turn off')
         // reset previous state
         setMachineState(`${machine._id}`, currentMachineState)
+        // start new listen trip
+        this.listen(rule)
     }
 
 }

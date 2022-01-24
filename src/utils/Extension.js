@@ -141,6 +141,10 @@ class Extension {
     matchCondition(sensorValue, expr, threshold) {
         return eval(`${sensorValue} ${expr} ${threshold}`)
     }
+
+    isSameObject(obj1, obj2) {
+        return JSON.stringify(obj1) === JSON.stringify(obj2)
+    }
 }
 
 module.exports = new Extension()

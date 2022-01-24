@@ -73,6 +73,19 @@ class RuleDao {
                 { new: true }
             )
     }
+
+    async getRuleByID(_id, state) {
+        return await RuleModel
+            .find({
+                deleted_at: null,
+                _id: _id
+            })
+            .populate('located', "name address owner", { deleted_at: null })
+            .populate('owner', "full_name email")
+            .populate('sensor', "_id name owner")
+            .populate('machine', "_id name owner")
+            .exec()
+    }
 }
 
 module.exports = new RuleDao()
