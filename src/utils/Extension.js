@@ -137,6 +137,10 @@ class Extension {
 
         return endTime.diff(currentTime)
     }
+
+    matchCondition(sensorValue, expr, threshold) {
+        return eval(`${sensorValue} ${expr} ${threshold}`)
+    }
 }
 
 module.exports = new Extension()

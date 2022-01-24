@@ -1,6 +1,6 @@
 const { setMachineState, getValue } = require("../services/MachineService")
 const RuleService = require("../services/RuleService")
-const { sleep, getTimeOut, getWorkTime, formatState } = require("./Extension")
+const { sleep, getTimeOut, getWorkTime, formatState, matchCondition } = require("./Extension")
 
 class RuleListener {
     keysRef = {}
@@ -31,8 +31,6 @@ class RuleListener {
         // listen if sensor is specified
         if (rule.threshold) {
             console.log(sensor._id)
-            const currentSensorValue = await realtimeDatabase.getDataByKey(`${sensor._id}`)
-            console.log('currentSensorValue', currentSensorValue)
 
             const ref = await realtimeDatabase.ref(`${sensor._id}`)
             this.keysRef[key] = ref
@@ -40,22 +38,20 @@ class RuleListener {
             // check key exist
             if (ref) {
                 console.log(sensor._id + ' exist')
+                ref.on("value", (snapshot) => {
+                    const currentSensorValue = snapshot.val()
+                    console.log('currentSensorValue', currentSensorValue)
+
+                    if (matchCondition(currentSensorValue, rule.expr, rule.threshold)) {
+                        console.log('do it')
+                        ref.off("value")
+                    }
+                }, console.error)
             }
         } else { // start
             // set machine state immediately
             await this._setMachineState(rule, machine)
         }
-        
-        //     ref.on("value", (snapshot) => {
-        //         console.log(snapshot.val())
-    
-        //         if (Extension.isTime(rule.time) && Extension.isValidThreshold(rule.thresholdDown, rule.thresholdUp)) {
-        //             console.log("set " + rule.machine + " to " + rule.targetValue)
-    
-        //             // how to disable with duration
-        //         }
-    
-        //     }, this.logError)
     }
 
     async _setMachineState(rule, machine) {
