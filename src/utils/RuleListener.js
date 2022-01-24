@@ -26,14 +26,14 @@ class RuleListener {
             if (_id in self.ruleVersion) {
                 console.log('xxxx')
                 self.ruleVersion[_id] += 1
-                rule._version += 1
+                newRule._version += 1
             } else {
                 console.log('new')
                 self.ruleVersion[_id] = 1
-                rule._version = 1
+                newRule._version = 1
             }
 
-            this.listen(newRule)
+            // this.listen(newRule)
             
         })
     }

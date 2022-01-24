@@ -35,6 +35,15 @@ class AccountDao {
             .exec()
     }
 
+    async getByID(_id) {
+        return await AccountModel
+            .find({
+                _id: _id,
+                deleted_at: null
+            })
+            .exec()
+    }
+
     async delete(_id) {
         return await AccountModel
             .findByIdAndUpdate(

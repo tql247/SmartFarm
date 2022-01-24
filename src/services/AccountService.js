@@ -2,10 +2,6 @@ const AccountDAO = require("../dao/AccountDAO")
 const { checkPassword, signToken } = require("../utils/Extension")
 
 class AccountService {
-    async test() {
-        return 1
-    }
-
     async createAccount(acc) {
         return await AccountDAO.createAccount(acc)
     }
@@ -15,13 +11,15 @@ class AccountService {
     }
 
     async getAll() {
-        const account = await AccountDAO.getAll()
-        return account
+        return await AccountDAO.getAll()
+    }
+
+    async getByID(_id) {
+        return await AccountDAO.getByID(_id)
     }
 
     async delete(_id) {
-        const account = await AccountDAO.delete(_id)
-        return account
+        return await AccountDAO.delete(_id)
     }
 
     async login(email, password) {
@@ -37,10 +35,7 @@ class AccountService {
             }
         }
 
-        const err = new Error( "Incorrect email or password");
-        err.status = 401
-        err.name = "Unauthorized"
-        throw err
+        return null
     }
 }
 

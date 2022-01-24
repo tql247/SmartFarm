@@ -2,14 +2,6 @@ const Extension = require("../utils/Extension")
 const AccountService = require("../services/AccountService")
 
 class AccountController {
-    async test(req, res, next) {
-        try {
-            res.status(201).json(await AccountService.test())
-        } catch (error) {
-            next(error)
-        }
-    }
-
     // Tạo tài khoản mới
     async createAccount(req, res, next) {
         try {
@@ -42,7 +34,15 @@ class AccountController {
                 phone: req.body.phone,
                 address: req.body.address,
                 role: req.body.role || "user",
-                _id: req.body._id
+                _id: req.body._id,
+            }
+
+            if (req.body.old_password) {
+                if (!await AccountService.login(email, req.body.old_password)) {
+                    const err = new Error("old password is incorrect")
+                    err.status = 401
+                    throw err
+                }
             }
 
             if (req.body.password) {
@@ -61,10 +61,26 @@ class AccountController {
     async getAll(req, res, next) {
         try {
             const accounts = await AccountService.getAll()
-
-            // res.status(200).json(accounts) 
-
             return res.render('_layout', { page: 'account', accounts: accounts })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    // Lấy dữ liệu của toàn bộ account có trong database
+    async getByID(req, res, next) {
+        try {
+            const _id = req.params._id || req.query._id
+
+            if (!_id) {
+                const err = new Error("'_id' was not provided!")
+                err.name = "Bad request"
+                next(err)
+            }
+
+            const [account] = await AccountService.getByID(_id)
+
+            res.status(200).json(account)
         } catch (error) {
             next(error)
         }
@@ -102,6 +118,12 @@ class AccountController {
         try {
             const { email, password } = req.body
             const token = await AccountService.login(email, password)
+            if (!token) {
+                const err = new Error("Incorrect email or password");
+                err.status = 401
+                err.name = "Unauthorized"
+                throw err
+            }
 
             return res.status(200).json(token)
         } catch (error) {
