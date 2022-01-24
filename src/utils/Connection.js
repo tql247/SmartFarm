@@ -23,8 +23,9 @@ class Connection {
         })
     }
 
+    // ngắt kết nối khi cần
     async close() {
-        // await mongoose.connection.close()
+        await mongoose.connection.close()
     }
 }
 

@@ -11,6 +11,7 @@ const routes = require("./routes")
 const Handler = require("./utils/Handler")
 const MQTTClient = require("./utils/MQTTClient")
 const FireBaseDatabase = require("./utils/FireBaseDatabase")
+const RuleListener = require("./utils/RuleListener")
 const Connection = require("./utils/Connection")
 
 // Khởi tạo đối tượng chính
@@ -24,6 +25,10 @@ realtimeDatabase.start()
 // start connect hiveMQ mqtt server
 global.mqttClient = new MQTTClient()
 mqttClient.start()
+
+// start listen rule
+ruleListener = new RuleListener()
+ruleListener.start()
 
 // Kết nối đến mongodb
 Connection.connect()

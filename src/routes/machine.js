@@ -15,6 +15,6 @@ machine.post('/update', MachineController.updateMachine)
 machine.get('/delete', MachineController.deleteMachine)
 machine.get('/delete/:_id', MachineController.deleteMachine)
 
-machine.post('/set_state', MachineController.setState)
+machine.post('/set_state', MachineController.setMachineState)
 
 module.exports = machine

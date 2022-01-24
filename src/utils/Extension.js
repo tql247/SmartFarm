@@ -1,8 +1,10 @@
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const moment = require('moment')
 
-// Các hàm hỗ trợ
+// Các hàm hỗ trợ cho các hàm khác, giúp thực hiện các thao tác
+// Mà các thao tác này có thể dùng lại nhiều lần
 class Extension {
     // Tạo ra object image với 2 thuộc tính là
     // contentType: loại dữ liệu (jpg,png,...)
@@ -33,6 +35,8 @@ class Extension {
         return imageObject
     }
 
+    // Lấy data từ jwt của cookie nằm trong req header
+    // Kiểm tra key có hợp lệ
     getCookieData(cookie) {
         // Kiểm tra cookie có null hay không
         if (!cookie) {
@@ -89,8 +93,49 @@ class Extension {
         return true
     }
 
+    // Vì bản thân javascript và nodejs không hỗ trợ hàm sleep
+    // nên tự định nghĩa phục vụ cho một số trường hợp đặc biệt
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Trả về thời gian ghỉ cho hàm,
+    // Nếu thời gian hiện tại chưa tới lúc bắt đầu thì nghỉ
+    // Nếu thời gian hiện tại tại đã qua thời gian kết thủc thì nghỉ
+    // Còn lại là 0
+    getTimeOut(startTimeString, endTimeString) {
+        const currentTime = moment()
+        const startTime = moment(startTimeString, "H:mm")
+        const endTime = moment(endTimeString, "H:mm")
+
+        if (startTime.diff(currentTime) > 0) {
+            return startTime.diff(currentTime)
+        } else if (endTime.diff(currentTime) < 0) {
+            // 1000 miliseconds 60 seconds 60 minutes 24 hours
+            return startTime.diff(currentTime) + 1000*60*60*24 
+        }
+
+        return 0
+    }
+
+    formatState(state) {
+        if (typeof state !== 'string') {
+            state = JSON.stringify(state)
+        }
+
+        state = state.toLowerCase()
+
+        if (state === "false" || state === "off") return "off"
+        if (state === "true" || state === "on") return "on"
+
+        return ""
+    }
+
+    getWorkTime(endTimeString) {
+        const currentTime = moment()
+        const endTime = moment(endTimeString, "H:mm")
+
+        return endTime.diff(currentTime)
     }
 }
 

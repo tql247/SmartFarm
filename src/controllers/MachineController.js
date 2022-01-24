@@ -117,10 +117,10 @@ class MachineController {
     }
 
     // Cập nhật trạng thái thiết bị
-    async setState(req, res, next) {
+    async setMachineState(req, res, next) {
         try {
             const { _id, state } = req.body
-            res.status(200).json(await MachineService.setState(_id, state)) 
+            res.status(200).json(await MachineService.setMachineState(_id, state)) 
         } catch (error) {
 
         }
