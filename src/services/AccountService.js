@@ -29,7 +29,10 @@ class AccountService {
         if (!account) {
             if (checkPassword(password, account.password)) {
                 console.log("Login success")
-                return signToken(account._id)
+                return {
+                    'role': account.role,
+                    'token': signToken(account._id)
+                }
             }
         }
 
