@@ -14,30 +14,26 @@ class Handler {
         // Xử lý lỗi token quá hạn
         if (err.name === "TokenExpiredError") {
             err.status = 401
-            res.redirect('/user/login')
         }
     
         // Xử lý lỗi chưa xác thực người dùng
-        if (err.name === "Unauthorized") {
+        else if (err.name === "Unauthorized") {
             err.status = 401
-            res.redirect('/user/login')
         }
     
         // Xử lý lỗi truy cập bị từ chối
-        if (err.name === "Access Denies") {
+        else if (err.name === "Access Denies") {
             err.status = 401
-            // xóa cookie khi truy cập nội dung không hợp lệ
-            res.clearCookie('jwt') 
-            res.redirect('/user/login')
         }
     
         // Xử lý không tìm thấy trang
-        if (err.name === "Page not found") {
+        else if (err.name === "Page not found") {
             err.status = 404
         }
     
         // Xử lý lỗi không xác định
-        if (!err.status) err.status = 400
+        else if (!err.status) err.status = 400
+
         return res.status(err.status).json({
             name: err.name,
             message: err.message

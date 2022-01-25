@@ -23,14 +23,16 @@ class AccountService {
     }
 
     async login(email, password) {
+        console.log(email, password)
+
         const [account] = await AccountDAO.getAccountByEmail(email)
-        console.log(account)
         if (account) {
-            if (checkPassword(password, account.password)) {
+            if (await checkPassword(password, account.password)) {
                 console.log("Login success")
                 return {
+                    '_id': account._id,
                     'role': account.role,
-                    'token': signToken(account._id)
+                    'token': await signToken(account._id)
                 }
             }
         }

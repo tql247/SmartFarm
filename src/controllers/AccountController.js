@@ -127,7 +127,7 @@ class AccountController {
 
             return res.status(200).json(token)
         } catch (error) {
-            next(error)
+            return next(error)
         }
     }
 }
