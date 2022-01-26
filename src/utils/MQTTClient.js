@@ -9,7 +9,8 @@ class MQTTClient {
     }
 
     publish(_id, state) {
-        this.mqttClient.publish(_id, JSON.stringify(state));
+        if ((typeof state !== 'string')) state = JSON.stringify(state)
+        this.mqttClient.publish(_id, state);
     }
 }
 
