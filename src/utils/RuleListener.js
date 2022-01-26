@@ -1,3 +1,4 @@
+const cookieSession = require("cookie-session")
 const RuleModel = require("../models/RuleModel")
 const { setMachineState, getValue } = require("../services/MachineService")
 const RuleService = require("../services/RuleService")
@@ -10,37 +11,45 @@ class RuleListener {
     async start() {
         const rules = await RuleService.getAll()
         const self = this
-        // rules.slice(0,1).forEach(function(rule) {
-        //     self.listen(rule)
-        // })
+
+        console.log('rules', rules)
+        rules.slice(0,1).forEach(function(rule) {
+            self.ruleVersion[rule._id] = 1
+            rule._version = 1
+            self.listen(rule)
+        })
 
         // auto update listen rule when collection changes
         const watchRule = RuleModel.watch()
-        watchRule.on("change", (change) => {
+        watchRule.on("change", async (change) => {
             console.log('rule just changes')
             console.log(change)
             console.log('=============')
             const _id = change.documentKey._id
-            const newRule = RuleService.getRuleByID(_id)
+            const [newRule] = await RuleService.getRuleByID(_id)
             
             if (_id in self.ruleVersion) {
-                console.log('xxxx')
+                console.log('old')
                 self.ruleVersion[_id] += 1
-                newRule._version += 1
+                newRule._version = self.ruleVersion[_id]
             } else {
                 console.log('new')
                 self.ruleVersion[_id] = 1
                 newRule._version = 1
             }
 
-            // this.listen(newRule)
+            console.log('ruleVersion', self.ruleVersion)
+            console.log('newRule', newRule)
+            console.log('newRule.state', newRule.state)
+            self.listen(newRule)
             
         })
     }
     
     async listen(rule) {
+        console.log('----------', rule.state)
         if (!rule.state) return
-        console.log('----------')
+        console.log('++++++++++')
         console.log(rule)
         // listen time
         // set time out to check for or sleep
@@ -51,7 +60,7 @@ class RuleListener {
         const key = rule._id
 
         // check for update, if yes, exist
-        if (rule.__version < this.ruleVersion[key]) {
+        if (rule._version < this.ruleVersion[key]) {
             console.log('this rule has been changed, existing...')
             return
         }
@@ -70,6 +79,7 @@ class RuleListener {
                 ref.on("value", (snapshot) => {
                     const currentSensorValue = snapshot.val()
                     console.log('currentSensorValue', currentSensorValue)
+                    console.log('listening...')
 
                     if (matchCondition(currentSensorValue, rule.expr, rule.threshold)) {
                         console.log('do it')
@@ -85,24 +95,35 @@ class RuleListener {
     }
 
     async _setMachineState(rule, machine) {
-        let currentMachineState = await getValue(`${machine._id}`)
+        const key = rule._id
+        let initState = await getValue(`${machine._id}`)
+        let currentMachineState = initState
 
+        // Gửi mqtt message 'bật máy lên' mỗi 3 giây cho đến khi máy được bật
         while (getWorkTime(rule.end_at)) {
-            // check for update, if yes, exist return
+            // check for update, if yes, exist
+            if (rule._version < this.ruleVersion[key]) {
+                console.log('this rule has been changed, existing...')
+                return
+            }
 
+            // kiểm tra máy được bật/tắt hay chưa, nếu rồi thì thoát vòng lặp
             if (formatState(currentMachineState) === formatState(rule.target_value)) {
                 break
             }
 
+            console.log('turn ' + rule.target_value)
             setMachineState(`${machine._id}`, rule.target_value)
-            await sleep(5*1000)
+            // dừng lại 3 giây
+            await sleep(3*1000)
             currentMachineState = await getValue(`${machine._id}`)
         }
 
-        await sleep(rule.duration*1000)
-        console.log('turn off')
-        // reset previous state
-        setMachineState(`${machine._id}`, currentMachineState)
+        console.log('sleep', rule.duration*60, 'seconds')
+        await sleep(rule.duration*1000*60)
+        console.log('turn ', initState)
+        // trả lại state ban đầu của máy sau khi thay đổi
+        setMachineState(`${machine._id}`, initState)
         // start new listen trip
         this.listen(rule)
     }
