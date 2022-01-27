@@ -2,6 +2,7 @@ const cookieSession = require("cookie-session")
 const RuleModel = require("../models/RuleModel")
 const { setMachineState, getValue } = require("../services/MachineService")
 const RuleService = require("../services/RuleService")
+const NotificationService = require("../services/NotificationService")
 const { sleep, getTimeOut, getWorkTime, formatState, matchCondition } = require("./Extension")
 
 class RuleListener {
@@ -109,6 +110,12 @@ class RuleListener {
 
             // kiểm tra máy được bật/tắt hay chưa, nếu rồi thì thoát vòng lặp
             if (formatState(currentMachineState) === formatState(rule.target_value)) {
+                // Thêm thông báo
+                NotificationService.createNotification({
+                    subject: rule.name,
+                    detail: rule.machine + ' ' + rule.target_value,
+                    owner: rule.owner._id,
+                })
                 break
             }
 

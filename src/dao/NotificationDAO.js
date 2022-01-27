@@ -13,12 +13,12 @@ class NotificationDao {
             .exec()
     }
 
-    async createNotification(machine) {
+    async createNotification(notification) {
         return await NotificationModel
             .create({
-                subject: machine.subject,
-                detail: machine.detail,
-                owner: machine.owner,
+                subject: notification.subject,
+                detail: notification.detail,
+                owner: notification.owner,
             })
     }
 }

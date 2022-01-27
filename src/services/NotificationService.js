@@ -8,8 +8,8 @@ class NotificationService {
         return await NotificationDAO.getByOwner(owner_id)
     }
 
-    async createNotification(machine) {
-        return await NotificationDAO.createNotification(machine)
+    async createNotification(notification) {
+        return await NotificationDAO.createNotification(notification)
     }
 }
 
