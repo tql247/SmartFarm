@@ -13,8 +13,7 @@ class RuleListener {
         const rules = await RuleService.getAll()
         const self = this
 
-        console.log('rules', rules)
-        rules.slice(0,1).forEach(function(rule) {
+        rules.forEach(function(rule) {
             self.ruleVersion[rule._id] = 1
             rule._version = 1
             self.listen(rule)

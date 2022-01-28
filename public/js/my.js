@@ -343,9 +343,8 @@ function login(e) {
         console.log('success')
         console.log(success)
         if (success) {
-            // updateFarmDataRow(result)
             console.log(result)
-            if (rule) {
+            if (result) {
                 if (result.role !== 'admin') {
                     alert('Tài khoản của bạn không có quyền truy cập trang web này')
                 } else {
