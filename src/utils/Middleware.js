@@ -15,18 +15,31 @@ class Middleware {
     })
 
     // Xử lý file tải lên
-    fileUpload = multer({storage: this.storage})
+    fileUpload = multer({ storage: this.storage })
 
     // Xác thực người dùng
-    authorize (req, res, next) {
+    authorize(req, res, next) {
         try {
-            const data = getCookieData(req.cookies)
+            console.log(req.originalUrl)
+            if (req.originalUrl !== '/account/login') {
+                const data = getCookieData(req.cookies)
+                console.log(data)
 
-            // gán dữ liệu người dùng vào req
-            req.user = data
+                // gán dữ liệu người dùng vào req
+                req.user = data
+            }
             return next()
         } catch (error) {
             return next(error)
+        }
+    }
+
+    test(req, res, next) {
+        try {
+            console.log('middleware')
+            next()
+        } catch (error) {
+            next(error)
         }
     }
 }

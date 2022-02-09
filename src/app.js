@@ -13,6 +13,7 @@ const MQTTClient = require("./utils/MQTTClient")
 const FireBaseDatabase = require("./utils/FireBaseDatabase")
 const RuleListener = require("./utils/RuleListener")
 const Connection = require("./utils/Connection")
+const Middleware = require("./utils/Middleware")
 
 // Khởi tạo đối tượng chính
 const app = express()
@@ -36,6 +37,14 @@ Connection.connect()
 // Sử dụng để chấp nhận proxy ip https://expressjs.com/en/guide/behind-proxies.html
 app.set("trust proxy", 1)
 
+// Định nghĩa view engine & định nghĩa thư mục của view engine
+app.set("view engine", "ejs")
+app.set("views", path.join(__dirname, "/views"))
+
+// Dùng để serve một thư mục với đường dẫn /public và /uploads
+app.use("/public", express.static(path.resolve(__dirname, "../public")))
+app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")))
+
 // Dùng để cho phép truy cập theo cors policy
 app.use(cors())
 
@@ -47,13 +56,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.json())
 
-// Dùng để serve một thư mục với đường dẫn /public và /uploads
-app.use("/public", express.static(path.resolve(__dirname, "../public")))
-app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")))
-
-// Định nghĩa view engine & định nghĩa thư mục của view engine
-app.set("view engine", "ejs")
-app.set("views", path.join(__dirname, "/views"))
+// Sử dụng middlewares
+app.use(Middleware.authorize)
 
 // Gọi và sử dụng các route đã định nghĩa
 router.use(routes)

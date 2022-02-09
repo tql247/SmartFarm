@@ -343,12 +343,12 @@ function login(e) {
         console.log('success')
         console.log(success)
         if (success) {
-            console.log(result)
             if (result) {
                 if (result.role !== 'admin') {
                     alert('Tài khoản của bạn không có quyền truy cập trang web này')
                 } else {
                     localStorage.setItem('jwt', result.token)
+                    document.cookie = `jwt=${result.token}; Path=/;`;
                     window.location.href = '/account/all'
                 }
             }
@@ -800,6 +800,7 @@ function eventStuff() {
 if (window.location.pathname === "/account/login") {
     // clear jwt localstorage
     localStorage.removeItem('jwt')
+    document.cookie = "jwt" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 UTC;'
 }
 
 // Tạo các biến để sử dụng

@@ -46,7 +46,6 @@ class Extension {
             err.message = "Invalid access to specific url"
             throw err
         }
-
         // Kiểm tra cookie có giá trị json webtoken không        
         if (!cookie["jwt"]) {
             const err = new Error()
@@ -56,10 +55,9 @@ class Extension {
         }
 
         // Lấy token từ cookie
-        const token = cookie["jwt"]
         // Xác thực token có phải của server tạo ra hay không
         // và lấy dữ liệu được ẩn trong đó
-        const data = jwt.verify(token, process.env.JWT_KEY)
+        const data = jwt.verify(cookie["jwt"], process.env.JWT_KEY)
 
         // Kiểm tra data
         if (!data) {
