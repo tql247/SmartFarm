@@ -1,7 +1,7 @@
 const multer = require("multer")
 const { v4: uuid } = require('uuid')
 const path = require("path")
-const { getCookieData } = require("./Extension")
+const { getDataFromJWT } = require("./Extension")
 
 // Hàm xử lý trung gian trước khi gọi Controller
 class Middleware {
@@ -22,7 +22,8 @@ class Middleware {
         try {
             console.log(req.originalUrl)
             if (req.originalUrl !== '/account/login') {
-                const data = getCookieData(req.cookies)
+                const token = (req.headers.authorization || req.cookies).replace('Bearer ', '')
+                const data = getDataFromJWT(token)
                 console.log(data)
 
                 // gán dữ liệu người dùng vào req

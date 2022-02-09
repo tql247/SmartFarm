@@ -37,27 +37,18 @@ class Extension {
 
     // Lấy data từ jwt của cookie nằm trong req header
     // Kiểm tra key có hợp lệ
-    getCookieData(cookie) {
-        // Kiểm tra cookie có null hay không
-        if (!cookie) {
-            const err = new Error()
-            err.status = 400
-            err.name = "Bad request"
-            err.message = "Invalid access to specific url"
-            throw err
-        }
-        // Kiểm tra cookie có giá trị json webtoken không        
-        if (!cookie["jwt"]) {
+    getDataFromJWT(token) {
+        // Kiểm tra có giá trị json webtoken không        
+        if (!token) {
             const err = new Error()
             err.name = 'Unauthorized'
             err.status = 401
             throw err
         }
 
-        // Lấy token từ cookie
         // Xác thực token có phải của server tạo ra hay không
         // và lấy dữ liệu được ẩn trong đó
-        const data = jwt.verify(cookie["jwt"], process.env.JWT_KEY)
+        const data = jwt.verify(token, process.env.JWT_KEY)
 
         // Kiểm tra data
         if (!data) {
