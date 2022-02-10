@@ -25,3 +25,11 @@
   left: 0;
   z-index: 1000;
 }
+
+.sf-dashboard-menu-item {
+  display: flex;
+  flex-basis: 200px;
+  padding: 2em;
+  flex-direction: column;
+  align-items: center;
+}

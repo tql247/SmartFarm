@@ -20,13 +20,79 @@
 
         <section class="section">
             <div class="card">
-                <div class="col-lg-6 col-12">
+                <div class="col-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"></h3>
                         </div>
                         <div class="card-content">
-                            <div class="card-body">
+                            <div class="card-body row">
+                                <div class="col-6 d-flex flex-wrap">
+                                    <div class="sf-dashboard-menu-item">
+                                        <a href="/machine/all">
+                                            <i
+                                                class="material-icons material-icons-outlined display-1">precision_manufacturing</i>
+                                        </a>
+                                        <span>Quản lý Thiết bị</span>
+                                    </div>
+                                    <div class="sf-dashboard-menu-item">
+                                        <a href="/sensor/all">
+                                            <i class="material-icons material-icons-outlined display-1">sensors</i>
+                                        </a>
+                                        <span>Quản lý Cảm biến</span>
+                                    </div>
+                                    <div class="sf-dashboard-menu-item">
+                                        <a href="/rule/all">
+                                            <i class="material-icons material-icons-outlined display-1">handyman</i>
+                                        </a>
+                                        <span>Quản lý Rule</span>
+                                    </div>
+                                    <div class="sf-dashboard-menu-item">
+                                        <a href="/farm/all">
+                                            <i class="material-icons material-icons-outlined display-1">yard</i>
+                                        </a>
+                                        <span>Quản lý Nông trại</span>
+                                    </div>
+                                    <div class="sf-dashboard-menu-item">
+                                        <a href="/account/all">
+                                            <i
+                                                class="material-icons material-icons-outlined display-1">manage_accounts</i>
+                                        </a>
+                                        <span>Quản lý tài khoản</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div>
+                                        <h4>Tổng số người dùng</h4>
+                                        <div class="d-flex">
+                                            <div class="sf-dashboard-menu-item">
+                                                <div class="display-3"><%= numAccount %></div>
+                                                <div>Tài khoản</div>
+                                            </div>
+                                            <div class="sf-dashboard-menu-item">
+                                                <div class="display-3"><%= numFarm %></div>
+                                                <div>Nông trại</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4>Thống kê</h4>
+                                        <div class="d-flex">
+                                            <div class="sf-dashboard-menu-item">
+                                                <div class="display-3"><%= numSensor %></div>
+                                                <div>Cảm biến</div>
+                                            </div>
+                                            <div class="sf-dashboard-menu-item">
+                                                <div class="display-3"><%= numMachine %></div>
+                                                <div>Thiết bị</div>
+                                            </div>
+                                            <div class="sf-dashboard-menu-item">
+                                                <div class="display-3"><%= numRule %></div>
+                                                <div>Rule</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
