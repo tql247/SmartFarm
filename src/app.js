@@ -57,7 +57,7 @@ app.use(bodyParser.json())
 app.use(express.json())
 
 // Sử dụng middlewares
-app.use(Middleware.authorize)
+// app.use(Middleware.authorize)
 
 // Gọi và sử dụng các route đã định nghĩa
 router.use(routes)

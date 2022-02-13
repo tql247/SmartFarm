@@ -30,7 +30,7 @@ class RuleListener {
             const _id = change.documentKey._id
             const [newRule] = await RuleService.getRuleByID(_id)
             
-            if (_id in self.ruleVersion) {
+            if (_id in self.ruleVersion && newRule !== undefined) {
                 console.log('old')
                 self.ruleVersion[_id] += 1
                 newRule._version = self.ruleVersion[_id]
