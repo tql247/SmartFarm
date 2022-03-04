@@ -32,11 +32,13 @@ class SensorDao {
     }
 
     async updateSensor(sensor) {
+        console.log(sensor.unit)
         return await SensorModel
             .findByIdAndUpdate(
                 sensor._id,
                 {
                     name: sensor.name,
+                    unit: sensor.unit,
                     located: sensor.located,
                     owner: sensor.owner,
                 },

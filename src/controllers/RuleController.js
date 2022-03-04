@@ -46,9 +46,10 @@ class RuleController {
                 next(err)
             }
 
-            const machines = await RuleService.getByOwner(ownerID)
+            const rules = await RuleService.getByOwner(ownerID)
+            console.log('rules', rules)
 
-            res.status(200).json(machines)
+            res.status(200).json(rules)
         } catch (error) {
             next(error)
         }

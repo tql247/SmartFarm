@@ -10,6 +10,7 @@ class NotificationDao {
                 owner: owner_id
             })
             .populate('owner', "full_name email")
+            .sort( { created_at: -1 } )
             .exec()
     }
 

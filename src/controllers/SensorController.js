@@ -83,9 +83,11 @@ class SensorController {
     // // Cập nhật tài khoản khoản
     async updateSensor(req, res, next) {
         try {
+            console.log(req.body)
             // Chuẩn bị dữ liệu để thêm vào database
             const sensor = {
                 name: req.body.name,
+                unit: req.body.unit,
                 located: req.body.farm,
                 owner: req.body.owner,
                 _id: req.body._id

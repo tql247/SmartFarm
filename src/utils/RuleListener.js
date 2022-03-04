@@ -15,7 +15,7 @@ class RuleListener {
 
         console.log('RuleListener logs...')
 
-        rules.forEach(function(rule) {
+        rules.forEach(function (rule) {
             self.ruleVersion[rule._id] = 1
             rule._version = 1
             self.listen(rule)
@@ -29,25 +29,26 @@ class RuleListener {
             console.log('=============')
             const _id = change.documentKey._id
             const [newRule] = await RuleService.getRuleByID(_id)
-            
-            if (_id in self.ruleVersion && newRule !== undefined) {
-                console.log('old')
-                self.ruleVersion[_id] += 1
-                newRule._version = self.ruleVersion[_id]
-            } else {
-                console.log('new')
-                self.ruleVersion[_id] = 1
-                newRule._version = 1
-            }
 
-            console.log('ruleVersion', self.ruleVersion)
-            console.log('newRule', newRule)
-            console.log('newRule.state', newRule.state)
-            self.listen(newRule)
-            
+            if (newRule !== undefined) {
+                if (_id in self.ruleVersion) {
+                    console.log('old')
+                    self.ruleVersion[_id] += 1
+                    newRule._version = self.ruleVersion[_id]
+                } else {
+                    console.log('new')
+                    self.ruleVersion[_id] = 1
+                    newRule._version = 1
+                }
+    
+                console.log('ruleVersion', self.ruleVersion)
+                console.log('newRule', newRule)
+                console.log('newRule.state', newRule.state)
+                self.listen(newRule)
+            }
         })
     }
-    
+
     async listen(rule) {
         console.log('----------', rule.state)
         if (!rule.state) return
@@ -56,7 +57,7 @@ class RuleListener {
         // listen time
         // set time out to check for or sleep
         const timeOut = getTimeOut(rule.start_at, rule.end_at)
-        console.log('sleep ' + timeOut/1000 + ' seconds')
+        console.log('sleep ' + timeOut / 1000 + ' seconds')
         await sleep(timeOut)
 
         const key = rule._id
@@ -86,7 +87,7 @@ class RuleListener {
                     if (matchCondition(currentSensorValue, rule.expr, rule.threshold)) {
                         console.log('do it')
                         ref.off("value")
-                        this._setMachineState(rule, machine)
+                        this._setMachineState(rule, machine, sensor.name + ": " + currentSensorValue)
                     }
                 }, console.error)
             }
@@ -96,7 +97,7 @@ class RuleListener {
         }
     }
 
-    async _setMachineState(rule, machine) {
+    async _setMachineState(rule, machine, sensorInfo=undefined) {
         const key = rule._id
         let initState = await getValue(`${machine._id}`)
         let currentMachineState = initState
@@ -114,7 +115,7 @@ class RuleListener {
                 // Thêm thông báo
                 NotificationService.createNotification({
                     subject: rule.name,
-                    detail: rule.machine + ' ' + rule.target_value,
+                    detail: (rule.machine.name + ' ' + rule.target_value) + (sensorInfo===undefined?"":", " + sensorInfo),
                     owner: rule.owner._id,
                 })
                 break
@@ -123,17 +124,26 @@ class RuleListener {
             console.log('turn ' + rule.target_value)
             setMachineState(`${machine._id}`, rule.target_value)
             // dừng lại 3 giây
-            await sleep(3*1000)
+            await sleep(3 * 1000)
             currentMachineState = await getValue(`${machine._id}`)
         }
 
-        console.log('sleep', rule.duration*60, 'seconds')
-        await sleep(rule.duration*1000*60)
-        console.log('turn ', initState)
-        // trả lại state ban đầu của máy sau khi thay đổi
-        setMachineState(`${machine._id}`, initState)
-        // start new listen trip
-        this.listen(rule)
+        // check duration
+        if (rule.duration > 0) {
+            console.log('sleep', rule.duration * 60, 'seconds')
+            await sleep(rule.duration * 1000 * 60)
+    
+            if (rule._version < this.ruleVersion[key]) {
+                console.log('this rule has been changed, existing...')
+                return
+            }
+    
+            console.log('turn back to', initState)
+            // trả lại state ban đầu của máy sau khi thay đổi
+            setMachineState(`${machine._id}`, initState)
+            // start new listen trip
+            this.listen(rule)
+        }
     }
 
 }
