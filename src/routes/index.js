@@ -9,7 +9,7 @@ const machine = require('./machine')
 const notification = require('./notification')
 const dashboard = require('./dashboard')
 
-router.get('/test', (req, res)=>{ res.send('test') })
+router.get('/', (req, res)=>{ res.redirect('/dashboard') })
 
 router.use('/account', account)
 router.use('/rule', rule)
