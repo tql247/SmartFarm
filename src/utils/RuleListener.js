@@ -101,6 +101,7 @@ class RuleListener {
         const key = rule._id
         let initState = await getValue(`${machine._id}`)
         let currentMachineState = initState
+        console.log('initState', initState)
 
         // Gửi mqtt message 'bật máy lên' mỗi 3 giây cho đến khi máy được bật
         while (getWorkTime(rule.end_at)) {
@@ -130,6 +131,7 @@ class RuleListener {
 
         // check duration
         if (rule.duration > 0) {
+            console.log(rule.duration, rule.duration * 60)
             console.log('sleep', rule.duration * 60, 'seconds')
             await sleep(rule.duration * 1000 * 60)
     
@@ -141,9 +143,27 @@ class RuleListener {
             console.log('turn back to', initState)
             // trả lại state ban đầu của máy sau khi thay đổi
             setMachineState(`${machine._id}`, initState)
-            // start new listen trip
-            this.listen(rule)
+            currentMachineState = await getValue(`${machine._id}`)
+
+            while (formatState(currentMachineState) !== formatState(initState)) {
+                if (rule._version < this.ruleVersion[key]) {
+                    console.log('this rule has been changed, existing...')
+                    return
+                }
+
+                console.log('turn back to', initState)
+                setMachineState(`${machine._id}`, initState)
+                currentMachineState = await getValue(`${machine._id}`)
+                await sleep(3 * 1000)
+            }
+
+            console.log('turn back', initState)
+
+            await sleep(1000 * 10)
         }
+        
+        // start new listen trip
+        this.listen(rule)
     }
 
 }

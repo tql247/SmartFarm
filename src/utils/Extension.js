@@ -85,6 +85,7 @@ class Extension {
             }
         );
     }
+    
     // Vì bản thân javascript và nodejs không hỗ trợ hàm sleep
     // nên tự định nghĩa phục vụ cho một số trường hợp đặc biệt
     sleep(ms) {
